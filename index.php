@@ -8,10 +8,15 @@
  */
 require 'config.php';
 require 'classes/request.php';
+require 'classes/auth.php';
 require 'lib/database_lib.php';
 
-if (file_exists('pages/' . $request->controller .'/'. $request->controller . '.php')) {
-    require 'pages/' . $request->controller . '/'. $request->controller .  '.php';
-} else {
-    echo "The page '$request->controller' does not exist";
+if ($auth->logged_in){
+	if (file_exists('pages/' . $request->controller .'/'. $request->controller . '.php')) {
+		require 'pages/' . $request->controller . '/'. $request->controller .  '.php';
+	} else {
+		echo "The page '$request->controller' does not exist";
+	}
 }
+else
+	require 'pages/login/login.php';
