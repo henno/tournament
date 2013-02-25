@@ -6,10 +6,10 @@
  * Time: 16:46
  * To change this template use File | Settings | File Templates.
  */
-class auth
+class user
 {
 	public $logged_in = false;
-
+	public $id=5;
 	function __construct()
 	{
 		session_start();
@@ -18,5 +18,4 @@ class auth
 		}
 	}
 }
-
-$auth = new auth;
+$_user=new user;

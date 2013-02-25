@@ -7,16 +7,15 @@
  * To change this template use File | Settings | File Templates.
  */
 require 'config.php';
-require 'classes/request.php';
-require 'classes/auth.php';
-require 'lib/database_lib.php';
+require 'modules/request.php';
+require 'modules/user.php';
+require 'modules/database.php';
 
-if ($auth->logged_in){
-	if (file_exists('pages/' . $request->controller .'/'. $request->controller . '.php')) {
-		require 'pages/' . $request->controller . '/'. $request->controller .  '.php';
-	} else {
-		echo "The page '$request->controller' does not exist";
-	}
+if (file_exists('pages/' . $_request->controller . '/' . $_request->controller . '.php')) {
+	require 'pages/' . $_request->controller . '/' . $_request->controller . '.php';
+	$controller = new $_request->controller;
+	$controller->{$_request->action}();
+} else {
+	echo "The page '{$_request->controller}' does not exist";
 }
-else
-	require 'pages/login/login.php';
+

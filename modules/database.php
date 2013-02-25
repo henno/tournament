@@ -4,12 +4,14 @@
  * User: Dellike
  * Date: 21.02.13
  * Time: 14:58
- * To change this template use File | Settings | File Templates.
- */
+ * To change this template use File | Settings | File Templates. */
+
+
 mysql_connect(DATABASE_HOSTNAME, DATABASE_USERNAME, DATABASE_PASSWORD) or db_error_out();
 mysql_select_db(DATABASE_DATABASE) or db_error_out();
 mysql_query("SET NAMES 'utf8'");
 mysql_query("SET CHARACTER SET utf8");
+
 
 function q($sql, &$query_pointer = NULL)
 {

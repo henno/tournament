@@ -25,4 +25,4 @@ class request
 		}
 	}
 }
-$request = new request;
+$_request=new request;
