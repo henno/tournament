@@ -9,7 +9,8 @@
 class user
 {
 	public $logged_in = false;
-	public $id=5;
+	public $id = 5;
+
 	function __construct()
 	{
 		session_start();
@@ -17,5 +18,14 @@ class user
 			$this->logged_in = true;
 		}
 	}
+
+	public function require_auth()
+	{
+		global $_request;
+		if ($this->logged_in !== true) {
+			$_request->redirect('login');
+		}
+	}
 }
-$_user=new user;
+
+$_user = new user;

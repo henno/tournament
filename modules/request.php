@@ -24,6 +24,9 @@ class request
 			}
 		}
 	}
+	function redirect($destination){
+		header('Location: '. BASE_URL . $destination);
+	}
 }
 
 $_request = new request;
