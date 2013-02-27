@@ -10,7 +10,7 @@
 	<!-- Le styles -->
 	<link href="../assets/css/bootstrap.css" rel="stylesheet">
 	<style>
-	body {
+		body {
 			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 		}
 	</style>
@@ -45,7 +45,7 @@
 				<ul class="nav">
 					<li class="active"><a href="#">Home</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="<?=BASE_URL?>auth/logout">Logout</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -53,42 +53,42 @@
 	</div>
 </div>
 
-<div class="container">
+<div class=" container">
 
-	<h1>EMÜ turniirirakendus</h1>
+						<h1>EMÜ turniirirakendus</h1>
 
-	<table class="table table-striped table-bordered table-condensed">
-		<tr>
-			<th>id</th>
-			<th>name</th>
-		</tr>
-		<? foreach ($users as $user): ?>
-<tr>
-	<td><?=$user['user_id']?></td>
-	<td><?=$user['name']?></td>
-</tr>
-<? endforeach; ?>
-	</table>
+						<table class="table table-striped table-bordered table-condensed">
+							<tr>
+								<th>id</th>
+								<th>name</th>
+							</tr>
+							<? foreach ($users as $user): ?>
+							<tr>
+								<td><?=$user['user_id']?></td>
+								<td><?=$user['name']?></td>
+							</tr>
+							<? endforeach; ?>
+						</table>
 
-</div>
-<!-- /container -->
+			</div>
+			<!-- /container -->
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/bootstrap-transition.js"></script>
-<script src="../assets/js/bootstrap-alert.js"></script>
-<script src="../assets/js/bootstrap-modal.js"></script>
-<script src="../assets/js/bootstrap-dropdown.js"></script>
-<script src="../assets/js/bootstrap-scrollspy.js"></script>
-<script src="../assets/js/bootstrap-tab.js"></script>
-<script src="../assets/js/bootstrap-tooltip.js"></script>
-<script src="../assets/js/bootstrap-popover.js"></script>
-<script src="../assets/js/bootstrap-button.js"></script>
-<script src="../assets/js/bootstrap-collapse.js"></script>
-<script src="../assets/js/bootstrap-carousel.js"></script>
-<script src="../assets/js/bootstrap-typeahead.js"></script>
+			<!-- Le javascript
+			================================================== -->
+			<!-- Placed at the end of the document so the pages load faster -->
+			<script src="../assets/js/jquery.js"></script>
+			<script src="../assets/js/bootstrap-transition.js"></script>
+			<script src="../assets/js/bootstrap-alert.js"></script>
+			<script src="../assets/js/bootstrap-modal.js"></script>
+			<script src="../assets/js/bootstrap-dropdown.js"></script>
+			<script src="../assets/js/bootstrap-scrollspy.js"></script>
+			<script src="../assets/js/bootstrap-tab.js"></script>
+			<script src="../assets/js/bootstrap-tooltip.js"></script>
+			<script src="../assets/js/bootstrap-popover.js"></script>
+			<script src="../assets/js/bootstrap-button.js"></script>
+			<script src="../assets/js/bootstrap-collapse.js"></script>
+			<script src="../assets/js/bootstrap-carousel.js"></script>
+			<script src="../assets/js/bootstrap-typeahead.js"></script>
 
 </body>
 </html>

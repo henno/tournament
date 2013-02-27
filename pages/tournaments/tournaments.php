@@ -6,7 +6,7 @@ class tournaments
 		global $_user;
 		$_user->require_auth();
 		$users = get_all("SELECT * FROM user");
-		require 'layouts\master.php';
+		require 'views\master.php';
 
 	}
 

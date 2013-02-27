@@ -36,8 +36,11 @@ function get_all($sql)
 	return $result;
 }
 
-function get_one($sql)
+function get_one($sql,$debug=false)
 {
+	if ($debug) {
+		print "<pre>$sql</pre>";
+	}
 	$q = mysql_query($sql) or db_error_out($sql);
 	if (mysql_num_rows($q) === FALSE) {
 		die($sql);

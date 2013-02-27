@@ -23,7 +23,7 @@ class user
 	{
 		global $_request;
 		if ($this->logged_in !== true) {
-			$_request->redirect('login');
+			$_request->redirect('auth');
 		}
 	}
 }

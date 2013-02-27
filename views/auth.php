@@ -25,14 +25,16 @@
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
 			border-radius: 5px;
-			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-			-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-			box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+			-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+			box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 		}
+
 		.form-signin .form-signin-heading,
 		.form-signin .checkbox {
 			margin-bottom: 10px;
 		}
+
 		.form-signin input[type="text"],
 		.form-signin input[type="password"] {
 			font-size: 16px;
@@ -49,9 +51,12 @@
 	<![endif]-->
 
 	<!-- Fav and touch icons -->
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=BASE_URL?>assets/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=BASE_URL?>assets/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=BASE_URL?>assets/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144"
+		  href="<?=BASE_URL?>assets/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114"
+		  href="<?=BASE_URL?>assets/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72"
+		  href="<?=BASE_URL?>assets/ico/apple-touch-icon-72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="<?=BASE_URL?>assets/ico/apple-touch-icon-57-precomposed.png">
 	<link rel="shortcut icon" href="<?=BASE_URL?>assets/ico/favicon.png">
 </head>
@@ -59,18 +64,25 @@
 <body>
 
 <div class="container">
+	<!-- Errors -->
+	<? if (!empty ($_errors)): foreach ($_errors as $error): ?>
+	<div class="alert alert-error">
+		<?=$error?>
+	</div>
+	<? endforeach; endif ?>
 
 	<form class="form-signin" method="post">
 		<h2 class="form-signin-heading">Logi sisse</h2>
-		<input type="text" class="input-block-level" placeholder="Email address">
-		<input type="password" class="input-block-level" placeholder="Password">
+		<input name="username" type="text" class="input-block-level" placeholder="Email address">
+		<input name="password" type="password" class="input-block-level" placeholder="Password">
 		<label class="checkbox">
 			<input type="checkbox" value="remember-me"> Remember me
 		</label>
-		<input class="btn btn-large btn-primary" type="submit">
+		<button class="btn btn-large btn-primary" type="submit">Logi sisse</button>
 	</form>
 
-</div> <!-- /container -->
+</div>
+<!-- /container -->
 
 <!-- Le javascript
 ================================================== -->
