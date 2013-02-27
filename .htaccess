@@ -22,3 +22,4 @@ RewriteRule .* index.php/$0 [PT]
 
 # Enable <?= ?>
 php_value short_open_tag 1
+# php_value include_path  '/var/www/tournament/'

@@ -7,7 +7,7 @@ class tournaments
 		global $_user;
 		$_user->require_auth();
 		$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place");
-		require 'views\master.php';
+		require 'views/master.php';
 
 	}
 
