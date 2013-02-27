@@ -3,9 +3,10 @@ class tournaments
 {
 	function index()
 	{
+		global $_request;
 		global $_user;
 		$_user->require_auth();
-		$users = get_all("SELECT * FROM user");
+		$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place");
 		require 'views\master.php';
 
 	}

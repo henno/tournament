@@ -8,7 +8,6 @@
 	<meta name="author" content="KHK">
 
 	<!-- Le styles -->
-	<link href="../assets/css/bootstrap.css" rel="stylesheet">
 	<style>
 		body {
 			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -55,40 +54,14 @@
 
 <div class=" container">
 
-						<h1>EMÜ turniirirakendus</h1>
+	<? require 'controllers/' . $_request->controller . '/' . $_request->controller . '_view.php'?>
 
-						<table class="table table-striped table-bordered table-condensed">
-							<tr>
-								<th>id</th>
-								<th>name</th>
-							</tr>
-							<? foreach ($users as $user): ?>
-							<tr>
-								<td><?=$user['user_id']?></td>
-								<td><?=$user['name']?></td>
-							</tr>
-							<? endforeach; ?>
-						</table>
 
-			</div>
-			<!-- /container -->
+</div>
+<!-- /container -->
 
-			<!-- Le javascript
-			================================================== -->
-			<!-- Placed at the end of the document so the pages load faster -->
-			<script src="../assets/js/jquery.js"></script>
-			<script src="../assets/js/bootstrap-transition.js"></script>
-			<script src="../assets/js/bootstrap-alert.js"></script>
-			<script src="../assets/js/bootstrap-modal.js"></script>
-			<script src="../assets/js/bootstrap-dropdown.js"></script>
-			<script src="../assets/js/bootstrap-scrollspy.js"></script>
-			<script src="../assets/js/bootstrap-tab.js"></script>
-			<script src="../assets/js/bootstrap-tooltip.js"></script>
-			<script src="../assets/js/bootstrap-popover.js"></script>
-			<script src="../assets/js/bootstrap-button.js"></script>
-			<script src="../assets/js/bootstrap-collapse.js"></script>
-			<script src="../assets/js/bootstrap-carousel.js"></script>
-			<script src="../assets/js/bootstrap-typeahead.js"></script>
-
+<!-- Le javascript
+================================================== -->
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
