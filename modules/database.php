@@ -20,9 +20,9 @@ function q($sql, &$query_pointer = NULL)
 		case 'SELE':
 			return mysql_num_rows($query_pointer);
 		case 'INSE':
-			return mysql_insert_id($query_pointer);
+			return mysql_insert_id();
 		default:
-			return mysql_affected_rows($query_pointer);
+			return mysql_affected_rows();
 	}
 
 }
