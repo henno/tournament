@@ -40,7 +40,7 @@
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="date" value="2011-06-01" name="tournament_end"></td>
+					<input type="date" name="tournament_end"></td>
 			</tr>
 
 			<tr>
@@ -50,7 +50,7 @@
 
 			<tr>
 				<th>Paus</th>
-				<td><input type="number" value="1" min="1" name="tournament_game_pause">min</td>
+				<td><input type="number" value="1" min="1" name="tournament_game_pause"></td>
 			</tr>
 			<tr>
 				<th>Platside arv</th>
@@ -69,7 +69,7 @@
 			#
 		</th>
 		<th>
-			võistkonna nimi
+			Meeskonna/mängija nimi
 		</th>
 		<th>
 			instituut

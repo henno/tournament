@@ -11,8 +11,8 @@ require 'modules/request.php';
 require 'modules/user.php';
 require 'modules/database.php';
 
-if (file_exists('controllers/' . $_request->controller . '/' . $_request->controller . '.php')) {
-	require 'controllers/' . $_request->controller . '/' . $_request->controller . '.php';
+if (file_exists('controllers/' . $_request->controller . '.php')) {
+	require 'controllers/'  . $_request->controller . '.php';
 	$controller = new $_request->controller;
 	$controller->{$_request->action}();
 } else {

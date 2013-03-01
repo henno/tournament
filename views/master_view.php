@@ -54,7 +54,7 @@
 
 <div class=" container">
 
-	<? require 'controllers/' . $_request->controller . '/' . $_request->controller . '_' . $_request->action . '_view.php'?>
+	<? require 'views/'  . $_request->controller . '_' . $_request->action . '_view.php'?>
 
 
 </div>

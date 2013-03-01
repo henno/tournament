@@ -22,7 +22,7 @@ class auth
 			}
 			$_errors[] = "Vale kasutajanimi või parool.";
 		}
-		require 'views/auth.php';
+		require 'views/auth_view.php';
 
 	}
 
