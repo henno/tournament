@@ -1,7 +1,5 @@
-<form class="form-signin" method="post">
-    <h2 class="form-signin-heading">Turniirid</h2>
-    <button class="btn btn-large btn-primary" type="submit">Lisa uus turniir</button>
-</form>
+<h2 class="form-signin-heading">Turniirid</h2>
+<p><a class="btn btn-large btn-primary" href="<?=BASE_URL?>tournaments/add">Lisa uus turniir</a></p>
 <table class="table table-bordered table-striped">
 	<thead>
 	<tr>
@@ -32,4 +30,4 @@
 		<? endforeach; endif ?>
 	</tbody>
 </table>
-    <div hidden=""></div>
+<div hidden=""></div>

@@ -1,9 +1,10 @@
 <style>
-	input[type="date"]::-webkit-calendar-picker-indicator{
-		display:inline-block;
-		margin-top:2%;
-		float:right;
+	input[type="date"]::-webkit-calendar-picker-indicator {
+		display: inline-block;
+		margin-top: 2%;
+		float: right;
 	}
+
 	input[type="date"]::-webkit-inner-spin-button {
 		display: none;
 		-webkit-appearance: none;
@@ -45,7 +46,7 @@
 
 			<tr>
 				<th>Mängu kestvus</th>
-				<td><input type="number" value="1"  min="1" name="tournament_game_time"></td>
+				<td><input type="number" value="1" min="1" name="tournament_game_time"></td>
 			</tr>
 
 			<tr>
@@ -54,7 +55,7 @@
 			</tr>
 			<tr>
 				<th>Platside arv</th>
-				<td><input type="number" value="1"  min="1" name="tournament_field"/></td>
+				<td><input type="number" value="1" min="1" name="tournament_field"/></td>
 			</tr>
 
 			</tbody>
@@ -83,26 +84,28 @@
 	</tr>
 	</thead>
 	<tbody>
-	<?foreach ($tournaments as $tournament):?>
+
+	<? $i = 1; foreach ($participants as $participant): ?>
 	<tr>
 		<td>
-			1
+			<?=$i++?>
 		</td>
 		<td>
-			Kõvad mehed
+			<?=$participant['participant_name']?>
 		</td>
 		<td>
-			-
+			<?=$participant['institute_name']?>
 		</td>
 		<td>
 			<input type="checkbox">
 		</td>
 		<td>
 			<a href="#"><i class="icon-pencil"></i>
-				<a href="<?=BASE_URL?>tournaments/remove/<?=$tournament['tournament_id']?>" onclick="if (!confirm('Oled kindel?'))return false"><i class="icon-trash">
+				<a href="<?=BASE_URL?>tournaments/remove/<?=$tournament['tournament_id']?>"
+				   onclick="if (!confirm('Oled kindel?'))return false"><i class="icon-trash">
 		</td>
 	</tr>
-	<?endforeach?>
+		<? endforeach?>
 	</tbody>
 </table>
 <p>Mitu Alagruppi moodustada:</p>

@@ -11,7 +11,8 @@ RewriteBase /tournament/
 </Files>
 
 # Protect application and system files from being viewed
-RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
+RewriteRule ^(?:controllers|doc|modules|views)\b.* index.php/$0 [L]
+
 
 # Allow any files or directories that exist to be displayed directly
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -22,4 +23,5 @@ RewriteRule .* index.php/$0 [PT]
 
 # Enable <?= ?>
 php_value short_open_tag 1
+
 # php_value include_path  '/var/www/tournament/'
