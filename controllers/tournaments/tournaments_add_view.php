@@ -9,6 +9,7 @@
 		-webkit-appearance: none;
 		margin: 0;
 	}
+
 </style>
 <form>
 	<div class="span6">
@@ -40,19 +41,122 @@
 
 			<tr>
 				<th>Mängu kestvus</th>
-				<td><input type="number" value="1" max="999" min="1" name="tournament_game_time"></td>
+				<td><input type="number" value="1"  min="1" name="tournament_game_time"></td>
 			</tr>
 
 			<tr>
 				<th>Paus</th>
-				<td><input type="number" value="1" max="999" min="1" name="tournament_game_pause">min</td>
+				<td><input type="number" value="1" min="1" name="tournament_game_pause">min</td>
 			</tr>
 			<tr>
 				<th>Platside arv</th>
-				<td><input type="number" value="1" max="99" min="1" name="tournament_field"/></td>
+				<td><input type="number" value="1"  min="1" name="tournament_field"/></td>
 			</tr>
 
 			</tbody>
 		</table>
 	</div>
 </form>
+
+<table class="table table-bordered table-striped">
+	<thead>
+	<tr>
+		<th>
+			#
+		</th>
+		<th>
+			võistkonna nimi
+		</th>
+		<th>
+			instituut
+		</th>
+		<th>
+			Favoriit
+		</th>
+		<th>
+			Tegevused
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>
+			1
+		</td>
+		<td>
+			Kõvad mehed
+		</td>
+		<td>
+			-
+		</td>
+		<td>
+			<input type="checkbox">
+		</td>
+		<td>
+			muuda/kustuta
+		</td>
+	</tr>
+	<tr>
+		<td>
+			2
+		</td>
+		<td>
+			Kõvad mehed
+		</td>
+		<td>
+			-
+		</td>
+		<td>
+			<input type="checkbox">
+		</td>
+		<td>
+			muuda/kustuta
+		</td>
+	</tr>
+	<tr>
+		<td>
+			3
+		</td>
+		<td>
+			Kõvad mehed
+		</td>
+		<td>
+			-
+		</td>
+		<td>
+			<input type="checkbox">
+		</td>
+		<td>
+			muuda/kustuta
+		</td>
+	</tr>
+	<tr>
+		<td>
+			4
+		</td>
+		<td>
+			metsamehed
+		</td>
+		<td>
+			MMI
+		</td>
+		<td>
+			<input type="checkbox">
+		</td>
+		<td>
+			muuda/kustuta
+		</td>
+	</tr>
+	</tbody>
+</table>
+<p>Mitu Alagruppi moodustada:</p>
+<input type="number" value="1"  min="1" name="tournament_group"/>
+<p>Mitu alagrupi võitjat edasi saab:</p>
+<input type="number" value="1"  min="1" name="tournament_group"/>
+<p>Tüüp:</p>
+<select>
+	<option>Alagrupi mängud</option>
+	<option>Alagrupi mängud + playoff</option>
+	<option>Playoff</option>
+</select>
+<p>Kaotajate ring: <input type="checkbox"></p>
