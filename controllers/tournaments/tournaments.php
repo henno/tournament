@@ -19,4 +19,10 @@ class tournaments
 		require 'users_view_view.php';
 
 	}
+	function add()
+	{
+		global $_request;
+		require 'views/master.php';
+
+	}
 }
