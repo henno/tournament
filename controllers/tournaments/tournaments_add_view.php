@@ -1,10 +1,9 @@
 <style>
-	input[type="date"]::-webkit-calendar-picker-indicator {
-		display: inline-block;
-		margin-top: 2%;
-		float: right;
+	input[type="date"]::-webkit-calendar-picker-indicator{
+		display:inline-block;
+		margin-top:2%;
+		float:right;
 	}
-
 	input[type="date"]::-webkit-inner-spin-button {
 		display: none;
 		-webkit-appearance: none;
@@ -46,7 +45,7 @@
 
 			<tr>
 				<th>Mängu kestvus</th>
-				<td><input type="number" value="1" min="1" name="tournament_game_time"></td>
+				<td><input type="number" value="1"  min="1" name="tournament_game_time"></td>
 			</tr>
 
 			<tr>
@@ -55,7 +54,7 @@
 			</tr>
 			<tr>
 				<th>Platside arv</th>
-				<td><input type="number" value="1" min="1" name="tournament_field"/></td>
+				<td><input type="number" value="1"  min="1" name="tournament_field"/></td>
 			</tr>
 
 			</tbody>
@@ -84,6 +83,7 @@
 	</tr>
 	</thead>
 	<tbody>
+	<?foreach ($tournaments as $tournament):?>
 	<tr>
 		<td>
 			1
@@ -98,80 +98,11 @@
 			<input type="checkbox">
 		</td>
 		<td>
-			muuda/kustuta
+			<a href="#"><i class="icon-pencil"></i>
+				<a href="<?=BASE_URL?>tournaments/remove/<?=$tournament['tournament_id']?>" onclick="if (!confirm('Oled kindel?'))return false"><i class="icon-trash">
 		</td>
 	</tr>
-	<tr>
-		<td>
-			2
-		</td>
-		<td>
-			Kõvad mehed
-		</td>
-		<td>
-			-
-		</td>
-		<td>
-			<input type="checkbox">
-		</td>
-		<td>
-			muuda/kustuta
-		</td>
-	</tr>
-	<tr>
-		<td>
-			3
-		</td>
-		<td>
-			Kõvad mehed
-		</td>
-		<td>
-			-
-		</td>
-		<td>
-			<input type="checkbox">
-		</td>
-		<td>
-			muuda/kustuta
-		</td>
-	</tr>
-	<tr>
-		<td>
-			4
-		</td>
-		<td>
-			metsamehed
-		</td>
-		<td>
-			MMI
-		</td>
-		<td>
-			<input type="checkbox">
-		</td>
-		<td>
-			muuda/kustuta
-		</td>
-	</tr>
-	<tr>
-		<td colspan="5">
-		</td>
-
-	</tr>
-	<tr>
-		<td>
-		</td>
-		<td>
-			võistkonna nimi
-		</td>
-		<td>
-			instituut
-		</td>
-		<td>
-		</td>
-		<td>
-			lisa
-		</td>
-	</tr>
+	<?endforeach?>
 	</tbody>
 </table>
 <p>Mitu Alagruppi moodustada:</p>

@@ -19,9 +19,20 @@ class tournaments
 		require 'users_view_view.php';
 
 	}
+
 	function add()
 	{
 		global $_request;
+		$tournaments = get_all("SELECT * FROM tournament WHERE deleted=0");
+		require 'views/master.php';
+
+	}
+
+	function remove()
+	{
+		global $_request;
+		$id = $_request->params[0];
+		$result = q("UPDATE tournament SET deleted=1 WHERE tournament_id='$id'");
 		require 'views/master.php';
 
 	}
