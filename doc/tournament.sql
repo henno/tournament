@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 04, 2013 at 06:10 AM
--- Server version: 5.5.24-log
--- PHP Version: 5.4.3
+-- Loomise aeg: Märts 04, 2013 kell 07:08 AM
+-- Serveri versioon: 5.5.24-log
+-- PHP versioon: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,16 +17,17 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `tournament`
+-- Andmebaas: `tournament`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `institute`
+-- Tabeli struktuur tabelile `institute`
 --
 
-CREATE TABLE IF NOT EXISTS `institute` (
+DROP TABLE IF EXISTS `institute`;
+CREATE TABLE `institute` (
   `institute_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `institute_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -34,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `institute` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `institute`
+-- Andmete tõmmistamine tabelile `institute`
 --
 
 INSERT INTO `institute` (`institute_id`, `institute_name`, `deleted`) VALUES
@@ -43,10 +44,11 @@ INSERT INTO `institute` (`institute_id`, `institute_name`, `deleted`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `participant`
+-- Tabeli struktuur tabelile `participant`
 --
 
-CREATE TABLE IF NOT EXISTS `participant` (
+DROP TABLE IF EXISTS `participant`;
+CREATE TABLE `participant` (
   `participant_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `participant_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `institute_id` int(10) unsigned DEFAULT NULL,
@@ -58,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `participant` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `participant`
+-- Andmete tõmmistamine tabelile `participant`
 --
 
 INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`, `participant_favorite`, `tournament_id`, `deleted`) VALUES
@@ -68,10 +70,11 @@ INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `place`
+-- Tabeli struktuur tabelile `place`
 --
 
-CREATE TABLE IF NOT EXISTS `place` (
+DROP TABLE IF EXISTS `place`;
+CREATE TABLE `place` (
   `place_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `place_name` varchar(100) COLLATE utf8_estonian_ci NOT NULL,
   `place_deleted` int(1) NOT NULL DEFAULT '0',
@@ -79,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `place` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `place`
+-- Andmete tõmmistamine tabelile `place`
 --
 
 INSERT INTO `place` (`place_id`, `place_name`, `place_deleted`) VALUES
@@ -89,10 +92,11 @@ INSERT INTO `place` (`place_id`, `place_name`, `place_deleted`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tournament`
+-- Tabeli struktuur tabelile `tournament`
 --
 
-CREATE TABLE IF NOT EXISTS `tournament` (
+DROP TABLE IF EXISTS `tournament`;
+CREATE TABLE `tournament` (
   `tournament_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tournament_name` varchar(100) COLLATE utf8_estonian_ci NOT NULL,
   `tournament_year` int(11) NOT NULL,
@@ -104,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `tournament` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `tournament`
+-- Andmete tõmmistamine tabelile `tournament`
 --
 
 INSERT INTO `tournament` (`tournament_id`, `tournament_name`, `tournament_year`, `tournament_place`, `place_id`, `deleted`) VALUES
@@ -114,10 +118,11 @@ INSERT INTO `tournament` (`tournament_id`, `tournament_name`, `tournament_year`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Tabeli struktuur tabelile `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(25) COLLATE utf8_estonian_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -127,24 +132,24 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `user`
+-- Andmete tõmmistamine tabelile `user`
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `deleted`) VALUES
 (1, 'demouser', 'demo', 'demouser', 0);
 
 --
--- Constraints for dumped tables
+-- Tõmmistatud tabelite piirangud
 --
 
 --
--- Constraints for table `participant`
+-- Piirangud tabelile `participant`
 --
 ALTER TABLE `participant`
   ADD CONSTRAINT `participant_ibfk_1` FOREIGN KEY (`institute_id`) REFERENCES `institute` (`institute_id`);
 
 --
--- Constraints for table `tournament`
+-- Piirangud tabelile `tournament`
 --
 ALTER TABLE `tournament`
   ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`place_id`) REFERENCES `place` (`place_id`);
