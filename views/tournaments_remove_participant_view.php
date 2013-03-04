@@ -1,9 +1,6 @@
-<? if ($result): ?>
-<div class="alert alert-success">
-	Eemaldamine õnnestus
-</div>
-<? else: ?>
-<div class="alert alert-error">
-	Eemaldamine ebaõnnestus
-</div>
-<? endif ?>
+<?
+ob_end_clean();
+echo $result?'OK':'FAIL';
+die();
+
+?>

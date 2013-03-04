@@ -1,3 +1,18 @@
+<script>
+	function remove_participant(id) {
+		$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
+				function (r) {
+					if (r == 'OK') {
+						$('#participant' + id).remove();
+					}
+					else{
+						alert(r);
+					}
+				}).fail(function () {
+					alert("serveriga ühendamine ebaõnnestus");
+				});
+	}
+</script>
 <style>
 	input[type="date"]::-webkit-calendar-picker-indicator {
 		display: inline-block;
@@ -86,9 +101,9 @@
 	<tbody>
 
 	<? $i = 1; foreach ($participants as $participant): ?>
-	<tr>
+	<tr id="participant<?=$participant['participant_id']?>">
 		<td>
-			<?=$i++?>
+			<?=$i ++?>
 		</td>
 		<td>
 			<?=$participant['participant_name']?>
@@ -100,9 +115,10 @@
 			<input type="checkbox">
 		</td>
 		<td>
-			<a href="#"><i class="icon-pencil"></i>
-				<a href="<?=BASE_URL?>tournaments/remove_participant/<?=$participant['participant_id']?>"
-				   onclick="if (!confirm('Oled kindel?'))return false"><i class="icon-trash">
+			<a href="#"><i class="icon-pencil"></i></a>
+			<a href="#" onclick="if (confirm('Oled kindel?')) remove_participant(<?=$participant['participant_id']?>)">
+				<i class="icon-trash"></i>
+			</a>
 		</td>
 	</tr>
 		<? endforeach?>
