@@ -13,8 +13,12 @@ mysql_query("SET NAMES 'utf8'");
 mysql_query("SET CHARACTER SET utf8");
 
 
-function q($sql, &$query_pointer = NULL)
+function q($sql, &$query_pointer = NULL, $debug = FALSE)
 {
+	if ($debug) {
+		print "<pre>$sql</pre>";
+	}
+
 	$query_pointer = mysql_query($sql) or db_error_out($sql);
 	switch (substr($sql, 0, 4)) {
 		case 'SELE':
@@ -36,7 +40,7 @@ function get_all($sql)
 	return $result;
 }
 
-function get_one($sql,$debug=false)
+function get_one($sql, $debug = FALSE)
 {
 	if ($debug) {
 		print "<pre>$sql</pre>";
@@ -49,14 +53,14 @@ function get_one($sql,$debug=false)
 	return is_array($result) && count($result) > 0 ? $result[0] : NULL;
 }
 
-function db_error_out($sql = null)
+function db_error_out($sql = NULL)
 {
 	$db_error = mysql_error();
 
 	//kontrolli kas db_errori alguses on tekst You have an error in SQL syntax.. kui see nii on siis db_erroriks on <b> <pre
 	//alates tähemärgist 135
 	if (strpos($db_error, 'You have an error in SQL syntax') !== FALSE) {
-		$db_error = '<b>Syntax error in</b><pre> ' . substr($db_error, 135) . '</pre>';
+		$db_error = '<b>Syntax error in</b><pre> '.substr($db_error, 135).'</pre>';
 
 	}
 	$backtrace = debug_backtrace();
@@ -64,24 +68,27 @@ function db_error_out($sql = null)
 	$line = $backtrace[1]['line'];
 	$function = isset($backtrace[2]['function']) ? $backtrace[2]['function'] : NULL;
 	$args = isset($backtrace[2]['args']) ? $backtrace[2]['args'] : NULL;
-	if (!empty($args)) {
+	if (! empty($args)) {
 		foreach ($args as $arg) {
 			if (is_array($arg)) {
 				$args2[] = implode(',', $arg);
-			} else
+			} else {
 				$args2 = $arg;
+			}
 		}
 	}
 
-	$args = empty($args2) ? '' : '"' . implode('", "', $args2) . '"';
+	$args = empty($args2) ? '' : '"'.implode('", "', $args2).'"';
 	$s = "In file <b>$file</b>, line <b>$line</b>";
-	if (!empty($function)) $s .= ", function <b>$function</b>( $args )";
+	if (! empty($function)) {
+		$s .= ", function <b>$function</b>( $args )";
+	}
 	$output = '
             <table style="background-color:white; border:1px solid gray; border-radius:10px; padding:10px">
                 <tr><td style="font-weight: bold; background-color: red; color: white; width: 100%; padding: 5px">Database error:</td></tr>
-                <tr><td><pre style="text-align: left;">' . $sql . '</pre><br><b style="color: red">' . $db_error . '</b></td>
+                <tr><td><pre style="text-align: left;">'.$sql.'</pre><br><b style="color: red">'.$db_error.'</b></td>
                 <tr><td style="height:2px">&nbsp;</td>
-                <tr><td>' . $s . '
+                <tr><td>'.$s.'
             </table>';
 	die($output);
 }

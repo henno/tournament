@@ -6,7 +6,7 @@ class tournaments
 		global $_request;
 		global $_user;
 		$_user->require_auth();
-		$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place");
+		$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place WHERE tournament.deleted=0");
 		require 'views/master_view.php';
 
 	}
@@ -36,4 +36,13 @@ class tournaments
 		require 'views/master_view.php';
 
 	}
+	function remove_participant()
+	{
+		global $_request;
+		$id = $_request->params[0];
+		$result = q("UPDATE participant SET deleted=1 WHERE participant_id='$id'");
+		require 'views/master_view.php';
+
+	}
+
 }
