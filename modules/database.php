@@ -90,5 +90,7 @@ function db_error_out($sql = NULL)
                 <tr><td style="height:2px">&nbsp;</td>
                 <tr><td>'.$s.'
             </table>';
-	die($output);
+	ob_end_clean();
+	echo isset($_GET['ajax'])? strip_tags($output): $output;
+	die();
 }
