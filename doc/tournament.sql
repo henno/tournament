@@ -3,10 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Loomise aeg: Märts 04, 2013 kell 07:08 AM
+-- Loomise aeg: Märts 04, 2013 kell 07:33 AM
 -- Serveri versioon: 5.5.24-log
 -- PHP versioon: 5.3.13
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -153,6 +154,7 @@ ALTER TABLE `participant`
 --
 ALTER TABLE `tournament`
   ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`place_id`) REFERENCES `place` (`place_id`);
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
