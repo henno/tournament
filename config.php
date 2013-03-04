@@ -1,7 +1,6 @@
 <?php
-defined('BASE_URL') or die('No direct script access.');
 
-define('DEFAULT_CONTROLLER', 'welcome');
+define('DEFAULT_CONTROLLER', 'tournaments');
 define('DATABASE_HOSTNAME', 'localhost');
 define('DATABASE_USERNAME', 'tournament');
 define('DATABASE_PASSWORD', 'YaEbVCeBcrjzPcQU');
