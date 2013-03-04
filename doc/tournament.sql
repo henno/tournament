@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Loomise aeg: Märts 04, 2013 kell 07:33 AM
+-- Loomise aeg: Märts 04, 2013 kell 08:39 AM
 -- Serveri versioon: 5.5.24-log
 -- PHP versioon: 5.3.13
 
@@ -54,11 +54,12 @@ CREATE TABLE `participant` (
   `participant_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `institute_id` int(10) unsigned DEFAULT NULL,
   `participant_favorite` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `tournament_id` int(11) NOT NULL,
+  `tournament_id` int(11) unsigned NOT NULL,
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`participant_id`),
-  KEY `institute_id` (`institute_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=4 ;
+  KEY `institute_id` (`institute_id`),
+  KEY `tournament_id` (`tournament_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=8 ;
 
 --
 -- Andmete tõmmistamine tabelile `participant`
@@ -66,7 +67,11 @@ CREATE TABLE `participant` (
 
 INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`, `participant_favorite`, `tournament_id`, `deleted`) VALUES
 (1, 'meeskond 1', 1, 0, 1, 0),
-(3, 'meeskond 2', NULL, 0, 1, 0);
+(3, 'meeskond 2', NULL, 0, 1, 0),
+(4, 'hfdhfd', NULL, 0, 1, 0),
+(5, 'hdfhfdhf', NULL, 0, 1, 0),
+(6, 'hhfhhhhhhhhhhh', NULL, 0, 1, 0),
+(7, 'hhhhhhhhhhhhhhhhhhhh', NULL, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -147,6 +152,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `deleted`) VALUES
 -- Piirangud tabelile `participant`
 --
 ALTER TABLE `participant`
+  ADD CONSTRAINT `participant_ibfk_2` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`),
   ADD CONSTRAINT `participant_ibfk_1` FOREIGN KEY (`institute_id`) REFERENCES `institute` (`institute_id`);
 
 --
