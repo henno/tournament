@@ -101,7 +101,7 @@
 		</td>
 		<td>
 			<a href="#"><i class="icon-pencil"></i>
-				<a href="<?=BASE_URL?>tournaments/remove/<?=$tournament['tournament_id']?>"
+				<a href="<?=BASE_URL?>tournaments/remove/<?=$participant['tournament_id']?>"
 				   onclick="if (!confirm('Oled kindel?'))return false"><i class="icon-trash">
 		</td>
 	</tr>
