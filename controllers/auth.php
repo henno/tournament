@@ -8,6 +8,7 @@
  */
 class auth
 {
+    
 	function index()
 	{
 		global $_request;
@@ -31,5 +32,5 @@ class auth
 		global $_request;
 		session_destroy();
 		$_request->redirect('auth');
-	}
+    }
 }
