@@ -1,11 +1,22 @@
 <script>
+	var participant_count = 0;
+	function add_participant() {
+		participant_count++;
+		participant_id = 1;
+		participant_name = $('#participant_name').val();
+		institute_name = $('#institute_name').val();
+		$('#participants-table > tbody:last').append('<tr ' +
+				'id="participant' + participant_id + '"><td>' + participant_count + '</td><td>' + participant_name + '</td><td' +
+				'>' + institute_name + '</tdtdinput type="checkbox"></td><td><a href="#"><i class="icon-pencil"></i></a><a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(participant_id)"><i class="icon-trash"></i></a></td></tr>');
+
+	}
 	function remove_participant(id) {
 		$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
 				function (r) {
 					if (r == 'OK') {
 						$('#participant' + id).remove();
 					}
-					else{
+					else {
 						alert(r);
 					}
 				}).fail(function () {
@@ -78,7 +89,7 @@
 	</div>
 </form>
 
-<table class="table table-bordered table-striped ajax">
+<table id="participants-table" class="table table-bordered table-striped">
 	<thead>
 	<tr>
 		<th>
@@ -99,39 +110,19 @@
 	</tr>
 	</thead>
 	<tbody>
+	<tr>
 
-	<? $i = 1; foreach ($participants as $participant): ?>
-	<tr id="participant<?=$participant['participant_id']?>">
-		<td>
-			<?=$i ++?>
-		</td>
-		<td>
-			<?=$participant['participant_name']?>
-		</td>
-		<td>
-			<?=$participant['institute_name']?>
-		</td>
-		<td>
-			<input type="checkbox">
-		</td>
-		<td>
-			<a href="#"><i class="icon-pencil"></i></a>
-			<a href="#" onclick="if (confirm('Oled kindel?')) remove_participant(<?=$participant['participant_id']?>)">
-				<i class="icon-trash"></i>
-			</a>
-		</td>
 	</tr>
-		<? endforeach?>
 	</tbody>
 </table>
-<form class="form-inline ajax" action="add_participant"  method="POST" onSubmit="window.location.reload()+ajax">
-	<input type="text" class="input-small" placeholder="Võistleja nimi" name="participant_name">
-	<select name="institute_id">
+<form class="form-inline">
+	<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name">
+	<select id="institute_name">
 		<option value="1">MMI</option>
 		<option value="2">TI</option>
 		<option value="3">ASD</option>
 	</select>
-	<button type="submit" class="btn" onclick="add_participant()">Lisa mängija</button>
+	<button type="button" class="btn" onclick="add_participant()">Lisa mängija</button>
 </form>
 <p>Mitu Alagruppi moodustada:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>
