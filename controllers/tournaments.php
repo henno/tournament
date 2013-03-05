@@ -45,4 +45,11 @@ class tournaments
 
 	}
 
+	function add_participant()
+	{
+		global $_request;
+		$result = q("INSERT INTO participant(participant_name,institute_id) VALUES ('$_POST[participant_name]',$_POST[institute_id])");
+		require 'views/master_view.php';
+
+	}
 }

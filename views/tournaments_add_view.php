@@ -32,9 +32,9 @@
 	}
 </style>
 <form>
-	<div class="span6">
+	<div class="span6 ">
 
-		<table class="table">
+		<table class="table ">
 			<tbody>
 
 
@@ -78,7 +78,7 @@
 	</div>
 </form>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped ajax">
 	<thead>
 	<tr>
 		<th>
@@ -124,6 +124,15 @@
 		<? endforeach?>
 	</tbody>
 </table>
+<form class="form-inline ajax" action="add_participant"  method="POST" onSubmit="window.location.reload()+ajax">
+	<input type="text" class="input-small" placeholder="Võistleja nimi" name="participant_name">
+	<select name="institute_id">
+		<option value="1">MMI</option>
+		<option value="2">TI</option>
+		<option value="3">ASD</option>
+	</select>
+	<button type="submit" class="btn" onclick="add_participant()">Lisa mängija</button>
+</form>
 <p>Mitu Alagruppi moodustada:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>
 <p>Mitu alagrupi võitjat edasi saab:</p>
