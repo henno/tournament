@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Loomise aeg: Märts 04, 2013 kell 08:39 AM
+-- Loomise aeg: Märts 05, 2013 kell 01:42 PM
 -- Serveri versioon: 5.5.24-log
 -- PHP versioon: 5.3.13
 
@@ -54,12 +54,12 @@ CREATE TABLE `participant` (
   `participant_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `institute_id` int(10) unsigned DEFAULT NULL,
   `participant_favorite` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `tournament_id` int(11) unsigned NOT NULL,
+  `tournament_id` int(11) unsigned NOT NULL DEFAULT '1',
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`participant_id`),
   KEY `institute_id` (`institute_id`),
   KEY `tournament_id` (`tournament_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=32 ;
 
 --
 -- Andmete tõmmistamine tabelile `participant`
@@ -67,11 +67,34 @@ CREATE TABLE `participant` (
 
 INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`, `participant_favorite`, `tournament_id`, `deleted`) VALUES
 (1, 'meeskond 1', 1, 0, 1, 0),
-(3, 'meeskond 2', NULL, 0, 1, 0),
+(3, 'meeskond 2', NULL, 0, 1, 1),
 (4, 'hfdhfd', NULL, 0, 1, 0),
 (5, 'hdfhfdhf', NULL, 0, 1, 0),
 (6, 'hhfhhhhhhhhhhh', NULL, 0, 1, 0),
-(7, 'hhhhhhhhhhhhhhhhhhhh', NULL, 0, 1, 0);
+(7, 'hhhhhhhhhhhhhhhhhhhh', NULL, 0, 1, 0),
+(9, 'yolo', 1, 0, 1, 0),
+(10, 'karu ', 1, 0, 1, 0),
+(11, 'minaaaa', 1, 0, 1, 0),
+(12, 'dadsadsa', 1, 0, 1, 0),
+(13, 'mis teed', 1, 0, 1, 0),
+(14, 'aaaaaaa', 1, 0, 1, 0),
+(15, 'karuuuu', 1, 0, 1, 0),
+(16, 'bfbhgf', 1, 0, 1, 0),
+(17, 'hnbnmmmmm', 1, 0, 1, 0),
+(18, 'bbnn', 1, 0, 1, 0),
+(19, 'lllll', 1, 0, 1, 0),
+(20, 'mooooo', 1, 0, 1, 0),
+(21, 'fffffffff', 1, 0, 1, 0),
+(22, 'hhhhhhhhhhh', 1, 0, 1, 0),
+(23, '', 1, 0, 1, 0),
+(24, 'ffffffff', 1, 0, 1, 0),
+(25, 'ssssssssss', 1, 0, 1, 0),
+(26, 'ffffffff', 1, 0, 1, 0),
+(27, 'ssssssssss', 1, 0, 1, 0),
+(28, '5555555', 1, 0, 1, 0),
+(29, '666', 1, 0, 1, 0),
+(30, 'ddddddddddd', 1, 0, 1, 0),
+(31, 'aaaa', 1, 0, 1, 0);
 
 -- --------------------------------------------------------
 
