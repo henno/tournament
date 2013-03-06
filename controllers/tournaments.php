@@ -23,7 +23,7 @@ class tournaments
 	function add()
 	{
 		global $_request;
-		# $participants = get_all("SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0");
+		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		require 'views/master_view.php';
 
 	}

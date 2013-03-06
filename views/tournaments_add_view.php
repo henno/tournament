@@ -1,30 +1,19 @@
-<script>
-	var participant_count = 0;
-	function add_participant() {
-		participant_count++;
-		participant_id = 1;
-		participant_name = $('#participant_name').val();
-		institute_name = $('#institute_name').val();
-		$('#participants-table > tbody:last').append('<tr ' +
-				'id="participant' + participant_id + '"><td>' + participant_count + '</td><td>' + participant_name + '</td><td' +
-				'>' + institute_name + '</tdtdinput type="checkbox"></td><td><a href="#"><i class="icon-pencil"></i></a><a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(participant_id)"><i class="icon-trash"></i></a></td></tr>');
-
-	}
-	function remove_participant(id) {
-		$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
-				function (r) {
-					if (r == 'OK') {
-						$('#participant' + id).remove();
-					}
-					else {
-						alert(r);
-					}
-				}).fail(function () {
-					alert("serveriga ühendamine ebaõnnestus");
-				});
-	}
-</script>
+<script src="<?=BASE_URL?>assets/js/jquery.combobox.js"></script>
 <style>
+	.esContainer {
+		border: 1px solid black;
+		border-left: 2px solid black;
+	}
+	.esItem {
+		background: white;
+	}
+	.esItemHover {
+		background: blue;
+	}
+	.esTextBox {
+		background: url(arrow.png) 98% 50% no-repeat;
+	}
+
 	input[type="date"]::-webkit-calendar-picker-indicator {
 		display: inline-block;
 		margin-top: 2%;
@@ -110,19 +99,16 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr>
-
-	</tr>
 	</tbody>
 </table>
 <form class="form-inline">
 	<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name">
-	<select id="institute_name">
-		<option value="1">MMI</option>
-		<option value="2">TI</option>
-		<option value="3">ASD</option>
+	<select id="institute_name" class="makeEditable">
+		<?foreach ($institutes as $institute) : ?>
+		<option value="<?=$institute['institute_name']?>"><?=$institute['institute_name']?></option>
+		<? endforeach?>
 	</select>
-	<button type="button" class="btn" onclick="add_participant()">Lisa mängija</button>
+	<button type="button" class="btn" onclick="add_participant()" style="margin-left: 40px">Lisa mängija</button>
 </form>
 <p>Mitu Alagruppi moodustada:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>
@@ -154,6 +140,7 @@
 <form class="form-signin" method="post">
 	<button class="btn btn-large btn-primary" type="submit">Turniiri eelvaade</button>
 </form>
-<form class="form-signin" method="post">
-	<button class="btn btn-large btn-primary" type="submit">Kinnita</button>
+<form class="form-signin" method="post" id="confirm-form">
+	<input type="hidden" id="participants" name="participants">
+	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>
 </form>
