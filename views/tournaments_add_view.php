@@ -89,9 +89,6 @@
 	<thead>
 	<tr>
 		<th>
-			#
-		</th>
-		<th>
 			Meeskonna/mängija nimi
 		</th>
 		<th>
