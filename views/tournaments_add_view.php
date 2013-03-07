@@ -123,7 +123,7 @@
 		mängija
 	</button>
 </div>
-<p>Mitu Alagruppi moodustada:</p>
+<br /><p>Mitu Alagruppi moodustada:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>
 <p>Mitu alagrupi võitjat edasi saab:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>

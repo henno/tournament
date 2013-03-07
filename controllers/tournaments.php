@@ -23,7 +23,6 @@ class tournaments
 	function add()
 	{
 		global $_request;
-		var_dump(json_decode($_POST['participants']));
 
 		// If submit
 		if (isset($_POST['participants'])){

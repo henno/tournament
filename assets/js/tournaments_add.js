@@ -33,7 +33,8 @@ function convert_table_to_json() {
 	$('#confirm-form').submit();
 }
 function remove_participant(id) {
-	$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
+	$(document.getElementById('participant'+id)).remove();
+	/*$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
 		function (r) {
 			if (r == 'OK') {
 				$('#participant' + id).remove();
@@ -43,7 +44,7 @@ function remove_participant(id) {
 			}
 		}).fail(function () {
 			alert("serveriga ühendamine ebaõnnestus");
-		});
+		});*/
 }
 
 $(function () {
