@@ -84,7 +84,6 @@
 			</tbody>
 		</table>
 	</div>
-</form>
 
 <table id="participants-table" class="table table-bordered table-striped">
 	<thead>
@@ -109,7 +108,7 @@
 	<tbody>
 	</tbody>
 </table>
-<form class="form-inline" style="width: 520px">
+<div class="form-inline" style="width: 520px">
 	<div style="float:left;">
 		<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" style="height:35px"
 		       onclick="$(this).removeClass('viga')">
@@ -123,7 +122,7 @@
 	<button type="button" class="btn btn-large" onclick="add_participant()" style="margin-left:5px ">Lisa
 		mängija
 	</button>
-</form>
+</div>
 <p>Mitu Alagruppi moodustada:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>
 <p>Mitu alagrupi võitjat edasi saab:</p>
@@ -151,10 +150,8 @@
 
 	</tbody>
 </table>
-<form class="form-signin" method="post">
+
 	<button class="btn btn-large btn-primary" type="submit">Turniiri eelvaade</button>
-</form>
-<form class="form-signin" method="post" id="confirm-form">
 	<input type="hidden" id="participants" name="participants">
 	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>
 </form>
