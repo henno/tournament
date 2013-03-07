@@ -1,5 +1,10 @@
 var participant_count = 0;
 function add_participant() {
+	if (!$('#participant_name').val())
+	{
+		$('#participant_name').addClass('viga');
+		return false;
+	}
 	participant_count++;
 	participant_id = 1;
 

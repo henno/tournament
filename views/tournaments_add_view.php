@@ -35,6 +35,9 @@
 		width: 40px;
 		margin-right: 15px;
 	}
+	.viga{
+		background-color: #f2dede !important;
+	}
 </style>
 <form>
 	<div class="span6 ">
@@ -108,7 +111,8 @@
 </table>
 <form class="form-inline" style="width: 520px">
 	<div style="float:left;">
-		<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" style="height:35px">
+		<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" style="height:35px"
+		       onclick="$(this).removeClass('viga')">
 		<select id="institute_name" class="makeEditable" style="height: 35px">
 			<option value=""</option>
 			<?foreach ($institutes as $institute) : ?>
