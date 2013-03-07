@@ -1,17 +1,22 @@
 <script src="<?=BASE_URL?>assets/js/jquery.combobox.js"></script>
 <style>
 	.esContainer {
-		border: 1px solid black;
-		border-left: 2px solid black;
+		background: white;
+		padding: 5px;
+		border: 1px solid #5CB3FF;
+		border-radius: 10px;
 	}
+
 	.esItem {
 		background: white;
 	}
+
 	.esItemHover {
-		background: blue;
+		background: #E3E4FA;
 	}
+
 	.esTextBox {
-		background: url(arrow.png) 98% 50% no-repeat;
+		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
 
 	input[type="date"]::-webkit-calendar-picker-indicator {
@@ -101,14 +106,18 @@
 	<tbody>
 	</tbody>
 </table>
-<form class="form-inline">
-	<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name">
-	<select id="institute_name" class="makeEditable">
-		<?foreach ($institutes as $institute) : ?>
-		<option value="<?=$institute['institute_name']?>"><?=$institute['institute_name']?></option>
-		<? endforeach?>
-	</select>
-	<button type="button" class="btn" onclick="add_participant()" style="margin-left: 40px">Lisa mängija</button>
+<form class="form-inline" style="width: 520px">
+	<div style="float:left;">
+		<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" style="height:35px">
+		<select id="institute_name" class="makeEditable" style="height: 35px">
+			<?foreach ($institutes as $institute) : ?>
+			<option value="<?=$institute['institute_name']?>"><?=$institute['institute_name']?></option>
+			<? endforeach?>
+		</select>
+	</div>
+	<button type="button" class="btn btn-large" onclick="add_participant()" style="margin-left:5px ">Lisa
+		mängija
+	</button>
 </form>
 <p>Mitu Alagruppi moodustada:</p>
 <input type="number" value="1" min="1" name="tournament_group"/>

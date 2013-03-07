@@ -10,7 +10,7 @@
 	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 
 	<!-- Le styles -->
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
 	<style>
 		body {
@@ -23,7 +23,7 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-	<link rel="shortcut icon" href="<?=BASE_URL?>assets/ico/favicon.ico">
+	<link rel="shortcut icon" href="<?=BASE_URL?>assets/ico/favicon.png">
 </head>
 
 <body>
@@ -52,7 +52,7 @@
 
 <div class=" container">
 
-	<? require 'views/'  . $_request->controller . '_' . $_request->action . '_view.php'?>
+	<? require 'views/'.$_request->controller.'_'.$_request->action.'_view.php'?>
 
 
 </div>
@@ -65,8 +65,9 @@
 <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script>*/?>
 <?/* <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script> */?>
 <script>
-<?if (file_exists('assets/js/'  . $_request->controller . '_' . $_request->action . '.js'))
-	require 'assets/js/'  . $_request->controller . '_' . $_request->action . '.js';
-?></script>
+	<?if (file_exists('assets/js/'.$_request->controller.'_'.$_request->action.'.js')) {
+	require 'assets/js/'.$_request->controller.'_'.$_request->action.'.js';
+}
+	?></script>
 </body>
 </html>
