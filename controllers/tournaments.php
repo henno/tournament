@@ -23,6 +23,14 @@ class tournaments
 	function add()
 	{
 		global $_request;
+		var_dump(json_decode($_POST['participants']));
+
+		// If submit
+		if (isset($_POST['participants'])){
+			require 'modules/tournament.php';
+			$tournament=new tournament;
+			$tournament->add();
+		}
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		require 'views/master_view.php';
 
@@ -48,6 +56,7 @@ class tournaments
 	function add_participant()
 	{
 		global $_request;
+		//if (isset($_POST[]))
 		$result = q("INSERT INTO participant(participant_name,institute_id) VALUES ('$_POST[participant_name]',$_POST[institute_id])");
 		require 'views/master_view.php';
 
