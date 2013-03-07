@@ -13,17 +13,18 @@ function add_participant() {
 	participant_name = $('#participant_name').val();
 	$('#participant_name').val('');
 
-	institute_name = $('#institute_name').val();
+	institute_name = $('.esTextBox').val();
 	$('.esTextBox').val('');
 
 	$('#participants-table > tbody:last').append('<tr ' +
 		'id="participant' + participant_id + '"><td>' + participant_id + '</td><td>' + participant_name + '</td><td' +
 		'>' + institute_name + '</td><td><input type="checkbox"></td><td><a href="#"><i class="icon-pencil"></i></a><a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant('+participant_id+')"><i class="icon-trash"></i></a></td></tr>');
-	return false;
+		return false;
 	// Store new participant in participants array
 	participants[participant_id]={"participant_name":participant_name, "institute_name":institute_name};
 
 }
+
 function convert_table_to_json() {
 	//$('#participants').val(tableToJson($('#participants-table')));
 	var json_text = JSON.stringify(participants, null, 2);
@@ -49,5 +50,5 @@ function remove_participant(id) {
 }
 
 $(function () {
-	$("#institute_name").editableSelect();
+	$('#institute_name').editableSelect();
 });
