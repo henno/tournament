@@ -18,8 +18,8 @@ function add_participant() {
 
 	$('#participants-table > tbody:last').append('<tr ' +
 		'id="participant' + participant_id + '"><td>' + participant_id + '</td><td>' + participant_name + '</td><td' +
-		'>' + institute_name + '</td><td><input type="checkbox"></td><td><a href="#"><i class="icon-pencil"></i></a><a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(participant_id)"><i class="icon-trash"></i></a></td></tr>');
-
+		'>' + institute_name + '</td><td><input type="checkbox"></td><td><a href="#"><i class="icon-pencil"></i></a><a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant('+participant_id+')"><i class="icon-trash"></i></a></td></tr>');
+	return false;
 	// Store new participant in participants array
 	participants[participant_id]={"participant_name":participant_name, "institute_name":institute_name};
 
@@ -34,6 +34,7 @@ function convert_table_to_json() {
 }
 function remove_participant(id) {
 	$(document.getElementById('participant'+id)).remove();
+
 	/*$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
 		function (r) {
 			if (r == 'OK') {
