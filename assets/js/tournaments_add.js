@@ -1,11 +1,11 @@
+// Declare global variables
 var participant_id = 0;
 var participants = new Array;
-function add_participant() {
+var participant_name_field;
+var participants_table_body;
+var institute_name_field;
 
-	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
-	institute_name_field = $('.esTextBox');
-	participant_name_field = $('#participant_name');
-	participants_table_body = $('table#participants-table > tbody:last');
+function add_participant() {
 
 	// Verify that the participant name field is correctly filled, or else abort
 	if (!participant_name_field.val()) {
@@ -16,6 +16,7 @@ function add_participant() {
 	// Add new row to participants' table
 	participants_table_body.append('' +
 		'<tr id="participant' + participant_id + '">' +
+		'<td>x</td>' +
 		'<td>' + participant_name_field.val() + '</td>' +
 		'<td>' + institute_name_field.val() + '</td>' +
 		'<td><input type="checkbox"></td>' +
@@ -26,7 +27,7 @@ function add_participant() {
 		'</tr>');
 
 	// Store new participant in participants array
-	participants[participant_id] = {"participant_name": participant_name, "institute_name": institute_name};
+	participants[participant_id] = {"participant_name":participant_name, "institute_name":institute_name};
 
 	// Bump participants' array's next id number
 	participant_id++;
@@ -35,34 +36,50 @@ function add_participant() {
 	institute_name_field.val('');
 	participant_name_field.val('');
 
+	// Reset numbers
+	reset_numbers();
+
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
+function reset_numbers() {
+
+	// Initialize row counter
+	var n = 1;
+
+	// Iterate through each first cell in every row in participants table and write row number
+	participants_table_body.find('>tr>td:nth-child(1)').each(function () {
+		$(this).html(n++ + '.');
+	});
+}
 
 function convert_table_to_json() {
-	//$('#participants').val(tableToJson($('#participants-table')));
+
+	// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
-	console.debug(json_text);
+	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
+
+	// Submit form
 	$('#confirm-form').submit();
 }
 function remove_participant(id) {
-	$(document.getElementById('participant' + id)).remove();
 
-	/*$.post("<?=BASE_URL?>tournaments/remove_participant/" + id + "?ajax",
-	 function (r) {
-	 if (r == 'OK') {
-	 $('#participant' + id).remove();
-	 }
-	 else {
-	 alert(r);
-	 }
-	 }).fail(function () {
-	 alert("serveriga ühendamine ebaõnnestus");
-	 });*/
+	// Remove specified row from participant table
+	$('table#participants-table>tbody>tr#participant' + id).remove();
+
+	// Reset numbers
+	reset_numbers();
 }
 
 $(function () {
+
+	// Initialize institute_name combobox
 	$('#institute_name').editableSelect();
+
+	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
+	institute_name_field = $('.esTextBox');
+	participant_name_field = $('#participant_name');
+	participants_table_body = $('table#participants-table > tbody:last');
 });
