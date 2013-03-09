@@ -64,6 +64,10 @@
 
 	#tournament-attributes-table td {
 		padding: 5px;
+
+	}
+	#participants-table td {
+		word-break: break-all;
 	}
 </style>
 
