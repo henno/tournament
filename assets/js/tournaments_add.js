@@ -21,7 +21,6 @@ function add_participant() {
 		'<td>' + institute_name_field.val() + '</td>' +
 		'<td><input type="checkbox"></td>' +
 		'<td>' +
-		'<a href="#"><i class="icon-pencil"></i></a>' +
 		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
 		'</td>' +
 		'</tr>');
