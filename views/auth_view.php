@@ -73,10 +73,10 @@
 
 	<form class="form-signin" method="post">
 		<h2 class="form-signin-heading">Logi sisse</h2>
-		<input name="username" type="text" class="input-block-level" placeholder="Email address">
-		<input name="password" type="password" class="input-block-level" placeholder="Password">
+		<input name="username" type="text" class="input-block-level" placeholder="Kasutajanimi">
+		<input name="password" type="password" class="input-block-level" placeholder="Parool">
 		<label class="checkbox">
-			<input type="checkbox" value="remember-me"> Remember me
+			<!-- //TODO <input type="checkbox" value="remember-me"> Mäleta mind -->
 		</label>
 		<button class="btn btn-large btn-primary" type="submit">Logi sisse</button>
 	</form>
