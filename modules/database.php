@@ -104,14 +104,13 @@ function db_error_out($sql = NULL)
 function save($table, $data)
 {
 	if ($table and is_array($data) and ! empty($data)) {
-		var_dump($data);
 		foreach ($data as $field => $value) {
 			$values[] = "$field='$value'";
 		}
 		$values = implode(',', $values);
 		$sql = "INSERT INTO {$table} SET {$values}";
 		$id = q($sql, $q, TRUE);
-		return ($id > 0) ? TRUE : FALSE;
+		return ($id > 0) ? $id : FALSE;
 	} else {
 		return FALSE;
 	}
