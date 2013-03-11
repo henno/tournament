@@ -157,10 +157,10 @@
 					<th>
 						instituut
 					</th>
-					<th style="width: 20px">
+					<th title="Vali favoriidiks" style="width: 20px">
 						<i class="icon-star"></i>
 					</th>
-					<th style="width: 20px">
+					<th title="Kustuta rida" style="width: 20px">
 						<i class="icon-trash"></i>
 					</th>
 				</tr>
