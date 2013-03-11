@@ -19,14 +19,18 @@ function add_participant() {
 		'<td>x</td>' +
 		'<td>' + participant_name_field.val() + '</td>' +
 		'<td>' + institute_name_field.val() + '</td>' +
-		'<td><input type="checkbox"></td>' +
+		'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
 		'<td>' +
 		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
 		'</td>' +
 		'</tr>');
 
 	// Store new participant in participants array
-	participants[participant_id] = {"participant_name":participant_name, "institute_name":institute_name};
+	participants[participant_id] = {
+		"participant_name":participant_name_field.val(),
+		"institute_name":institute_name_field.val(),
+		"participant_favorite":false
+	};
 
 	// Bump participants' array's next id number
 	participant_id++;
@@ -41,6 +45,9 @@ function add_participant() {
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
+function toggle_favorite(participant_id) {
+	participants[participant_id]['participant_favorite'] = participants[participant_id]['participant_favorite'] ? false : true;
+}
 function reset_numbers() {
 
 	// Initialize row counter
@@ -53,7 +60,6 @@ function reset_numbers() {
 }
 
 function convert_table_to_json() {
-
 	// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
@@ -61,7 +67,7 @@ function convert_table_to_json() {
 	$('#participants').val(json_text);
 
 	// Submit form
-	$('#confirm-form').submit();
+	$('#tournament-add-form').submit();
 }
 function remove_participant(id) {
 

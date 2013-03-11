@@ -11,9 +11,32 @@ class tournament
 
 	function add()
 	{
-		$sql = "INSERT INTO tournament
-				SET
-					tournament_name='$_POST[tournament_name]'";
-		var_dump($sql);
+		global $_request;
+		if (isset($_POST['tournament'])) {
+
+			// INSERT new tournament
+			$id = save('tournament', $_POST['tournament']);
+
+			// Add participants to inserted tournament, if any
+			if ($id) {
+				$participants = $_POST['participants'];
+				$participants = json_decode($participants, TRUE);
+
+				if (! empty ($participants)) {
+					foreach ($participants as $participant) {
+						$participant['institute_id'] = $this->get_institute_id($participant['institute_name']);
+						unset($participant['institute_name']);
+						save('participant', $participant);
+					}
+				}
+				$_request->redirect('tournaments');
+			}
+		}
+	}
+
+	private function get_institute_id($institute_name)
+	{
+		$institute_id = get_one("SELECT institute_id FROM institute WHERE institute_name LIKE '$institute_name'");
+		return $institute_id ? $institute_id : q("INSERT INTO institute SET institute_name='$institute_name'");
 	}
 }

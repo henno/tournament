@@ -66,12 +66,15 @@
 		padding: 5px;
 
 	}
+
 	#participants-table td {
 		word-break: break-all;
 	}
 </style>
 
-<div class="row-fluid">
+<form method="post" id="tournament-add-form">
+
+	<div class="row-fluid">
 	<span style="display: inline-block;">
 	<div class="span6">
 
@@ -79,44 +82,47 @@
 			<tbody>
 			<tr>
 				<th>Turniiri nimi</th>
-				<td><input type="text" name="tournament_name"></td>
+				<td><input type="text" name="tournament[tournament_name]"></td>
 			</tr>
 			<tr>
 				<th>Koht</th>
-				<td><input type="text" name="tournament_place"></td>
+				<td><select name="tournament[place_id]">
+					<option value="1">torn</option>
+					<option value="2">maja</option>
+				</select></td>
 			</tr>
 			<tr>
 				<th>Turniiri algus</th>
-				<td><input type="date" name="tournament_start"></td>
+				<td><input type="date" name="tournament[tournament_start]"></td>
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="date" name="tournament_end"></td>
+					<input type="date" name="tournament[tournament_end]"></td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus</th>
-				<td><input type="number" value="1" min="1" name="tournament_game_time"></td>
+				<td><input type="number" value="1" min="1" name="tournament[tournament_game_time]"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>
-				<td><input type="number" value="1" min="1" name="tournament_game_pause"></td>
+				<td><input type="number" value="1" min="1" name="tournament[tournament_game_pause]"></td>
 			</tr>
 			<tr>
 				<th>Platside arv</th>
-				<td><input type="number" value="1" min="1" name="tournament_field"/></td>
+				<td><input type="number" value="1" min="1" name="tournament[tournament_field]"/></td>
 			</tr>
 			<tr>
 				<th>Alagruppe:</th>
-				<td><input type="number" value="1" min="1" name="tournament_group"/></td>
+				<td><input type="number" value="1" min="1" name="tournament[tournament_group]"/></td>
 			</tr>
 			<tr>
 				<th>Edasipääsejaid:</th>
-				<td><input type="number" value="1" min="1" name="tournament_win"/></td>
+				<td><input type="number" value="1" min="1" name="tournament[tournament_win]"/></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
-				<td><select>
+				<td><select name="tournament[tournament_type]">
 					<option>Alagrupi mängud</option>
 					<option>Alagrupi mängud + playoff</option>
 					<option>Playoff</option>
@@ -124,19 +130,19 @@
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
-				<td><input type="checkbox"></td>
+				<td><input name="tournament[tournament_losers]" type="checkbox"></td>
 			</tr>
 			<tr>
 				<th>Võit :</th>
-				<td><input class="spinner" type="number" value="3" min="0" name="tournament_game_win"/></td>
+				<td><input class="spinner" type="number" value="3" min="0" name="tournament[tournament_game_win]"/></td>
 			</tr>
 			<tr>
 				<th>Viik:</th>
-				<td><input class="spinner" type="number" value="1" min="0" name="tournament_game_tie"/></td>
+				<td><input class="spinner" type="number" value="1" min="0" name="tournament[tournament_game_tie]"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus :</th>
-				<td><input class="spinner" type="number" value="0" min="0" name="tournament_game_loss"/></td>
+				<td><input class="spinner" type="number" value="0" min="0" name="tournament[tournament_game_loss]"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -172,11 +178,12 @@
 		<!-- add row begins here -->
 		 
 		<div style="width: 472px">
-			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" style="height:35px"
+			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name"
+				   style="height:35px"
 			  onclick="$(this).removeClass('viga')">
 			<select id="institute_name" class="makeEditable" style="height: 35px; width: 203px">
 				<option value="">&nbsp;</option>
-				<?foreach ($institutes as $institute) : ?>
+				<? foreach ($institutes as $institute) : ?>
 				<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 				<? endforeach?>
 			</select>
@@ -189,12 +196,13 @@
 
 	</div>
 	</span>
-</div>
-
-<div class="row-fluid">
-	<div class="span12 text-center">
-		<button class="btn btn-large btn-primary" type="submit">Turniiri eelvaade</button>
-		<input type="hidden" id="participants" name="participants">
-		<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>
 	</div>
-</div>
+
+	<div class="row-fluid">
+		<div class="span12 text-center">
+			<button class="btn btn-large btn-primary" type="submit">Turniiri eelvaade</button>
+			<input type="hidden" id="participants" name="participants">
+			<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>
+		</div>
+	</div>
+</form>

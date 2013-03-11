@@ -109,7 +109,7 @@ function save($table, $data)
 		}
 		$values = implode(',', $values);
 		$sql = "INSERT INTO {$table} SET {$values}";
-		$id = q($sql, $q, TRUE);
+		$id = q($sql, $q);
 		return ($id > 0) ? $id : FALSE;
 	} else {
 		return FALSE;
