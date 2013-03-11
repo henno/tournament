@@ -103,12 +103,16 @@ function db_error_out($sql = NULL)
 
 function save($table, $data)
 {
-	foreach ($data as $field => $value) {
-		$values[] = "$field='$value'";
-	}
-	$values = implode(',', $values);
-	if ($table and ! empty ($data)) {
+	if ($table and is_array($data) and ! empty($data)) {
+		var_dump($data);
+		foreach ($data as $field => $value) {
+			$values[] = "$field='$value'";
+		}
+		$values = implode(',', $values);
 		$sql = "INSERT INTO {$table} SET {$values}";
-		q($sql, $q, TRUE);
+		$id = q($sql, $q, TRUE);
+		return ($id > 0) ? TRUE : FALSE;
+	} else {
+		return FALSE;
 	}
 }
