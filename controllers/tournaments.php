@@ -1,12 +1,13 @@
 <?php
-// TODO change security model
 class tournaments
 {
+
+	public $requires_auth = TRUE;
+
 	function index()
 	{
 		global $_request;
 		global $_user;
-		$_user->require_auth();
 		$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place WHERE tournament.deleted=0");
 		require 'views/master_view.php';
 
@@ -26,9 +27,9 @@ class tournaments
 		global $_request;
 
 		// If submit
-		if (isset($_POST['participants'])){
+		if (isset($_POST['participants'])) {
 			require 'modules/tournament.php';
-			$tournament=new tournament;
+			$tournament = new tournament;
 			$tournament->add();
 		}
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
@@ -44,6 +45,7 @@ class tournaments
 		require 'views/master_view.php';
 
 	}
+
 	function remove_participant()
 	{
 		global $_request;
@@ -57,7 +59,9 @@ class tournaments
 	{
 		global $_request;
 		//if (isset($_POST[]))
-		$result = q("INSERT INTO participant(participant_name,institute_id) VALUES ('$_POST[participant_name]',$_POST[institute_id])");
+		$result = q(
+			"INSERT INTO participant(participant_name,institute_id) VALUES ('$_POST[participant_name]',$_POST[institute_id])"
+		);
 		require 'views/master_view.php';
 
 	}
