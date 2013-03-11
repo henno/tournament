@@ -90,8 +90,13 @@ function db_error_out($sql = NULL)
                 <tr><td style="height:2px">&nbsp;</td>
                 <tr><td>'.$s.'
             </table>';
-	ob_end_clean();
-	echo isset($_GET['ajax']) ? strip_tags($output) : $output;
+
+	if (isset($_GET['ajax'])) {
+		ob_end_clean();
+		echo strip_tags($output);
+	} else {
+		echo $output;
+	}
 	die();
 
 }
@@ -104,6 +109,6 @@ function save($table, $data)
 	$values = implode(',', $values);
 	if ($table and ! empty ($data)) {
 		$sql = "INSERT INTO {$table} SET {$values}";
-		q($sql,$q,true);
+		q($sql, $q, TRUE);
 	}
 }
