@@ -1,4 +1,5 @@
 <?php
+// TODO change security model
 class tournaments
 {
 	function index()

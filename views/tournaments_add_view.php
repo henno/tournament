@@ -82,7 +82,8 @@
 			<tbody>
 			<tr>
 				<th>Turniiri nimi</th>
-				<td><input type="text" name="tournament[tournament_name]"></td>
+				<td><input id="tournament-name" onclick="$(this).removeClass('viga')" type="text"
+						   name="tournament[tournament_name]"></td>
 			</tr>
 			<tr>
 				<th>Koht</th>

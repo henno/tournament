@@ -60,7 +60,13 @@ function reset_numbers() {
 }
 
 function convert_table_to_json() {
-	// JSONize participants array
+	// Check that tournament_name is given
+	if (!$('#tournament-name').val()) {
+		$('#tournament-name').addClass('viga');
+		return false;
+	}
+	alert ('tere');
+// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
 	// Assign JSONized array to hidden input field
