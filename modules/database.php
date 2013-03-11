@@ -73,7 +73,7 @@ function db_error_out($sql = NULL)
 			if (is_array($arg)) {
 				$args2[] = implode(',', $arg);
 			} else {
-				$args2 = $arg;
+				$args2[] = $arg;
 			}
 		}
 	}
@@ -91,6 +91,19 @@ function db_error_out($sql = NULL)
                 <tr><td>'.$s.'
             </table>';
 	ob_end_clean();
-	echo isset($_GET['ajax'])? strip_tags($output): $output;
+	echo isset($_GET['ajax']) ? strip_tags($output) : $output;
 	die();
+
+}
+
+function save($table, $data)
+{
+	foreach ($data as $field => $value) {
+		$values[] = "$field='$value'";
+	}
+	$values = implode(',', $values);
+	if ($table and ! empty ($data)) {
+		$sql = "INSERT INTO {$table} SET {$values}";
+		q($sql,$q,true);
+	}
 }
