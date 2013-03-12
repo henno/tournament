@@ -102,7 +102,7 @@
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
-				<td><input name="tournament[tournament_losers]" type="checkbox"></td>
+				<td><input name="tournament[tournament_loser_bracket]" type="checkbox" value="1"</td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus</th>

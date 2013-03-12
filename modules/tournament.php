@@ -34,7 +34,7 @@ class tournament
 						save('participant', $participant);
 					}
 				}
-				//$_request->redirect('tournaments');
+				$_request->redirect('tournaments');
 			}
 		}
 	}
