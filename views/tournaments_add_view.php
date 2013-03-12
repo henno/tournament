@@ -22,19 +22,6 @@
 	.esTextBox {
 		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
-
-	input[type="date"]::-webkit-calendar-picker-indicator {
-		display: inline-block;
-		margin-top: 2%;
-		float: right;
-	}
-
-	input[type="date"]::-webkit-inner-spin-button {
-		display: none;
-		-webkit-appearance: none;
-		margin: 0;
-	}
-
 	.spinner {
 		width: 40px;
 	}

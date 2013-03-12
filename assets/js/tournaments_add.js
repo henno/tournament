@@ -65,7 +65,6 @@ function convert_table_to_json() {
 		$('#tournament-name').addClass('viga');
 		return false;
 	}
-	alert ('tere');
 // JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
