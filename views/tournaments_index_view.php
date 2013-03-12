@@ -21,7 +21,7 @@
 			<?=$tournament['tournament_name']?>
 		</td>
 		<td>
-			<?=$tournament['tournament_year']?>
+			<?=substr($tournament['tournament_start'], 0, 4)?>
 		</td>
 		<td>
 			<?=$tournament['place_name']?>
