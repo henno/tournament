@@ -40,8 +40,10 @@ class tournament
 		}
 	}
 	private function convert_date($date){
-		list($d,$m,$y) = explode('.',$date);
-		return date("Y-m-d", strtotime("$y-$m-$d"));
+		list($date, $time) = explode(' ',$date);
+		list($d,$mon,$y) = explode('.',$date);
+		list($h,$min) = explode(':',$time);
+		return "$y-$mon-$d $h:$min:00";
 	}
 
 	private function get_institute_id($institute_name)
