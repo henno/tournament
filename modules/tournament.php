@@ -33,7 +33,14 @@ class tournament
 			}
 		}
 	}
-
+	private function convert_dates(){
+		$tournament_start = $_POST['tournament[tournament_start]'];
+		$tournament_end = $_POST['tournament[tournament_end]'];
+		list($d,$m,$y) = explode('.',$tournament_start);
+		$new_dateorig_start = date("Y-m-d", strtotime("$y-$m-$d"));
+		list($d,$m,$y) = explode('.',$tournament_end);
+		$new_dateorig_end = date("Y-m-d", strtotime("$y-$m-$d"));
+	}
 	private function get_institute_id($institute_name)
 	{
 		$institute_id = get_one("SELECT institute_id FROM institute WHERE institute_name LIKE '$institute_name'");

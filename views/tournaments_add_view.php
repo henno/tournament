@@ -70,6 +70,9 @@
 	#participants-table td {
 		word-break: break-all;
 	}
+	.datepicker{
+		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
+	}
 </style>
 
 <form method="post" id="tournament-add-form">
@@ -94,32 +97,13 @@
 			</tr>
 			<tr>
 				<th>Turniiri algus</th>
-				<td><input type="date" name="tournament[tournament_start]"></td>
+
+				<td><input type="text" class="datepicker" name="tournament[tournament_start]"></td>
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="date" name="tournament[tournament_end]"></td>
-			</tr>
-			<tr>
-				<th>Mängu kestvus</th>
-				<td><input type="number" value="1" min="1" name="tournament[tournament_game_time]"></td>
-			</tr>
-			<tr>
-				<th>Paus</th>
-				<td><input type="number" value="1" min="1" name="tournament[tournament_game_pause]"></td>
-			</tr>
-			<tr>
-				<th>Platside arv</th>
-				<td><input type="number" value="1" min="1" name="tournament[tournament_field]"/></td>
-			</tr>
-			<tr>
-				<th>Alagruppe:</th>
-				<td><input type="number" value="1" min="1" name="tournament[tournament_group]"/></td>
-			</tr>
-			<tr>
-				<th>Edasipääsejaid:</th>
-				<td><input type="number" value="1" min="1" name="tournament[tournament_win]"/></td>
+					<input type="text" class="datepicker" name="tournament[tournament_end]"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
@@ -134,16 +118,36 @@
 				<td><input name="tournament[tournament_losers]" type="checkbox"></td>
 			</tr>
 			<tr>
+				<th>Mängu kestvus</th>
+				<td><input class="spinner" value="1" min="1" name="tournament[tournament_game_time]"></td>
+			</tr>
+			<tr>
+				<th>Paus</th>
+				<td><input class="spinner" value="1" min="1" name="tournament[tournament_game_pause]"></td>
+			</tr>
+			<tr>
+				<th>Platside arv</th>
+				<td><input class="spinner" value="1" min="1" name="tournament[tournament_field]"/></td>
+			</tr>
+			<tr>
+				<th>Alagruppe:</th>
+				<td><input class="spinner" value="1" min="1" name="tournament[tournament_group]"/></td>
+			</tr>
+			<tr>
+				<th>Edasipääsejaid:</th>
+				<td><input class="spinner" value="1" min="1" name="tournament[tournament_win]"/></td>
+			</tr>
+			<tr>
 				<th>Võit :</th>
-				<td><input class="spinner" type="number" value="3" min="0" name="tournament[tournament_game_win]"/></td>
+				<td><input class="spinner" value="3" min="0" name="tournament[tournament_game_win]"/></td>
 			</tr>
 			<tr>
 				<th>Viik:</th>
-				<td><input class="spinner" type="number" value="1" min="0" name="tournament[tournament_game_tie]"/></td>
+				<td><input class="spinner"  value="1" min="0" name="tournament[tournament_game_tie]"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus :</th>
-				<td><input class="spinner" type="number" value="0" min="0" name="tournament[tournament_game_loss]"/></td>
+				<td><input class="spinner"  value="0" min="0" name="tournament[tournament_game_loss]"/></td>
 			</tr>
 			</tbody>
 		</table>

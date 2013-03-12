@@ -85,6 +85,12 @@ function remove_participant(id) {
 }
 
 $(function () {
+	// Datepicker function for Firefox and IE
+	$('.datepicker').datepicker({
+		dateFormat: 'dd.mm.yy'
+	})
+	$('.spinner').spinner();
+
 
 	// Initialize institute_name combobox
 	$('#institute_name').editableSelect();
