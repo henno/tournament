@@ -67,7 +67,7 @@
 	<div class="row-fluid">
 	<span style="display: inline-block;">
 	<div class="span6">
-
+		<h3>Turniiri üldandmed</h3>
 		<table id="tournament-attributes-table">
 			<tbody>
 			<tr>
@@ -142,6 +142,7 @@
 	</div>
 
 	<div class="span6">
+		<h3>Osalejad</h3>
 		<div style="width: 472px">
 			<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
 				<thead>
