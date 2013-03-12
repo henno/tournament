@@ -31,6 +31,7 @@ class tournament
 					foreach ($participants as $participant) {
 						$participant['institute_id'] = $this->get_institute_id($participant['institute_name']);
 						unset($participant['institute_name']);
+						$participant['tournament_id'] = $id;
 						save('participant', $participant);
 					}
 				}
