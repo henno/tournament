@@ -203,7 +203,8 @@
 		<div class="span12 text-center">
 			<button class="btn btn-large btn-primary" type="submit">Turniiri eelvaade</button>
 			<input type="hidden" id="participants" name="participants">
-			<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>
+			<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class="btn btn-large btn-primary" href="<?=BASE_URL?>tournaments">Loobu</a>
 		</div>
 	</div>
 </form>
