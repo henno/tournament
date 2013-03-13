@@ -43,7 +43,16 @@ class tournament
 			}
 		}
 	}
-
+function add_participant($participant_name,$tournament_id, $institute_name){
+	$institute_id=$this->get_institute_id($institute_name);
+	return q(
+		"INSERT INTO participant
+						 SET
+						    tournament_id='$tournament_id',
+						    participant_name='$participant_name',
+						    institute_id='$institute_id'"
+	);
+}
 	private function convert_date($date)
 	{
 		list($date, $time) = explode(' ', $date);

@@ -1,4 +1,5 @@
 <script src="<?=BASE_URL?>assets/js/jquery.combobox.js"></script>
+<input type="hidden" id="tournament_id" value="<?=$tournament['tournament_id']?>">
 <style>
 	.container {
 		margin-top: 10px;
@@ -87,7 +88,7 @@
 			<tr>
 				<th>Turniiri nimi</th>
 				<td><input id="tournament-name" onclick="$(this).removeClass('viga')" type="text"
-						   name="tournament[tournament_name]" value="<?=$tournaments['tournament_name']?>"></td>
+						   name="tournament[tournament_name]" value="<?=$tournament['tournament_name']?>"></td>
 			</tr>
 			<tr>
 				<th>Koht</th>
@@ -100,67 +101,67 @@
 				<th>Turniiri algus</th>
 
 				<td><input type="text" class="datepicker" name="tournament[tournament_start]"
-						   value="<?=$tournaments['tournament_start']?>"></td>
+						   value="<?=$tournament['tournament_start']?>"></td>
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
 					<input type="text" class="datepicker" name="tournament[tournament_end]"
-						   value="<?=$tournaments['tournament_end']?>"></td>
+						   value="<?=$tournament['tournament_end']?>"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
-				<td><select name="tournament[tournament_type]" value="<?=$tournaments['tournament_type']?>">
-					<option value="1" <?=$tournaments['tournament_type']==1?'selected="selected"' : ''?>>Alagrupi mängud</option>
-					<option value="2" <?=$tournaments['tournament_type']==2?'selected="selected"' : ''?>>Alagrupi mängud +
+				<td><select name="tournament[tournament_type]" value="<?=$tournament['tournament_type']?>">
+					<option value="1" <?=$tournament['tournament_type']==1?'selected="selected"' : ''?>>Alagrupi mängud</option>
+					<option value="2" <?=$tournament['tournament_type']==2?'selected="selected"' : ''?>>Alagrupi mängud +
 						playoff</option>
-					<option value="3" <?=$tournaments['tournament_type']==3?'selected="selected"' : ''?>>Playoff</option>
+					<option value="3" <?=$tournament['tournament_type']==3?'selected="selected"' : ''?>>Playoff</option>
 				</select></td>
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
 				<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
-					<?=$tournaments['tournament_loser_bracket']==1?'checked="checked"' : ''?>></td>
+					<?=$tournament['tournament_loser_bracket']==1?'checked="checked"' : ''?>></td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus</th>
 				<td><input class="spinner" min="1" name="tournament[tournament_game_time]"
-						   value="<?=$tournaments['tournament_game_time']?>"></td>
+						   value="<?=$tournament['tournament_game_time']?>"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>
 				<td><input class="spinner" min="1" name="tournament[tournament_game_pause]"
-						   value="<?=$tournaments['tournament_game_pause']?>"></td>
+						   value="<?=$tournament['tournament_game_pause']?>"></td>
 			</tr>
 			<tr>
 				<th>Platside arv</th>
 				<td><input class="spinner" min="1" name="tournament[tournament_field]"
-						   value="<?=$tournaments['tournament_field']?>"/></td>
+						   value="<?=$tournament['tournament_field']?>"/></td>
 			</tr>
 			<tr>
 				<th>Alagruppe:</th>
 				<td><input class="spinner" min="1" name="tournament[tournament_group]"
-						   value="<?=$tournaments['tournament_group']?>"/></td>
+						   value="<?=$tournament['tournament_group']?>"/></td>
 			</tr>
 			<tr>
 				<th>Edasipääsejaid:</th>
-				<td><input class="spinner" min="1" name="tournament[tournament_win]" value="<?=$tournaments['tournament_win']?>"/>
+				<td><input class="spinner" min="1" name="tournament[tournament_win]" value="<?=$tournament['tournament_win']?>"/>
 				</td>
 			</tr>
 			<tr>
 				<th>Võit :</th>
 				<td><input class="spinner" min="0" name="tournament[tournament_game_win]"
-						   value="<?=$tournaments['tournament_game_win']?>"/></td>
+						   value="<?=$tournament['tournament_game_win']?>"/></td>
 			</tr>
 			<tr>
 				<th>Viik:</th>
 				<td><input class="spinner" min="0" name="tournament[tournament_game_tie]"
-						   value="<?=$tournaments['tournament_game_tie']?>"/></td>
+						   value="<?=$tournament['tournament_game_tie']?>"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus :</th>
 				<td><input class="spinner" min="0" name="tournament[tournament_game_loss]"
-						   value="<?=$tournaments['tournament_game_loss']?>"/></td>
+						   value="<?=$tournament['tournament_game_loss']?>"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -193,7 +194,7 @@
 				</thead>
 				<tbody>
 				<? $i = 1; foreach ($participants as $participant): ?>
-				<tr>
+				<tr id="participant<?=$participant['participant_id']?>">
 					<td>
 						<?=$i ++?>
 					</td>
@@ -207,8 +208,9 @@
 						<input type="checkbox">
 					</td>
 					<td>
-						<a href="<?=BASE_URL?>tournaments/remove_participant/<?=$participant['tournament_id']?>"
-						   onclick="if (!confirm('Oled kindel?'))return false"><i class="icon-trash">
+						<a href="<?=BASE_URL?>tournaments/remove_participant/<?=$participant['participant_id']?>"
+						   onclick="if (!confirm('Oled kindel?'))return false; remove_participant_ajax
+								   (<?=$participant['participant_id']?>); return false"><i  class="icon-trash">
 					</td>
 				</tr>
 					<? endforeach?>
@@ -227,7 +229,8 @@
 				<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 				<? endforeach?>
 			</select>
-			<button type="button" class="btn btn-large" onclick="add_participant()" style="margin-left:5px; float: right ">Lisa
+			<button type="button" class="btn btn-large" onclick="add_participant_ajax()" style="margin-left:5px; float: right
+			">Lisa
 				mängija
 			</button>
 		</div>

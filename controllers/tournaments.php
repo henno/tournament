@@ -50,20 +50,28 @@ class tournaments
 	function add_participant()
 	{
 		global $_request;
-		//if (isset($_POST[]))
-		$result = q(
-			"INSERT INTO participant(participant_name,institute_id) VALUES ('$_POST[participant_name]',$_POST[institute_id])"
-		);
-		require 'views/master_view.php';
+		$result = NULL;
+		if (isset($_POST['institute_name'])
+			&& isset($_POST['participant_name'])
+			&& isset($_POST['tournament_id'])
+		) {
+			require 'modules/tournament.php';
+			$tournament = new tournament;
+			$result = $tournament->add_participant($_POST['participant_name'], $_POST['tournament_id'], $_POST['institute_name']);
+		}
+		require 'views/tournaments_add_participant_view.php';
 
 	}
+
 	function view()
 	{
 		global $_request;
 		$id = $_request->params[0];
-		$tournaments = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
-		$tournaments= $tournaments[0];
-		$participants = get_all("SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'");
+		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
+		$tournament = $tournament[0];
+		$participants = get_all(
+			"SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'"
+		);
 		require 'views/master_view.php';
 
 	}
