@@ -33,6 +33,7 @@ class tournaments
 			$tournament->add();
 		}
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
+		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		require 'views/master_view.php';
 
 	}

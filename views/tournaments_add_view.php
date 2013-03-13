@@ -3,16 +3,46 @@
 
 <style>
 		/* css for timepicker */
-	.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
-	.ui-timepicker-div dl { text-align: left; }
-	.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
-	.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
-	.ui-timepicker-div td { font-size: 90%; }
-	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	.ui-timepicker-div .ui-widget-header {
+		margin-bottom: 8px;
+	}
 
-	.ui-timepicker-rtl{ direction: rtl; }
-	.ui-timepicker-rtl dl { text-align: right; }
-	.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+	.ui-timepicker-div dl {
+		text-align: left;
+	}
+
+	.ui-timepicker-div dl dt {
+		height: 25px;
+		margin-bottom: -25px;
+	}
+
+	.ui-timepicker-div dl dd {
+		margin: 0 10px 10px 65px;
+	}
+
+	.ui-timepicker-div td {
+		font-size: 90%;
+	}
+
+	.ui-tpicker-grid-label {
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ui-timepicker-rtl {
+		direction: rtl;
+	}
+
+	.ui-timepicker-rtl dl {
+		text-align: right;
+	}
+
+	.ui-timepicker-rtl dl dd {
+		margin: 0 65px 10px 10px;
+	}
+
 	.container {
 		margin-top: 10px;
 	}
@@ -35,6 +65,7 @@
 	.esTextBox {
 		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
+
 	.spinner {
 		width: 40px;
 	}
@@ -70,7 +101,8 @@
 	#participants-table td {
 		word-break: break-all;
 	}
-	.datepicker{
+
+	.datepicker {
 		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
 </style>
@@ -90,10 +122,15 @@
 			</tr>
 			<tr>
 				<th>Koht</th>
-				<td><select name="tournament[place_id]">
-					<option value="1">torn</option>
-					<option value="2">maja</option>
-				</select></td>
+				<td>
+					<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
+						<option value="">&nbsp;</option>
+						<? foreach ($places as $place) : ?>
+						<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
+						<? endforeach?>
+					</select>
+
+				</td>
 			</tr>
 			<tr>
 				<th>Turniiri algus</th>
@@ -143,11 +180,11 @@
 			</tr>
 			<tr>
 				<th>Viik:</th>
-				<td><input class="spinner"  value="1" min="0" name="tournament[tournament_game_tie]"/></td>
+				<td><input class="spinner" value="1" min="0" name="tournament[tournament_game_tie]"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus :</th>
-				<td><input class="spinner"  value="0" min="0" name="tournament[tournament_game_loss]"/></td>
+				<td><input class="spinner" value="0" min="0" name="tournament[tournament_game_loss]"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -156,6 +193,7 @@
 
 	<div class="span6">
 		<h3>Osalejad</h3>
+
 		<div style="width: 472px">
 			<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
 				<thead>

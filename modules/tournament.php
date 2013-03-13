@@ -19,6 +19,10 @@ class tournament
 			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
 			$tournament['tournament_end'] = $this->convert_date($tournament['tournament_end']);
 
+			// Add  places
+			$tournament['place_id'] = $this->get_place_id($tournament['place_name']);
+			unset($tournament['place_name']);
+
 			// INSERT new tournament
 			$id = save('tournament', $tournament);
 
@@ -39,10 +43,12 @@ class tournament
 			}
 		}
 	}
-	private function convert_date($date){
-		list($date, $time) = explode(' ',$date);
-		list($d,$mon,$y) = explode('.',$date);
-		list($h,$min) = explode(':',$time);
+
+	private function convert_date($date)
+	{
+		list($date, $time) = explode(' ', $date);
+		list($d, $mon, $y) = explode('.', $date);
+		list($h, $min) = explode(':', $time);
 		return "$y-$mon-$d $h:$min:00";
 	}
 
@@ -50,5 +56,11 @@ class tournament
 	{
 		$institute_id = get_one("SELECT institute_id FROM institute WHERE institute_name LIKE '$institute_name'");
 		return $institute_id ? $institute_id : q("INSERT INTO institute SET institute_name='$institute_name'");
+	}
+
+	private function get_place_id($place_name)
+	{
+		$place_id = get_one("SELECT place_id FROM place WHERE place_name LIKE '$place_name'");
+		return $place_id ? $place_id : q("INSERT INTO place SET place_name='$place_name'");
 	}
 }

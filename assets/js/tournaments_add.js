@@ -92,12 +92,15 @@ $(function () {
 	});
 	$('.spinner').spinner();
 
-
-	// Initialize institute_name combobox
-	$('#institute_name').editableSelect();
-
 	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
-	institute_name_field = $('.esTextBox');
+	institute_name_field = $('#institute_name');
 	participant_name_field = $('#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
+
+	// Initialize place_name combobox
+	$('.makeEditable').editableSelect();
+
+
+
+
 });
