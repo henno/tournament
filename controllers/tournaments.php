@@ -69,6 +69,7 @@ class tournaments
 		$id = $_request->params[0];
 		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
 		$tournament = $tournament[0];
+		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		$participants = get_all(
 			"SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'"
 		);
