@@ -61,9 +61,9 @@ class tournaments
 	{
 		global $_request;
 		$id = $_request->params[0];
-		$tournaments = get_all("SELECT * FROM tournament WHERE tournament_id=1");
+		$tournaments = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
 		$tournaments= $tournaments[0];
-		$participants = get_all("SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0");
+		$participants = get_all("SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'");
 		require 'views/master_view.php';
 
 	}
