@@ -12,10 +12,13 @@
 		<th>
 			Koht
 		</th>
+		<th>
+			Tegevused
+		</th>
 	</tr>
 	</thead>
 	<tbody>
-	<? if (!empty ($tournaments)): foreach ($tournaments as $tournament): ?>
+	<? if (! empty ($tournaments)): foreach ($tournaments as $tournament): ?>
 	<tr>
 		<td>
 			<?=$tournament['tournament_name']?>
@@ -24,7 +27,12 @@
 			<?=substr($tournament['tournament_start'], 0, 4)?>
 		</td>
 		<td>
-			<?=$tournament['place_name']?>
+			<?=$tournament['tournament_place']?>
+		</td>
+		<td>
+			<?="Vaata"?>
+			<a href="<?=BASE_URL?>tournaments/view/<?=$tournament['tournament_id']?>"><i
+					class="icon-pencil"></i></a>
 		</td>
 	</tr>
 		<? endforeach; endif ?>

@@ -13,15 +13,6 @@ class tournaments
 
 	}
 
-	function view()
-	{
-		global $_request;
-		$id = $_request->params[0];
-		$users = get_all("SELECT * FROM user WHERE user_id='$id'");
-		require 'users_view_view.php';
-
-	}
-
 	function add()
 	{
 		global $_request;
@@ -63,6 +54,16 @@ class tournaments
 		$result = q(
 			"INSERT INTO participant(participant_name,institute_id) VALUES ('$_POST[participant_name]',$_POST[institute_id])"
 		);
+		require 'views/master_view.php';
+
+	}
+	function view()
+	{
+		global $_request;
+		$id = $_request->params[0];
+		$tournaments = get_all("SELECT * FROM tournament WHERE tournament_id=1");
+		$tournaments= $tournaments[0];
+		$participants = get_all("SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0");
 		require 'views/master_view.php';
 
 	}
