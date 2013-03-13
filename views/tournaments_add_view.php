@@ -225,7 +225,8 @@
 			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name"
 				   style="height:35px"
 			  onclick="$(this).removeClass('viga')">
-			<select id="institute_name" class="makeEditable" style="height: 35px; width: 203px">
+			<select id="institute_name" class="makeEditable" style="height: 35px; width:
+			203px">
 				<option value="">&nbsp;</option>
 				<? foreach ($institutes as $institute) : ?>
 				<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
