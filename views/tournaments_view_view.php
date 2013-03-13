@@ -1,6 +1,48 @@
 <script src="<?=BASE_URL?>assets/js/jquery.combobox.js"></script>
+<script src="<?=BASE_URL?>assets/js/jquery-ui-timepicker-addon.js"></script>
 <input type="hidden" id="tournament_id" value="<?=$tournament['tournament_id']?>">
 <style>
+		/* css for timepicker */
+	.ui-timepicker-div .ui-widget-header {
+		margin-bottom: 8px;
+	}
+
+	.ui-timepicker-div dl {
+		text-align: left;
+	}
+
+	.ui-timepicker-div dl dt {
+		height: 25px;
+		margin-bottom: -25px;
+	}
+
+	.ui-timepicker-div dl dd {
+		margin: 0 10px 10px 65px;
+	}
+
+	.ui-timepicker-div td {
+		font-size: 90%;
+	}
+
+	.ui-tpicker-grid-label {
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ui-timepicker-rtl {
+		direction: rtl;
+	}
+
+	.ui-timepicker-rtl dl {
+		text-align: right;
+	}
+
+	.ui-timepicker-rtl dl dd {
+		margin: 0 65px 10px 10px;
+	}
+
 	.container {
 		margin-top: 10px;
 	}
@@ -22,18 +64,6 @@
 
 	.esTextBox {
 		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
-	}
-
-	input[type="date"]::-webkit-calendar-picker-indicator {
-		display: inline-block;
-		margin-top: 2%;
-		float: right;
-	}
-
-	input[type="date"]::-webkit-inner-spin-button {
-		display: none;
-		-webkit-appearance: none;
-		margin: 0;
 	}
 
 	.spinner {

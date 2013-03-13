@@ -102,9 +102,10 @@ function remove_participant_ajax(id) {
 
 $(function () {
 	// Datepicker function for Firefox and IE
-	$('.datepicker').datepicker({
-		dateFormat:'dd.mm.yy'
-	})
+	$('.datepicker').datetimepicker({
+		dateFormat:'dd.mm.yy',
+		stepMinute:5
+	});
 	$('.spinner').spinner();
 
 
