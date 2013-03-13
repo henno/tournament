@@ -1,5 +1,5 @@
-<script src="<?=BASE_URL?>assets/js/jquery.combobox.js"></script>
-<script src="<?=BASE_URL?>assets/js/jquery-ui-timepicker-addon.js"></script>
+<script src="<?= BASE_URL ?>assets/js/jquery.combobox.js"></script>
+<script src="<?= BASE_URL ?>assets/js/jquery-ui-timepicker-addon.js"></script>
 
 <style>
 		/* css for timepicker */
@@ -118,7 +118,7 @@
 			<tr>
 				<th>Turniiri nimi</th>
 				<td><input id="tournament-name" onclick="$(this).removeClass('viga')" type="text"
-						   name="tournament[tournament_name]"></td>
+				           name="tournament[tournament_name]"></td>
 			</tr>
 			<tr>
 				<th>Koht</th>
@@ -126,7 +126,7 @@
 					<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
 						<option value="">&nbsp;</option>
 						<? foreach ($places as $place) : ?>
-						<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
+							<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
 						<? endforeach?>
 					</select>
 
@@ -145,10 +145,10 @@
 			<tr>
 				<th>Tüüp:</th>
 				<td><select name="tournament[tournament_type]">
-					<option>Alagrupi mängud</option>
-					<option>Alagrupi mängud + playoff</option>
-					<option>Playoff</option>
-				</select></td>
+						<option>Alagrupi mängud</option>
+						<option>Alagrupi mängud + playoff</option>
+						<option>Playoff</option>
+					</select></td>
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
@@ -156,35 +156,39 @@
 			</tr>
 			<tr>
 				<th>Mängu kestvus</th>
-				<td><input class="spinner" value="1" min="1" name="tournament[tournament_game_time]"></td>
+				<td><input id="game-length" class="spinner" value="1" min="1" maxlength="2"
+				           name="tournament[tournament_game_time]"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>
-				<td><input class="spinner" value="1" min="1" name="tournament[tournament_game_pause]"></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_game_pause]"
+				           onkeypress="validate
+				(event)
+				"></td>
 			</tr>
 			<tr>
 				<th>Platside arv</th>
-				<td><input class="spinner" value="1" min="1" name="tournament[tournament_field]"/></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_field]"/></td>
 			</tr>
 			<tr>
 				<th>Alagruppe:</th>
-				<td><input class="spinner" value="1" min="1" name="tournament[tournament_group]"/></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_group]"/></td>
 			</tr>
 			<tr>
 				<th>Edasipääsejaid:</th>
-				<td><input class="spinner" value="1" min="1" name="tournament[tournament_win]"/></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_win]"/></td>
 			</tr>
 			<tr>
 				<th>Võit :</th>
-				<td><input class="spinner" value="3" min="0" name="tournament[tournament_game_win]"/></td>
+				<td><input class="spinner" value="3" min="0" maxlength="2" name="tournament[tournament_game_win]"/></td>
 			</tr>
 			<tr>
 				<th>Viik:</th>
-				<td><input class="spinner" value="1" min="0" name="tournament[tournament_game_tie]"/></td>
+				<td><input class="spinner" value="1" min="0" maxlength="2" name="tournament[tournament_game_tie]"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus :</th>
-				<td><input class="spinner" value="0" min="0" name="tournament[tournament_game_loss]"/></td>
+				<td><input class="spinner" value="0" min="0" maxlength="2" name="tournament[tournament_game_loss]"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -223,13 +227,13 @@
 		 
 		<div style="width: 472px">
 			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name"
-				   style="height:35px"
+			       style="height:35px"
 			  onclick="$(this).removeClass('viga')">
 			<select id="institute_name" class="makeEditable" style="height: 35px; width:
 			203px">
 				<option value="">&nbsp;</option>
 				<? foreach ($institutes as $institute) : ?>
-				<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
+					<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 				<? endforeach?>
 			</select>
 			<button type="button" class="btn btn-large" onclick="add_participant()" style="margin-left:5px; float: right ">Lisa
@@ -245,7 +249,7 @@
 
 	<div class="row-fluid">
 		<div class="span12 text-center">
-			<a class="btn btn-large btn-primary" href="<?=BASE_URL?>tournaments">Loobu</a>
+			<a class="btn btn-large btn-primary" href="<?= BASE_URL ?>tournaments">Loobu</a>
 			<button class="btn btn-large btn-primary" type="submit">Turniiri eelvaade</button>
 			<input type="hidden" id="participants" name="participants">
 			<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Kinnita</button>
