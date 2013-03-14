@@ -13,10 +13,10 @@ function add_participant_ajax() {
 		return false;
 	}
 	// Add specified row from participant table
-	$.post("<?=BASE_URL?>tournaments/add_participant",{
+	$.post("<?=BASE_URL?>tournaments/add_participant", {
 		"participant_name": participant_name_field.val(),
-		"institute_name": institute_name_field.val(),
-		"tournament_id": tournament_id
+		"institute_name"  : institute_name_field.val(),
+		"tournament_id"   : tournament_id
 
 	})
 		.done(function (data) {
@@ -35,9 +35,9 @@ function add_participant_ajax() {
 
 				// Store new participant in participants array
 				participants[participant_id] = {
-					"participant_name"    :participant_name_field.val(),
-					"institute_name"      :institute_name_field.val(),
-					"participant_favorite":false
+					"participant_name"    : participant_name_field.val(),
+					"institute_name"      : institute_name_field.val(),
+					"participant_favorite": false
 				};
 
 				// Reset numbers
@@ -92,9 +92,9 @@ function add_participant() {
 
 	// Store new participant in participants array
 	participants[participant_id] = {
-		"participant_name":participant_name_field.val(),
-		"institute_name":institute_name_field.val(),
-		"participant_favorite":false
+		"participant_name"    : participant_name_field.val(),
+		"institute_name"      : institute_name_field.val(),
+		"participant_favorite": false
 	};
 
 	// Bump participants' array's next id number
@@ -144,7 +144,7 @@ function convert_table_to_json() {
 	$('#participants').val(json_text);
 
 	$(".datepicker").datetimepicker();
-	$('#tournament-add-form').submit(function() {
+	$('#tournament-add-form').submit(function () {
 		var start = $('#tournament_start').val();
 		var end = $('#tournament_end').val();
 		if (start >= end) {
@@ -167,12 +167,24 @@ function remove_participant(id) {
 	reset_numbers();
 }
 
+function validate(evt) {
+	var theEvent = evt || window.event;
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode(key);
+	var r1 = /[0-9]/;
+	var r2 = /[\b]/;
+	if (!(r1.test(key) || r2.test(key))) {
+		theEvent.returnValue = false;
+		if (theEvent.preventDefault) theEvent.preventDefault();
+	}
+}
+
 $(function () {
 	// Datepicker function for Firefox and IE
 
 	$('.datepicker').datetimepicker({
-		dateFormat:'dd.mm.yy',
-		stepMinute:5
+		dateFormat: 'dd.mm.yy',
+		stepMinute: 5
 	});
 	$('.spinner').spinner();
 
@@ -183,16 +195,19 @@ $(function () {
 	institute_name_field = $('input[name="institute_name"]');
 	participant_name_field = $('#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
-});
 
-function validate(evt) {
-	var theEvent = evt || window.event;
-	var key = theEvent.keyCode || theEvent.which;
-	key = String.fromCharCode(key);
-	var r1 = /[0-9]/;
-	var r2= /[\b]/;
-	if (!(r1.test(key) || r2.test(key))) {
-		theEvent.returnValue = false;
-		if (theEvent.preventDefault) theEvent.preventDefault();
-	}
-}
+	var keyStop = {
+		8 : ":not(input:text, textarea)", // stop backspace = back
+		13: "input:text", // stop enter = submit
+
+		end: null
+	};
+	$(document).bind("keydown", function (event) {
+		var selector = keyStop[event.which];
+
+		if (selector !== undefined && $(event.target).is(selector)) {
+			event.preventDefault(); //stop event
+		}
+		return true;
+	});
+});
