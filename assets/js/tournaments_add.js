@@ -27,9 +27,9 @@ function add_participant() {
 
 	// Store new participant in participants array
 	participants[participant_id] = {
-		"participant_name":participant_name_field.val(),
-		"institute_name":institute_name_field.val(),
-		"participant_favorite":false
+		"participant_name"    : participant_name_field.val(),
+		"institute_name"      : institute_name_field.val(),
+		"participant_favorite": false
 	};
 
 	// Bump participants' array's next id number
@@ -87,8 +87,8 @@ $(function () {
 	// Datepicker function for Firefox and IE
 
 	$('.datepicker').datetimepicker({
-		dateFormat:'dd.mm.yy',
-		stepMinute:5
+		dateFormat: 'dd.mm.yy',
+		stepMinute: 5
 	});
 	$('.spinner').spinner();
 
@@ -100,3 +100,14 @@ $(function () {
 	participant_name_field = $('#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
 });
+
+function validate(evt) {
+	var theEvent = evt || window.event;
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode(key);
+	var regex = /[0-9]/;
+	if (!regex.test(key)) {
+		theEvent.returnValue = false;
+		if (theEvent.preventDefault) theEvent.preventDefault();
+	}
+}
