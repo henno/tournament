@@ -144,16 +144,16 @@ function convert_table_to_json() {
 	$('#participants').val(json_text);
 
 	$(".datepicker").datetimepicker();
-	$('#tournament-add-form').submit(function () {
-		var start = $('#tournament_start').val();
-		var end = $('#tournament_end').val();
-		if (start >= end) {
+
+	var start = $('#tournament_start').val();
+	var end = $('#tournament_end').val();
+		if (start > end) {
 			alert("Turniiri algus peab olema varasem kui lõpp!");
 			$('#tournament_start').addClass('viga');
 			$('#tournament_end').addClass('viga');
 			return false;
 		}
-	});
+
 
 	// Submit form
 	$('#tournament-add-form').submit();
