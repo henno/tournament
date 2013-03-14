@@ -23,7 +23,7 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-	<link rel="shortcut icon" href="<?=BASE_URL?>assets/ico/favicon.png">
+	<link rel="shortcut icon" href="<?= BASE_URL ?>assets/ico/favicon.png">
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 				<ul class="nav">
 					<li class="active"><a href="#">Home</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="<?=BASE_URL?>auth/logout">Logout</a></li>
+					<li><a href="<?= BASE_URL ?>auth/logout">Logout</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -64,10 +64,10 @@
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
 <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script>*/?>
 <?/* <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script> */?>
-<script>
-	<?if (file_exists('assets/js/'.$_request->controller.'_'.$_request->action.'.js')) {
-	require 'assets/js/'.$_request->controller.'_'.$_request->action.'.js';
-}
-	?></script>
+<?if (! empty($this->scripts)) : ?>
+	<? foreach ($this->scripts as $script) : ?>
+		<script src="<?=BASE_URL?>assets/js/<?= $script ?>"></script>
+	<? endforeach ?>
+<? endif?>
 </body>
 </html>

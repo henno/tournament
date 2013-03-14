@@ -3,6 +3,7 @@ class tournaments
 {
 
 	public $requires_auth = TRUE;
+	public $scripts = NULL;
 
 	function index()
 	{
@@ -16,6 +17,7 @@ class tournaments
 	function add()
 	{
 		global $_request;
+		$this->scripts[]='tournament.js';
 
 		// If submit
 		if (isset($_POST['participants'])) {
@@ -66,6 +68,7 @@ class tournaments
 	function view()
 	{
 		global $_request;
+		$this->scripts[]='tournament.js';
 		$id = $_request->params[0];
 		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
 		$tournament = $tournament[0];

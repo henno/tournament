@@ -14,11 +14,11 @@ function add_participant_ajax() {
 	}
 	// Add specified row from participant table
 	$.post("<?=BASE_URL?>tournaments/add_participant",{
-			"participant_name": participant_name_field.val(),
-			"institute_name": institute_name_field.val(),
-			"tournament_id": tournament_id
+		"participant_name": participant_name_field.val(),
+		"institute_name": institute_name_field.val(),
+		"tournament_id": tournament_id
 
-		})
+	})
 		.done(function (data) {
 			if (data == 'OK') {
 				// Add new row to participants' table
@@ -54,6 +54,62 @@ function add_participant_ajax() {
 				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
 		});
 }
+function remove_participant_ajax(id) {
+
+	// Remove specified row from participant table
+	$.post("<?=BASE_URL?>tournaments/remove_participant/" + id)
+		.done(function (data) {
+			if (data == 'OK')
+				$('table#participants-table>tbody>tr#participant' + id).remove();
+			else
+				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
+		});
+
+	// Reset numbers
+	reset_numbers();
+
+}
+
+function add_participant() {
+
+	// Verify that the participant name field is correctly filled, or else abort
+	if (!participant_name_field.val()) {
+		participant_name_field.addClass('viga');
+		return false;
+	}
+
+	// Add new row to participants' table
+	participants_table_body.append('' +
+		'<tr id="participant' + participant_id + '">' +
+		'<td>x</td>' +
+		'<td>' + participant_name_field.val().trim() + '</td>' +
+		'<td>' + institute_name_field.val().trim() + '</td>' +
+		'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
+		'<td>' +
+		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
+		'</td>' +
+		'</tr>');
+
+	// Store new participant in participants array
+	participants[participant_id] = {
+		"participant_name":participant_name_field.val(),
+		"institute_name":institute_name_field.val(),
+		"participant_favorite":false
+	};
+
+	// Bump participants' array's next id number
+	participant_id++;
+
+	// Clear participant name and institute fields
+	institute_name_field.val('');
+	participant_name_field.val('');
+
+	// Reset numbers
+	reset_numbers();
+
+	// Cancel <a>'s onclick event to prevent page reload
+	return false;
+}
 function toggle_favorite(participant_id) {
 	participants[participant_id]['participant_favorite'] = participants[participant_id]['participant_favorite'] ? false : true;
 }
@@ -74,8 +130,7 @@ function convert_table_to_json() {
 		$('#tournament-name').addClass('viga');
 		return false;
 	}
-
-	// JSONize participants array
+// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
 	// Assign JSONized array to hidden input field
@@ -84,37 +139,29 @@ function convert_table_to_json() {
 	// Submit form
 	$('#tournament-add-form').submit();
 }
-function remove_participant_ajax(id) {
+function remove_participant(id) {
 
 	// Remove specified row from participant table
-	$.post("<?=BASE_URL?>tournaments/remove_participant/" + id)
-		.done(function (data) {
-			if (data == 'OK')
-				$('table#participants-table>tbody>tr#participant' + id).remove();
-			else
-				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
-		});
+	$('table#participants-table>tbody>tr#participant' + id).remove();
 
 	// Reset numbers
 	reset_numbers();
-
 }
 
 $(function () {
 	// Datepicker function for Firefox and IE
+
 	$('.datepicker').datetimepicker({
 		dateFormat:'dd.mm.yy',
 		stepMinute:5
 	});
 	$('.spinner').spinner();
 
-
-	// Initialize institute_name combobox
-	$('#institute_name').editableSelect();
+	// Initialize place_name combobox
+	$('.makeEditable').editableSelect();
 
 	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
-	institute_name_field = $('.esTextBox');
+	institute_name_field = $('input[name="institute_name"]');
 	participant_name_field = $('#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
-	tournament_id = $('input[type=hidden]#tournament_id').val();
 });
