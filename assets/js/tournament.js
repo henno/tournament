@@ -77,6 +77,11 @@ function add_participant() {
 		participant_name_field.addClass('viga');
 		return false;
 	}
+	var institute_name_length = $('[name="institute_name"]').val().length;
+	if(institute_name_length > 17){
+		alert("Instituudi nimi on liiga pikk!");
+		return false;
+	}
 
 	// Add new row to participants' table
 	participants_table_body.append('' +
