@@ -143,8 +143,7 @@
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="text" class="datepicker" id="tournament_end"
-					       name="tournament[tournament_end]"
+					<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
 					       autocomplete="off" onclick="
 					$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
