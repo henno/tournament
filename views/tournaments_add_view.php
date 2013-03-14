@@ -157,38 +157,42 @@
 			<tr>
 				<th>Mängu kestvus</th>
 				<td><input id="game-length" class="spinner" value="1" min="1" maxlength="2"
-				           name="tournament[tournament_game_time]"></td>
+				           name="tournament[tournament_game_time]" onkeypress="validate(event)"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>
 				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_game_pause]"
-				           onkeypress="validate
-				(event)
-				"></td>
+				           onkeypress="validate(event)"></td>
 			</tr>
 			<tr>
 				<th>Platside arv</th>
-				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_field]"/></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_field]"
+				           onkeypress="validate(event)"/></td>
 			</tr>
 			<tr>
 				<th>Alagruppe:</th>
-				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_group]"/></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_group]"
+				           onkeypress="validate(event)"/></td>
 			</tr>
 			<tr>
 				<th>Edasipääsejaid:</th>
-				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_win]"/></td>
+				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_win]"
+				           onkeypress="validate(event)"/></td>
 			</tr>
 			<tr>
 				<th>Võit :</th>
-				<td><input class="spinner" value="3" min="0" maxlength="2" name="tournament[tournament_game_win]"/></td>
+				<td><input class="spinner" value="3" min="0" maxlength="2" name="tournament[tournament_game_win]"
+				           onkeypress="validate(event)"/></td>
 			</tr>
 			<tr>
 				<th>Viik:</th>
-				<td><input class="spinner" value="1" min="0" maxlength="2" name="tournament[tournament_game_tie]"/></td>
+				<td><input class="spinner" value="1" min="0" maxlength="2" name="tournament[tournament_game_tie]"
+				           onkeypress="validate(event)"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus :</th>
-				<td><input class="spinner" value="0" min="0" maxlength="2" name="tournament[tournament_game_loss]"/></td>
+				<td><input class="spinner" value="0" min="0" maxlength="2" name="tournament[tournament_game_loss]"
+				           onkeypress="validate(event)"/></td>
 			</tr>
 			</tbody>
 		</table>

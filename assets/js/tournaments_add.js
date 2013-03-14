@@ -17,8 +17,8 @@ function add_participant() {
 	participants_table_body.append('' +
 		'<tr id="participant' + participant_id + '">' +
 		'<td>x</td>' +
-		'<td>' + participant_name_field.val() + '</td>' +
-		'<td>' + institute_name_field.val() + '</td>' +
+		'<td>' + participant_name_field.val().trim() + '</td>' +
+		'<td>' + institute_name_field.val().trim() + '</td>' +
 		'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
 		'<td>' +
 		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
