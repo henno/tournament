@@ -157,7 +157,7 @@
 			<tr>
 				<th>Mängu kestvus</th>
 				<td><input id="game-length" class="spinner" value="1" min="1" maxlength="2"
-				           name="tournament[tournament_game_time]" onkeypress="validate(event)" onclick="$(this).removeClass('viga')"></td>
+				     name="tournament[tournament_game_time]" onkeypress="validate(event)" onclick="$(this).removeClass('viga')"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>

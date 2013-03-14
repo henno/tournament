@@ -65,6 +65,8 @@ function convert_table_to_json() {
 		$('#tournament-name').addClass('viga');
 		return false;
 	}
+
+
 // JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
@@ -100,3 +102,4 @@ $(function () {
 	participant_name_field = $('#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
 });
+
