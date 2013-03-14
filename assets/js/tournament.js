@@ -130,6 +130,13 @@ function convert_table_to_json() {
 		$('#tournament-name').addClass('viga');
 		return false;
 	}
+
+	// Check that game length is not 0
+	if (!$('#game-length').val() || $('#game-length').val() == '0' || $('#game-length').val() == '00') {
+		$('#game-length').addClass('viga');
+		return false;
+	}
+
 // JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
@@ -177,3 +184,15 @@ $(function () {
 	participant_name_field = $('#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
 });
+
+function validate(evt) {
+	var theEvent = evt || window.event;
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode(key);
+	var r1 = /[0-9]/;
+	var r2= /[\b]/;
+	if (!(r1.test(key) || r2.test(key))) {
+		theEvent.returnValue = false;
+		if (theEvent.preventDefault) theEvent.preventDefault();
+	}
+}

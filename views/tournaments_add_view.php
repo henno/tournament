@@ -107,7 +107,7 @@
 	}
 </style>
 
-<form method="post" id="tournament-add-form" >
+<form method="post" id="tournament-add-form">
 
 	<div class="row-fluid">
 	<span style="display: inline-block;">
@@ -135,16 +135,17 @@
 			<tr>
 				<th>Turniiri algus</th>
 
-				<td><input type="text" class="datepicker" id="tournament_start" name="tournament[tournament_start]"
-				           autocomplete="off" onclick="
+				<td><input type="text" class="datepicker" name="tournament[tournament_start]"
+				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onclick="
 					$(this).removeClass('viga')"></td>
+				
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
 					<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
 					       autocomplete="off" onclick="
-					$(this).removeClass('viga')"></td>
+					$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
@@ -161,7 +162,7 @@
 			<tr>
 				<th>Mängu kestvus</th>
 				<td><input id="game-length" class="spinner" value="1" min="1" maxlength="2"
-				           name="tournament[tournament_game_time]" onkeypress="validate(event)" onclick="$(this).removeClass('viga')"></td>
+				     name="tournament[tournament_game_time]" onkeypress="validate(event)" onclick="$(this).removeClass('viga')"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>
