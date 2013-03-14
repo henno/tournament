@@ -105,7 +105,7 @@ function save($table, $data)
 {
 	if ($table and is_array($data) and ! empty($data)) {
 		foreach ($data as $field => $value) {
-			$values[] = "$field='$value'";
+			$values[] = "$field='".trim($value)."'";
 		}
 		$values = implode(',', $values);
 		$sql = "INSERT INTO {$table} SET {$values}";
