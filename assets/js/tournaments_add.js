@@ -65,6 +65,13 @@ function convert_table_to_json() {
 		$('#tournament-name').addClass('viga');
 		return false;
 	}
+
+	// Check that game length is not 0
+	if (!$('#game-length').val() || $('#game-length').val() == '0' || $('#game-length').val() == '00') {
+		$('#game-length').addClass('viga');
+		return false;
+	}
+
 // JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
