@@ -74,7 +74,7 @@
 			$clone.css({display:'block', top:'-1000'});
 			$clone.appendTo('body');
 			this.$container = $('<div class="esContainer" />').appendTo(document.body);
-			this.$textbox = $('<input type="text" name="' + $element.attr('id') + '" class="esTextBox">').css({
+			this.$textbox = $('<input type="text" name="' + $element.attr('id') + '" class="esTextBox" autocomplete="off">').css({
 				width :$clone.outerWidth(),
 				height:$clone.outerHeight()}).attr('tabindex', this.$select.attr('tabindex'));
 			this.$textbox.appendTo(this.$select.parent());

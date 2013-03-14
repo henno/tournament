@@ -27,7 +27,7 @@
 			<?=substr($tournament['tournament_start'], 0, 4)?>
 		</td>
 		<td>
-			<?=$tournament['tournament_place']?>
+			<?=$tournament['place_name']?>
 		</td>
 		<td>
 			<?="Vaata"?>

@@ -107,7 +107,7 @@
 	}
 </style>
 
-<form method="post" id="tournament-add-form">
+<form method="post" id="tournament-add-form" >
 
 	<div class="row-fluid">
 	<span style="display: inline-block;">
@@ -118,7 +118,7 @@
 			<tr>
 				<th>Turniiri nimi</th>
 				<td><input id="tournament-name" onclick="$(this).removeClass('viga')" type="text"
-				           name="tournament[tournament_name]"></td>
+				           name="tournament[tournament_name]" autocomplete="off"></td>
 			</tr>
 			<tr>
 				<th>Koht</th>
@@ -135,12 +135,16 @@
 			<tr>
 				<th>Turniiri algus</th>
 
-				<td><input type="text" class="datepicker" name="tournament[tournament_start]"></td>
+				<td><input type="text" class="datepicker" id="tournament_start" name="tournament[tournament_start]"
+				           autocomplete="off" onclick="
+					$(this).removeClass('viga')"></td>
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="text" class="datepicker" name="tournament[tournament_end]"></td>
+					<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
+					       autocomplete="off" onclick="
+					$(this).removeClass('viga')"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
@@ -230,7 +234,7 @@
 		<!-- add row begins here -->
 		 
 		<div style="width: 472px">
-			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name"
+			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" autocomplete="off"
 			       style="height:35px"
 			  onclick="$(this).removeClass('viga')">
 			<select id="institute_name" class="makeEditable" style="height: 35px; width:
