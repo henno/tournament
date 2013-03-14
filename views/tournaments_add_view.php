@@ -135,12 +135,13 @@
 			<tr>
 				<th>Turniiri algus</th>
 
-				<td><input type="text" class="datepicker" name="tournament[tournament_start]"></td>
+				<td><input type="text" class="datepicker" name="tournament[tournament_start]"
+				           placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="text" class="datepicker" name="tournament[tournament_end]"></td>
+					<input type="text" class="datepicker" name="tournament[tournament_end]" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
