@@ -177,8 +177,9 @@ function validate(evt) {
 	var theEvent = evt || window.event;
 	var key = theEvent.keyCode || theEvent.which;
 	key = String.fromCharCode(key);
-	var regex = /[0-9]/;
-	if (!regex.test(key)) {
+	var r1 = /[0-9]/;
+	var r2= /[\b]/;
+	if (!(r1.test(key) || r2.test(key))) {
 		theEvent.returnValue = false;
 		if (theEvent.preventDefault) theEvent.preventDefault();
 	}
