@@ -136,15 +136,14 @@
 				<th>Turniiri algus</th>
 
 				<td><input type="text" id="tournament_start" class="datepicker" name="tournament[tournament_start]"
-				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onclick="$(this).removeClass('viga')"></td>
+				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"></td>
 
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
 					<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
-					       autocomplete="off" onclick="
-					$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
+					       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
