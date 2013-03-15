@@ -7,6 +7,7 @@ var participants_table_body;
 var institute_name_field;
 
 function add_participant_ajax() {
+
 	// Verify that the participant name field is correctly filled, or else abort
 	if (!participant_name_field.val()) {
 		participant_name_field.addClass('viga');
@@ -21,6 +22,7 @@ function add_participant_ajax() {
 	})
 		.done(function (data) {
 			if (data == 'OK') {
+				alert("homo");
 				// Add new row to participants' table
 				participants_table_body.append('' +
 					'<tr id="participant' + participant_id + '">' +
@@ -83,6 +85,15 @@ function add_participant() {
 		return false;
 	}
 
+	//Verify that the participant names are not same
+	var current = participant_name_field.val();
+	var check_participant_id = 0;
+	for (q = 1 ;q <= participant_id; q++) {
+		var check = participants[check_participant_id].participant_name;
+		if (current == check) {alert("Selline nimi on juba olemas!"); return false;}
+		var check_participant_id = check_participant_id + 1;
+	}
+
 	// Add new row to participants' table
 	participants_table_body.append('' +
 		'<tr id="participant' + participant_id + '">' +
@@ -111,6 +122,7 @@ function add_participant() {
 
 	// Reset numbers
 	reset_numbers();
+
 
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
