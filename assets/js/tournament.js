@@ -201,12 +201,6 @@ function validate(evt) {
 }
 
 $(function () {
-	// Datepicker function for Firefox and IE
-
-	$('.datepicker').datetimepicker({
-		dateFormat: 'dd.mm.yy',
-		stepMinute: 5
-	});
 	$('.spinner').spinner();
 
 	// Initialize place_name combobox
@@ -236,6 +230,7 @@ $(function () {
 	var endDateTextBox = $('#tournament_end');
 
 	startDateTextBox.datetimepicker({
+		dateFormat: 'dd.mm.yy',
 		onClose : function (dateText, inst) {
 			if (endDateTextBox.val() != '') {
 				var testStartDate = startDateTextBox.datetimepicker('getDate');
@@ -257,6 +252,7 @@ $(function () {
 		}
 	});
 	endDateTextBox.datetimepicker({
+		dateFormat: 'dd.mm.yy',
 		onClose : function (dateText, inst) {
 			if (startDateTextBox.val() != '') {
 				var testStartDate = startDateTextBox.datetimepicker('getDate');
