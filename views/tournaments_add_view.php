@@ -102,7 +102,7 @@
 		word-break: break-all;
 	}
 
-	.datepicker {
+	.datetimepicker {
 		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
 </style>
@@ -135,7 +135,7 @@
 			<tr>
 				<th>Turniiri algus</th>
 
-				<td><input type="text" id="tournament_start" class="datepicker" name="tournament[tournament_start]"
+				<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
 				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onclick="
 					$(this).removeClass('viga')"></td>
 				
@@ -143,7 +143,7 @@
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
+					<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
 					       autocomplete="off" onclick="
 					$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
@@ -157,7 +157,7 @@
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
-				<td><input name="tournament[tournament_loser_bracket]" type="checkbox" value="1"</td>
+				<td><input name="tournament[tournament_loser_bracket]" type="checkbox" value="1"></td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus</th>
