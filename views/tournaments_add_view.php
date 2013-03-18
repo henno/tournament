@@ -117,7 +117,7 @@
 			<tbody>
 			<tr>
 				<th>Turniiri nimi</th>
-				<td><input id="tournament-name" onclick="$(this).removeClass('viga')" type="text"
+				<td><input id="tournament-name" onfocus="$(this).removeClass('viga')" type="text"
 				           name="tournament[tournament_name]" autocomplete="off"></td>
 			</tr>
 			<tr>
@@ -136,16 +136,14 @@
 				<th>Turniiri algus</th>
 
 				<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
-				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onclick="
-					$(this).removeClass('viga')"></td>
-				
+				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"></td>
+
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
 					<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
-					       autocomplete="off" onclick="
-					$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
+					       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
 			<tr>
 				<th>Tüüp:</th>
@@ -162,7 +160,8 @@
 			<tr>
 				<th>Mängu kestvus</th>
 				<td><input id="game-length" class="spinner" value="1" min="1" maxlength="2"
-				     name="tournament[tournament_game_time]" onkeypress="validate(event)" onclick="$(this).removeClass('viga')"></td>
+				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
+				           onfocus="$(this).removeClass('viga')"></td>
 			</tr>
 			<tr>
 				<th>Paus</th>
@@ -236,8 +235,7 @@
 		 
 		<div style="width: 472px">
 			<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" autocomplete="off"
-			       style="height:35px"
-			  onclick="$(this).removeClass('viga')">
+			       style="height:35px" onfocus="$(this).removeClass('viga')">
 			<select id="institute_name" class="makeEditable" style="height: 35px; width:
 			203px">
 				<option value="">&nbsp;</option>

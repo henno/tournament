@@ -7,6 +7,7 @@ var participants_table_body;
 var institute_name_field;
 
 function add_participant_ajax() {
+
 	// Verify that the participant name field is correctly filled, or else abort
 	if (!participant_name_field.val()) {
 		participant_name_field.addClass('viga');
@@ -83,6 +84,15 @@ function add_participant() {
 		return false;
 	}
 
+	//Verify that the participant names are not same
+	var current = participant_name_field.val();
+	var check_participant_id = 0;
+	for (q = 1 ;q <= participant_id; q++) {
+		var check = participants[check_participant_id].participant_name;
+		if (current == check) {alert("Selline nimi on juba olemas!"); return false;}
+		var check_participant_id = check_participant_id + 1;
+	}
+
 	// Add new row to participants' table
 	participants_table_body.append('' +
 		'<tr id="participant' + participant_id + '">' +
@@ -152,10 +162,17 @@ function convert_table_to_json() {
 
 	var start = $('#tournament_start').val();
 	var end = $('#tournament_end').val();
-	if (start >= end) {
+
+	if (start >= end || !start) {
 		alert("Turniiri algus peab olema varasem kui lõpp!");
 		$('#tournament_start').addClass('viga');
 		$('#tournament_end').addClass('viga');
+		if (!start) {
+			$('#tournament_start').addClass('viga');
+		}
+		if (!end) {
+			$('#tournament_end').addClass('viga');
+		}
 		return false;
 	}
 
@@ -186,7 +203,10 @@ function validate(evt) {
 $(function () {
 	// Datepicker function for Firefox and IE
 
-
+	$('.datepicker').datetimepicker({
+		dateFormat: 'dd.mm.yy',
+		stepMinute: 5
+	});
 	$('.spinner').spinner();
 
 	// Initialize place_name combobox
@@ -253,5 +273,3 @@ $(function () {
 		}
 	});
 });
-
-
