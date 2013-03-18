@@ -167,6 +167,8 @@ function convert_table_to_json() {
 
 	if (start >= end || !start) {
 		alert("Turniiri algus peab olema varasem kui lõpp!");
+		$('#tournament_start').addClass('viga');
+		$('#tournament_end').addClass('viga');
 		if (!start) {
 			$('#tournament_start').addClass('viga');
 		}
