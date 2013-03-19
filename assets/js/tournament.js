@@ -150,9 +150,8 @@ function convert_table_to_json() {
 	}
 
 	// Check that tournament_place is given & its length is under 21
-	if ($('#tournament-place').val().length > 21) {
+	if ($('input[name=tournament-place]').val().length > 21) {
 		alert("Koht ei saa nii pikk olla!");
-		$('#tournament-place').addClass('viga');
 		return false;
 	}
 
