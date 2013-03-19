@@ -124,7 +124,6 @@ function add_participant() {
 	// Reset numbers
 	reset_numbers();
 
-
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
@@ -146,6 +145,12 @@ function convert_table_to_json() {
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
 		$('#tournament-name').addClass('viga');
+		return false;
+	}
+
+	// Check that tournament_place is given & its length is under 21
+	if ($('input[name=tournament-place]').val().length > 21) {
+		alert("Koht ei saa nii pikk olla!");
 		return false;
 	}
 
@@ -204,12 +209,7 @@ function validate(evt) {
 }
 
 $(function () {
-	// Datepicker function for Firefox and IE
 	tournament_id = $('input[type=hidden]#tournament_id').val();
-	$('.datepicker').datetimepicker({
-		dateFormat: 'dd.mm.yy',
-		stepMinute: 5
-	});
 	$('.spinner').spinner();
 
 	// Initialize place_name combobox
@@ -233,5 +233,48 @@ $(function () {
 			event.preventDefault(); //stop event
 		}
 		return true;
+	});
+
+	var startDateTextBox = $('#tournament_start');
+	var endDateTextBox = $('#tournament_end');
+
+	startDateTextBox.datetimepicker({
+		dateFormat: 'dd.mm.yy',
+		onClose   : function (dateText, inst) {
+			if (endDateTextBox.val() != '') {
+				var testStartDate = startDateTextBox.datetimepicker('getDate');
+				var testEndDate = endDateTextBox.datetimepicker('getDate');
+				if (testStartDate > testEndDate)
+					endDateTextBox.datetimepicker('setDate', testStartDate);
+			}
+			else {
+				endDateTextBox.val(dateText);
+			}
+		},
+		onSelect  : function (selectedDateTime) {
+
+			var x = startDateTextBox.datetimepicker('getDate');
+			x.setDate(x.getDate() + 365);
+
+			endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
+			endDateTextBox.datetimepicker('option', 'maxDate', x);
+		}
+	});
+	endDateTextBox.datetimepicker({
+		dateFormat: 'dd.mm.yy',
+		onClose   : function (dateText, inst) {
+			if (startDateTextBox.val() != '') {
+				var testStartDate = startDateTextBox.datetimepicker('getDate');
+				var testEndDate = endDateTextBox.datetimepicker('getDate');
+				if (testStartDate > testEndDate)
+					startDateTextBox.datetimepicker('setDate', testEndDate);
+			}
+			else {
+				startDateTextBox.val(dateText);
+			}
+		},
+		onSelect  : function (selectedDateTime) {
+			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
+		}
 	});
 });

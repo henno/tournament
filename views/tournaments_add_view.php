@@ -102,7 +102,7 @@
 		word-break: break-all;
 	}
 
-	.datepicker {
+	.datetimepicker {
 		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
 </style>
@@ -123,7 +123,8 @@
 			<tr>
 				<th>Koht</th>
 				<td>
-					<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
+					<select id="tournament-place" name="tournament[place_name]" class="makeEditable"
+					        style="height: 20px; width: 207px">
 						<option value="">&nbsp;</option>
 						<? foreach ($places as $place) : ?>
 							<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
@@ -135,14 +136,14 @@
 			<tr>
 				<th>Turniiri algus</th>
 
-				<td><input type="text" id="tournament_start" class="datepicker" name="tournament[tournament_start]"
+				<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
 				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"></td>
 
 			</tr>
 			<tr>
 				<th>Turniiri lõpp</th>
 				<td>
-					<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
+					<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
 					       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"></td>
 			</tr>
 			<tr>
@@ -155,7 +156,7 @@
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
-				<td><input name="tournament[tournament_loser_bracket]" type="checkbox" value="1"</td>
+				<td><input name="tournament[tournament_loser_bracket]" type="checkbox" value="1"></td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus</th>
