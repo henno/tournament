@@ -87,9 +87,12 @@ function add_participant() {
 	//Verify that the participant names are not same
 	var current = participant_name_field.val();
 	var check_participant_id = 0;
-	for (q = 1 ;q <= participant_id; q++) {
+	for (q = 1; q <= participant_id; q++) {
 		var check = participants[check_participant_id].participant_name;
-		if (current == check) {alert("Selline nimi on juba olemas!"); return false;}
+		if (current == check) {
+			alert("Selline nimi on juba olemas!");
+			return false;
+		}
 		var check_participant_id = check_participant_id + 1;
 	}
 
@@ -143,6 +146,13 @@ function convert_table_to_json() {
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
 		$('#tournament-name').addClass('viga');
+		return false;
+	}
+
+	// Check that tournament_place is given & its length is under 21
+	if ($('#tournament-place').val().length > 21) {
+		alert("Koht ei saa nii pikk olla!");
+		$('#tournament-place').addClass('viga');
 		return false;
 	}
 
@@ -231,7 +241,7 @@ $(function () {
 
 	startDateTextBox.datetimepicker({
 		dateFormat: 'dd.mm.yy',
-		onClose : function (dateText, inst) {
+		onClose   : function (dateText, inst) {
 			if (endDateTextBox.val() != '') {
 				var testStartDate = startDateTextBox.datetimepicker('getDate');
 				var testEndDate = endDateTextBox.datetimepicker('getDate');
@@ -242,7 +252,7 @@ $(function () {
 				endDateTextBox.val(dateText);
 			}
 		},
-		onSelect: function (selectedDateTime) {
+		onSelect  : function (selectedDateTime) {
 
 			var x = startDateTextBox.datetimepicker('getDate');
 			x.setDate(x.getDate() + 365);
@@ -253,7 +263,7 @@ $(function () {
 	});
 	endDateTextBox.datetimepicker({
 		dateFormat: 'dd.mm.yy',
-		onClose : function (dateText, inst) {
+		onClose   : function (dateText, inst) {
 			if (startDateTextBox.val() != '') {
 				var testStartDate = startDateTextBox.datetimepicker('getDate');
 				var testEndDate = endDateTextBox.datetimepicker('getDate');
@@ -264,7 +274,7 @@ $(function () {
 				startDateTextBox.val(dateText);
 			}
 		},
-		onSelect: function (selectedDateTime) {
+		onSelect  : function (selectedDateTime) {
 			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
 		}
 	});

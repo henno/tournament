@@ -123,7 +123,8 @@
 			<tr>
 				<th>Koht</th>
 				<td>
-					<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
+					<select id="tournament-place" name="tournament[place_name]" class="makeEditable"
+					        style="height: 20px; width: 207px">
 						<option value="">&nbsp;</option>
 						<? foreach ($places as $place) : ?>
 							<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
