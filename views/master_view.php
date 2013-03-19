@@ -19,11 +19,11 @@
 
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
 	<!-- Fav and touch icons -->
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-	<link rel="shortcut icon" href="<?= BASE_URL ?>assets/ico/favicon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=ASSETS_URL?>ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=ASSETS_URL?>ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=ASSETS_URL?>ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="<?=ASSETS_URL?>ico/apple-touch-icon-57-precomposed.png">
+	<link rel="shortcut icon" href="<?= ASSETS_URL ?>ico/favicon.png">
 </head>
 
 <body>
@@ -60,14 +60,10 @@
 
 <!-- Le javascript
 ================================================== -->
-<?/*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
-<script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script>*/?>
-<?/* <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script> */?>
 <script>BASE_URL='<?=BASE_URL?>'</script>
 <?if (! empty($this->scripts)) : ?>
 	<? foreach ($this->scripts as $script) : ?>
-		<script src="<?=BASE_URL?>assets/js/<?= $script ?>"></script>
+		<script src="<?=ASSETS_URL?>js/<?= $script ?>"></script>
 	<? endforeach ?>
 <? endif?>
 </body>

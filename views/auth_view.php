@@ -47,18 +47,18 @@
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
-	<script src="<?=BASE_URL?>assets/js/html5shiv.js"></script>
+	<script src="<?= ASSETS_URL ?>js/html5shiv.js"></script>
 	<![endif]-->
 
 	<!-- Fav and touch icons -->
 	<link rel="apple-touch-icon-precomposed" sizes="144x144"
-		  href="<?=BASE_URL?>assets/ico/apple-touch-icon-144-precomposed.png">
+		  href="<?= ASSETS_URL ?>ico/apple-touch-icon-144-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="114x114"
-		  href="<?=BASE_URL?>assets/ico/apple-touch-icon-114-precomposed.png">
+		  href="<?= ASSETS_URL ?>ico/apple-touch-icon-114-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72"
-		  href="<?=BASE_URL?>assets/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="<?=BASE_URL?>assets/ico/apple-touch-icon-57-precomposed.png">
-	<link rel="shortcut icon" href="<?=BASE_URL?>assets/ico/favicon.png">
+		  href="<?= ASSETS_URL ?>ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="<?= ASSETS_URL ?>ico/apple-touch-icon-57-precomposed.png">
+	<link rel="shortcut icon" href="<?= ASSETS_URL ?>ico/favicon.png">
 </head>
 
 <body>

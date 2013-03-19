@@ -6,3 +6,4 @@ define('DATABASE_USERNAME', 'tournament');
 define('DATABASE_PASSWORD', 'YaEbVCeBcrjzPcQU');
 define('DATABASE_DATABASE', 'tournament');
 define('BASE_URL', '/tournament/');
+define('ASSETS_URL', '/tournament/assets/');

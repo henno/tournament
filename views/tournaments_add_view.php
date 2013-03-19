@@ -1,5 +1,5 @@
-<script src="<?= BASE_URL ?>assets/js/jquery.combobox.js"></script>
-<script src="<?= BASE_URL ?>assets/js/jquery-ui-timepicker-addon.js"></script>
+<script src="<?= ASSETS_URL ?>js/jquery.combobox.js"></script>
+<script src="<?= ASSETS_URL ?>js/jquery-ui-timepicker-addon.js"></script>
 
 <style>
 		/* css for timepicker */
@@ -63,7 +63,7 @@
 	}
 
 	.esTextBox {
-		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
+		background: url(<?= ASSETS_URL ?>ico/arrowdown.png) 98% 50% no-repeat;
 	}
 
 	.spinner {
@@ -103,7 +103,7 @@
 	}
 
 	.datetimepicker {
-		background: url(<?=BASE_URL?>assets/ico/arrowdown.png) 98% 50% no-repeat;
+		background: url(<?= ASSETS_URL ?>ico/arrowdown.png) 98% 50% no-repeat;
 	}
 </style>
 
