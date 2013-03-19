@@ -66,17 +66,58 @@ class tournaments
 	}
 
 	function view()
-	{
+	{   global $_request;
+		if (isset($_POST['tournament'])){
+			$tournament= $_POST['tournament'];
+
+			$id=$tournament['tournament_id'];
+			unset($tournament['tournament_id']);
+			$tournament['place_id'] = $this->get_place_id($tournament['place_name']);
+			unset($tournament['place_name']);
+			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
+			$tournament['tournament_end'] = $this->convert_date($tournament['tournament_end']);
+			if(!isset($tournament['tournament_loser_bracket'])){
+				$tournament['tournament_loser_bracket']=0;
+			}
+			update('tournament',$tournament,"WHERE tournament_id= $id");
+			$_request->redirect('tournaments');
+		}
 		global $_request;
 		$this->scripts[]='tournament.js';
 		$id = $_request->params[0];
 		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
 		$tournament = $tournament[0];
+		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		$participants = get_all(
 			"SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'"
 		);
+
+		$place_id=$tournament['place_id'];
+		$place_name = get_one("SELECT place_name FROM place WHERE place_id = $place_id ");
+		$tournament_id=$tournament['tournament_id'];
+		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
+		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
 		require 'views/master_view.php';
 
+	}
+	function convert_date2($date)
+	{
+		list($date, $time) = explode(' ', $date);
+		list($y, $mon, $d) = explode('-', $date);
+		list($h, $min) = explode(':', $time);
+		return "$d.$mon.$y $h:$min:00";
+	}
+	private function get_place_id($place_name)
+	{
+		$place_id = get_one("SELECT place_id FROM place WHERE place_name LIKE '$place_name'");
+		return $place_id ? $place_id : q("INSERT INTO place SET place_name='$place_name'");
+	}
+	private function convert_date($date)
+	{
+		list($date, $time) = explode(' ', $date);
+		list($d, $mon, $y) = explode('.', $date);
+		list($h, $min) = explode(':', $time);
+		return "$y-$mon-$d $h:$min:00";
 	}
 }

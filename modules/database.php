@@ -115,3 +115,21 @@ function save($table, $data)
 		return FALSE;
 	}
 }
+function update($table, $data,$where)
+{
+	if ($table and is_array($data) and ! empty($data)) {
+		foreach ($data as $field => $value) {
+			$values[] = "$field='".trim($value)."'";
+		}
+		$values = implode(',', $values);
+		if (isset($where)){
+			$sql = "UPDATE {$table} SET {$values} {$where}";
+		}
+		else{
+		$sql = "UPDATE {$table} SET {$values}";}
+		$id = q($sql, $q);
+		return ($id > 0) ? $id : FALSE;
+	} else {
+		return FALSE;
+	}
+}

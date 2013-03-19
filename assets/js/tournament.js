@@ -14,7 +14,7 @@ function add_participant_ajax() {
 		return false;
 	}
 	// Add specified row from participant table
-	$.post("<?=BASE_URL?>tournaments/add_participant", {
+	$.post(BASE_URL + "tournaments/add_participant", {
 		"participant_name": participant_name_field.val(),
 		"institute_name"  : institute_name_field.val(),
 		"tournament_id"   : tournament_id
@@ -22,7 +22,6 @@ function add_participant_ajax() {
 	})
 		.done(function (data) {
 			if (data == 'OK') {
-				alert("homo");
 				// Add new row to participants' table
 				participants_table_body.append('' +
 					'<tr id="participant' + participant_id + '">' +
@@ -59,17 +58,16 @@ function add_participant_ajax() {
 function remove_participant_ajax(id) {
 
 	// Remove specified row from participant table
-	$.post("<?=BASE_URL?>tournaments/remove_participant/" + id)
+	$.post(BASE_URL + "tournaments/remove_participant/" + id)
 		.done(function (data) {
-			if (data == 'OK')
+			if (data == 'OK'){
 				$('table#participants-table>tbody>tr#participant' + id).remove();
+				// Reset numbers
+				reset_numbers();
+			}
 			else
 				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
 		});
-
-	// Reset numbers
-	reset_numbers();
-
 }
 
 function add_participant() {
@@ -88,9 +86,12 @@ function add_participant() {
 	//Verify that the participant names are not same
 	var current = participant_name_field.val();
 	var check_participant_id = 0;
-	for (q = 1 ;q <= participant_id; q++) {
+	for (q = 1; q <= participant_id; q++) {
 		var check = participants[check_participant_id].participant_name;
-		if (current == check) {alert("Selline nimi on juba olemas!"); return false;}
+		if (current == check) {
+			alert("Selline nimi on juba olemas!");
+			return false;
+		}
 		var check_participant_id = check_participant_id + 1;
 	}
 
@@ -204,7 +205,7 @@ function validate(evt) {
 
 $(function () {
 	// Datepicker function for Firefox and IE
-
+	tournament_id = $('input[type=hidden]#tournament_id').val();
 	$('.datepicker').datetimepicker({
 		dateFormat: 'dd.mm.yy',
 		stepMinute: 5

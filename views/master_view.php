@@ -64,6 +64,7 @@
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
 <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script>*/?>
 <?/* <script src="<?=BASE_URL?>assets/js/bootstrap-ajax.js"></script> */?>
+<script>BASE_URL='<?=BASE_URL?>'</script>
 <?if (! empty($this->scripts)) : ?>
 	<? foreach ($this->scripts as $script) : ?>
 		<script src="<?=BASE_URL?>assets/js/<?= $script ?>"></script>
