@@ -79,6 +79,9 @@ class tournaments
 			if(!isset($tournament['tournament_loser_bracket'])){
 				$tournament['tournament_loser_bracket']=0;
 			}
+			else {
+				$tournament['tournament_loser_bracket']=1;
+			}
 			update('tournament',$tournament,"WHERE tournament_id= $id");
 			$_request->redirect('tournaments');
 		}
