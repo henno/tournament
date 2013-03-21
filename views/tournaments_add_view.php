@@ -4,17 +4,19 @@
 	}
 
 	.kast {
+		width: 450px;
 		float: left;
 		border: 1px solid black;
 		padding: 5px 30px 10px 30px;
 		border-color: lightgray darkgrey darkgray lightgrey;
 		margin-right: 20px;
 		margin-top: 10px;
-		position: relative;
+		position: relative !important;
 		background: #eeeeee;
 	}
 
 	.number {
+		display: inline-block;
 		position: absolute;
 		right: 13px;
 		top: 17px;
@@ -25,37 +27,10 @@
 
 	h3 {
 		float: left;
-
-	}
-
-	.outer {
-		background-color: #949494;
-		padding: 30px;
-		border-width: 1px;
-		border-style: solid;
-		border-color: lightgrey darkgrey darkgrey lightgrey;
-		height: 500px;
-		float: left;
-	}
-
-	.itemNumber {
-		background-color: inherit;
-		color: #9C9C9C;
-		font-size: 40px;
-		font-weight: bold;
-		left: -25px;
-		top: -30px;
-		letter-spacing: -1px;
-		position: relative;
-		float: left;
-		z-index: 0;
+		clear: both;
 	}
 
 		/* css for timepicker */
-	.ui-timepicker-div {
-		margin-bottom: 8px;
-	}
-
 	.ui-timepicker-div dl {
 		text-align: left;
 	}
@@ -73,17 +48,6 @@
 		font-size: 90%;
 	}
 
-	.ui-tpicker-grid-label {
-		background: none;
-		border: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	.ui-timepicker-rtl {
-		direction: rtl;
-	}
-
 	.ui-timepicker-rtl dl {
 		text-align: right;
 	}
@@ -97,6 +61,8 @@
 	}
 
 	.esContainer {
+		width: 500px;
+		word-break: break-all;
 		background: white;
 		padding: 5px;
 		border: 1px solid #5CB3FF;
@@ -104,9 +70,13 @@
 	}
 
 	.esItem {
+		width: auto;
 		background: white;
 	}
 
+	.makeEditable {
+		width: 100px;
+	}
 	.esItemHover {
 		background: #E3E4FA;
 	}
@@ -147,6 +117,7 @@
 	}
 
 	#tournament-attributes-table td {
+		max-width: 125px;
 		padding: 5px;
 
 	}
@@ -213,17 +184,6 @@
 				       value="<?= $tournaments['tournament_end'] ?>"></td>
 		</tr>
 		<tr>
-			<th>Tüüp:</th>
-			<td><select name="tournament[tournament_type]" value="<?= $tournaments['tournament_type'] ?>">
-					<option value="1" <?=$tournaments['tournament_type'] == 1 ? 'selected="selected"' : ''?>>Alagrupi mängud
-					</option>
-					<option value="2" <?=$tournaments['tournament_type'] == 2 ? 'selected="selected"' : ''?>>Alagrupi mängud +
-						playoff
-					</option>
-					<option value="3" <?=$tournaments['tournament_type'] == 3 ? 'selected="selected"' : ''?>>Playoff</option>
-				</select></td>
-		</tr>
-		<tr>
 			<th>Kaotajate ring:</th>
 			<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
 					<?=$tournaments['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
@@ -243,11 +203,6 @@
 			<th>Platside arv</th>
 			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_field]"
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_field'] ?>"/></td>
-		</tr>
-		<tr>
-			<th>Alagruppe:</th>
-			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_group]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></td>
 		</tr>
 		<tr>
 			<th>Edasipääsejaid:</th>
@@ -274,89 +229,96 @@
 </div>
 <div class="kast">
 	<div class="number">2</div>
-	<h3>Osalejad</h3>
+	<h3>Osalejad</h3><br/><br/><br/>
 
-	<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
-		<thead>
-		<tr>
-			<td colspan="5">
-				<!-- add row begins here -->
+	<div style="width: 200px; float:left">
+		<p>Alagruppide arv:
+			<input class="spinner" min="1" maxlength="2" name="tournament[tournament_group]"
+			       onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></p>
+	</div>
+	<div style="width: 250px; float:left">
+		<p>V6istlejate arv alagrups:
+			<input class="spinner" min="1" maxlength="2" name="tournament[tournament_]"
+			       onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></p>
+	</div>
+	<div style="clear: both">
+		<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
+			<thead>
+			<tr>
+				<td colspan="5">
+					<!-- add row begins here -->
 
-				<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" autocomplete="off"
-				       style="height:35px; width: 150px" onfocus="$(this).removeClass('viga')">
-				<select id="institute_name" class="makeEditable" style="height: 35px; width: 203px">
-					<option value="">&nbsp;</option>
-					<? foreach ($institutes as $institute) : ?>
-						<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
-					<? endforeach?>
-				</select>
-				<button type="button" class="btn btn-large" onclick="add_participant()"
-				        style="margin-left:5px; float: right ">
-					Lisa
-					mängija
-				</button>
+					<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" autocomplete="off"
+					       style="height:35px; width: 150px" onfocus="$(this).removeClass('viga')">
+					<select id="institute_name" class="makeEditable" style="height: 35px">
+						<option value="">&nbsp;</option>
+						<? foreach ($institutes as $institute) : ?>
+							<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
+						<? endforeach?>
+					</select>
+					<button type="button" class="btn btn-large" onclick="add_participant()"
+					        style="margin-left:5px; float: right ">
+						Lisa
+						mängija
+					</button>
 
-				<!-- add row ends here -->
+					<!-- add row ends here -->
 
-			</td>
-		</tr>
-
-		<tr>
-			<th>
-				#
-			</th>
-			<th>
-				Meeskonna/mängija nimi
-			</th>
-			<th>
-				instituut
-			</th>
-			<th title="Vali favoriidiks" style="width: 20px">
-				<i class="icon-star"></i>
-			</th>
-			<th title="Kustuta rida" style="width: 20px">
-				<i class="icon-trash"></i>
-			</th>
-		</tr>
-		</thead>
-		<tbody>
-		<? if(!empty($participants)){ $i = 1; foreach ($participants as $participant): ?>
-			<tr id="participant<?= $participant['participant_id'] ?>">
-				<td>
-					<?=$i ++?>
-				</td>
-				<td>
-					<?=$participant['participant_name']?>
-				</td>
-				<td>
-					<?=$participant['institute_name']?>
-				</td>
-				<td>
-					<input type="checkbox">
-				</td>
-				<td>
-					<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
-					   onclick="if (!confirm('Oled kindel?'))return false; remove_participant_ajax
-						   (<?= $participant['participant_id'] ?>); return false"><i class="icon-trash">
 				</td>
 			</tr>
-		<? endforeach; }?>
-		</tbody>
-	</table>
+
+			<tr>
+				<th>
+					#
+				</th>
+				<th>
+					Meeskonna/mängija nimi
+				</th>
+				<th>
+					instituut
+				</th>
+				<th title="Vali favoriidiks" style="width: 20px">
+					<i class="icon-star"></i>
+				</th>
+				<th title="Kustuta rida" style="width: 20px">
+					<i class="icon-trash"></i>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<? if (! empty($participants)) {
+				$i = 1;
+				foreach ($participants as $participant): ?>
+					<tr id="participant<?= $participant['participant_id'] ?>">
+						<td>
+							<?=$i ++?>
+						</td>
+						<td>
+							<?=$participant['participant_name']?>
+						</td>
+						<td>
+							<?=$participant['institute_name']?>
+						</td>
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>
+							<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
+							   onclick="if (!confirm('Oled kindel?'))return false; remove_participant_ajax
+								   (<?= $participant['participant_id'] ?>); return false"><i class="icon-trash">
+						</td>
+					</tr>
+				<? endforeach;
+			}?>
+			</tbody>
+		</table>
+	</div>
 	<label class="checkbox">
-		<input type="checkbox" onclick="$('#round-robin-groups-div').toggle(400);$('#round-robin-groups-settings-div').toggle
-		(400)"> Alagrupid
+		<input type="radio" name="radiobutton" onclick="$(hidediv1).hide();$('#round-robin-groups-playoff-div').show(400)">
+		Alagrupid + playoff
 	</label>
 
-	<div id="round-robin-groups-div" style="display: none">
-		<table>
-			<tr>
-				<th>Alagruppe:</th>
-				<td><input class="spinner" value="1" min="1" maxlength="2" name="tournament[tournament_group]"
-				           onkeypress="validate(event)"/></td>
-			</tr>
-		</table>
-
+	<div id="round-robin-groups-playoff-div" style="display: none">
 		<table class="table table-bordered">
 			<tr>
 				<td></td>
@@ -398,12 +360,38 @@
 		</table>
 	</div>
 	<label class="checkbox">
-		<input type="checkbox" onclick="$('#playoffs-div').show()"> Playoff
+		<input type="radio" name="radiobutton" onclick="$(hidediv2).hide();$('#round-robin-groups-div').show(400);"
+		"> Alagrupid
 	</label>
 
-	<div id="playoffs-div" style="display: none"><img src="playoff.PNG"/></div>
+	<div id="round-robin-groups-div" style="display: none"><img
+			src="http://png.findicons.com/files/icons/1601/cute_critters/512/t9panda_trans.png"/>
+
+	</div>
+	<label class="checkbox">
+		<input type="radio" name="radiobutton" onclick="$(hidediv3).hide();$('#playoffs-div').show(400);
+"> Playoff
+	</label>
+
+	<div id="playoffs-div" style="display: none"><img
+			src="http://png.findicons.com/files/icons/622/care_bears/128/ooopsy_bear.png"/></div>
+
+	<label class="checkbox">
+		<input type="radio" name="radiobutton" onclick="$(hidediv4).hide();$('#ranking-div').show(400);">
+		Paremusj2rjestus
+	</label>
+
+	<div id="ranking-div" style="display: none"><img
+			src="http://png.findicons.com/files/icons/622/care_bears/128/cheer_bear.png"/></div>
 
 </div>
+<script type="text/javascript">
+	var hidediv1 = "#round-robin-groups-div, #playoffs-div, #ranking-div";
+	var hidediv2 = "#round-robin-groups-playoff-div, #playoffs-div, #ranking-div";
+	var hidediv3 = "#round-robin-groups-playoff-div, #round-robin-groups-div,#ranking-div";
+	var hidediv4 = "#round-robin-groups-playoff-div, #round-robin-groups-div, #playoffs-div";
+</script>
+
 
 <div style="clear: both; padding: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
