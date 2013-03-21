@@ -1,4 +1,3 @@
-<? var_dump($tournaments) ?>
 <style type="text/css">
 	body {
 		background-image: url('http://ekodu.bcghaldus.ee/assets/img/light_alu.png');
