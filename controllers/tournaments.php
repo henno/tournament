@@ -17,7 +17,7 @@ class tournaments
 	function add()
 	{
 		global $_request;
-		$this->scripts[]='tournament.js';
+		$this->scripts[] = 'tournament.js';
 
 		// If submit
 		if (isset($_POST['participants'])) {
@@ -25,6 +25,28 @@ class tournaments
 			$tournament = new tournament;
 			$tournament->add();
 		}
+		$tournaments = array(
+			'tournament_id'            => '',
+			'tournament_name'          => '',
+			'tournament_year'          => '2013',
+			'tournament_place'         => 'Torn',
+			'place_id'                 => '0',
+			'deleted'                  => '0',
+			'tournament_start'         => '00.00.2013 00:00:00',
+			'tournament_end'           => '00.00.2013 00:00:00',
+			'tournament_loser_bracket' => '0',
+			'tournament_game_time'     => '1',
+			'tournament_game_pause'    => '1',
+			'tournament_field'         => '1',
+			'tournament_group'         => '1',
+			'tournament_win'           => '1',
+			'tournament_type'          => '1',
+			'tournament_game_win'      => '3',
+			'tournament_game_tie'      => '2',
+			'tournament_game_loss'     => '1'
+		);
+		$place_name = '';
+		$participants = '';
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		require 'views/master_view.php';
@@ -66,44 +88,45 @@ class tournaments
 	}
 
 	function view()
-	{   global $_request;
-		if (isset($_POST['tournament'])){
-			$tournament= $_POST['tournament'];
+	{
+		global $_request;
+		if (isset($_POST['tournament'])) {
+			$tournament = $_POST['tournament'];
 
-			$id=$tournament['tournament_id'];
+			$id = $tournament['tournament_id'];
 			unset($tournament['tournament_id']);
 			$tournament['place_id'] = $this->get_place_id($tournament['place_name']);
 			unset($tournament['place_name']);
 			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
 			$tournament['tournament_end'] = $this->convert_date($tournament['tournament_end']);
-			if(!isset($tournament['tournament_loser_bracket'])){
-				$tournament['tournament_loser_bracket']=0;
+			if (! isset($tournament['tournament_loser_bracket'])) {
+				$tournament['tournament_loser_bracket'] = 0;
+			} else {
+				$tournament['tournament_loser_bracket'] = 1;
 			}
-			else {
-				$tournament['tournament_loser_bracket']=1;
-			}
-			update('tournament',$tournament,"WHERE tournament_id= $id");
+			update('tournament', $tournament, "WHERE tournament_id= $id");
 			$_request->redirect('tournaments');
 		}
 		global $_request;
-		$this->scripts[]='tournament.js';
+		$this->scripts[] = 'tournament.js';
 		$id = $_request->params[0];
-		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
-		$tournament = $tournament[0];
+		$tournaments = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
+		$tournaments = $tournaments[0];
 		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		$participants = get_all(
 			"SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'"
 		);
 
-		$place_id=$tournament['place_id'];
+		$place_id = $tournaments['place_id'];
 		$place_name = get_one("SELECT place_name FROM place WHERE place_id = $place_id ");
-		$tournament_id=$tournament['tournament_id'];
-		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
-		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
+		$tournament_id = $tournaments['tournament_id'];
+		$tournaments['tournament_start'] = $this->convert_date2($tournaments['tournament_start']);
+		$tournaments['tournament_end'] = $this->convert_date2($tournaments['tournament_end']);
 		require 'views/master_view.php';
 
 	}
+
 	function convert_date2($date)
 	{
 		list($date, $time) = explode(' ', $date);
@@ -111,11 +134,13 @@ class tournaments
 		list($h, $min) = explode(':', $time);
 		return "$d.$mon.$y $h:$min:00";
 	}
+
 	private function get_place_id($place_name)
 	{
 		$place_id = get_one("SELECT place_id FROM place WHERE place_name LIKE '$place_name'");
 		return $place_id ? $place_id : q("INSERT INTO place SET place_name='$place_name'");
 	}
+
 	private function convert_date($date)
 	{
 		list($date, $time) = explode(' ', $date);
