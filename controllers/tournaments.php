@@ -28,9 +28,9 @@ class tournaments
 		$tournaments = array(
 			'tournament_id'            => '',
 			'tournament_name'          => '',
-			'tournament_year'          => '2013',
-			'tournament_place'         => 'Torn',
-			'place_id'                 => '0',
+			'tournament_year'          => '',
+			'tournament_place'         => '',
+			'place_id'                 => '',
 			'deleted'                  => '0',
 			'tournament_start'         => '00.00.2013 00:00:00',
 			'tournament_end'           => '00.00.2013 00:00:00',

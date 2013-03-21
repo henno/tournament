@@ -82,7 +82,7 @@
 	}
 
 	.esTextBox {
-		background: url(../../assets/ico/arrowdown.png) 98% 50% no-repeat;
+		background: url(../assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
 
 	.spinner {
@@ -131,7 +131,7 @@
 	}
 
 	.datetimepicker {
-		background: url(../../assets/ico/arrowdown.png) 98% 50% no-repeat;
+		background: url(../assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
 </style>
 
@@ -160,7 +160,7 @@
 			<th>Koht</th>
 			<td>
 				<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
-					<option value=""><?=$place_name?></option>
+					<option value=""><?=!empty($place_name) ? $place_name : '&nbsp;'?></option>
 					<? foreach ($places as $place) : ?>
 						<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
 					<? endforeach?>
@@ -171,7 +171,7 @@
 		<tr>
 			<th>Turniiri algus</th>
 
-			<td><input type="text" id="tournament_start" class="datepicker" name="tournament[tournament_start]"
+			<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
 			           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"
 			           value="<?= $tournaments['tournament_start'] ?>"></td>
 
@@ -179,7 +179,7 @@
 		<tr>
 			<th>Turniiri lõpp</th>
 			<td>
-				<input type="text" class="datepicker" id="tournament_end" name="tournament[tournament_end]"
+				<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
 				       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"
 				       value="<?= $tournaments['tournament_end'] ?>"></td>
 		</tr>
