@@ -92,22 +92,16 @@ function add_participant() {
 	}
 
 	//Verify that the participant names are not same
-	/**
-	 var current = participant_name_field.val();
-	 var check_participant_id = 0;
-	 for (q = 1; q <= participant_id; q++) {
-		var check = participants[check_participant_id].participant_name;
-		if (current == check) {
-			alert("Selline nimi on juba olemas!");
+	var new_name = participant_name_field.val();
+	for (var participant_id in participants) {
+		if(new_name == participants[participant_id].participant_name){
+			alert('Osaleja "' + new_name + '" on juba lisatud.');
 			return false;
 		}
-		var check_participant_id = check_participant_id + 1;
 	}
-	 **/
-
 		// Add new row to participants' table
 	participants_table_body.append('' +
-		'<tr id="participant' + participant_id + '">' +
+		'<tr id="new_participant' + participant_id + '">' +
 		'<td>x</td>' +
 		'<td>' + participant_name_field.val().trim() + '</td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
@@ -119,7 +113,7 @@ function add_participant() {
 		'</tr>');
 
 	// Store new participant in participants array
-	participants['participant' + participant_id] = {
+	participants['new_participant' + participant_id] = {
 		"participant_name"    : participant_name_field.val(),
 		"institute_name"      : institute_name_field.val(),
 		"group_name"          : group_name,
@@ -141,9 +135,9 @@ function add_participant() {
 }
 
 /**
- * L2htestab osalejate tabelis alagruppide veerus ja participants massiivis alagrupid vastavalt alagruppide arvule
+ * Reorganizes groups based on max_group field value.
  */
-function reset_groups() {
+function reinit_groups() {
 	// Reset table
 	participants_table_body.find('tr').each(function () {
 
@@ -243,7 +237,7 @@ $(function () {
 	$('#max_groups').spinner({
 		stop: function (event, ui) {
 			current_group_number = -1;
-			reset_groups()
+			reinit_groups()
 		}
 	});
 
