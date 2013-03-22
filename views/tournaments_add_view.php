@@ -413,6 +413,6 @@
 	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
 <script>
-	participants = JSON.parse('<?=json_encode($participants)?>');
+	var participants = JSON.parse('<?=json_encode($participants)?>');
 </script>
 </form>
