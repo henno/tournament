@@ -14,15 +14,47 @@
 	<style>
 		body {
 			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+			background-image: url('<?=ASSETS_URL?>img/bg.png');
+		}
+
+		h3 {
+			float: left;
+			clear: both;
+			padding-left: 15px;
+		}
+		h1 {
+			padding:0;
+			margin:0;
+		}
+		h1,h2{
+			margin:0;
+			color: white !important;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9) !important;
+
+			}
+		table.table-bordered tr {
+			background-color: #F9F9F9;
+		}
+
+		* {
+			text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+			color: #444;
+		}
+		h3{
+			color: #777 !important;
+		}
+		div.navbar{
+			color: white !important;
+			text-shadow 0 0 0 #000;
 		}
 	</style>
 
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
 	<!-- Fav and touch icons -->
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=ASSETS_URL?>ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=ASSETS_URL?>ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=ASSETS_URL?>ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="<?=ASSETS_URL?>ico/apple-touch-icon-57-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?= ASSETS_URL ?>ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?= ASSETS_URL ?>ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?= ASSETS_URL ?>ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="<?= ASSETS_URL ?>ico/apple-touch-icon-57-precomposed.png">
 	<link rel="shortcut icon" href="<?= ASSETS_URL ?>ico/favicon.png">
 </head>
 
@@ -60,10 +92,10 @@
 
 <!-- Le javascript
 ================================================== -->
-<script>BASE_URL='<?=BASE_URL?>'</script>
+<script>BASE_URL = '<?=BASE_URL?>'</script>
 <?if (! empty($this->scripts)) : ?>
 	<? foreach ($this->scripts as $script) : ?>
-		<script src="<?=ASSETS_URL?>js/<?= $script ?>"></script>
+		<script src="<?= ASSETS_URL ?>js/<?= $script ?>"></script>
 	<? endforeach ?>
 <? endif?>
 </body>

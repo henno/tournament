@@ -25,6 +25,9 @@ class tournaments
 			$tournament = new tournament;
 			$tournament->add();
 		}
+		$datetime = new DateTime; // current time = server time
+		$EEtime  = new DateTimeZone('Europe/Tallinn');
+		$datetime->setTimezone($EEtime); // calculates with new EE time(UTC+2) now
 		$tournaments = array(
 			'tournament_id'            => '',
 			'tournament_name'          => '',
@@ -32,8 +35,8 @@ class tournaments
 			'tournament_place'         => '',
 			'place_id'                 => '',
 			'deleted'                  => '0',
-			'tournament_start'         => '00.00.2013 00:00:00',
-			'tournament_end'           => '00.00.2013 00:00:00',
+			'tournament_start'         => $datetime->format('d.m.Y h:i:s'),
+			'tournament_end'           => $datetime->format('d.m.Y h:i:s'),
 			'tournament_loser_bracket' => '0',
 			'tournament_game_time'     => '1',
 			'tournament_game_pause'    => '1',
