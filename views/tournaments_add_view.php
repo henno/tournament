@@ -167,7 +167,7 @@
 		<tr>
 			<th>Koht:</th>
 			<td>
-				<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
+				<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px" placeholder="Koht">
 					<option value=""><?=! empty($place_name) ? $place_name : '&nbsp;'?></option>
 					<? foreach ($places as $place) : ?>
 						<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
@@ -261,7 +261,7 @@
 
 					<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" autocomplete="off"
 					       style="height:35px; width: 150px" onfocus="$(this).removeClass('viga')">
-					<select id="institute_name" class="makeEditable" style="height: 35px">
+					<select id="institute_name" class="makeEditable" style="height: 35px" placeholder="Instituut">
 						<option value="">&nbsp;</option>
 						<? foreach ($institutes as $institute) : ?>
 							<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>

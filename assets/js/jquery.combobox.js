@@ -74,7 +74,7 @@
 			$clone.css({display:'block', top:'-1000'});
 			$clone.appendTo('body');
 			this.$container = $('<div class="esContainer" />').appendTo(document.body);
-			this.$textbox = $('<input type="text" name="' + $element.attr('id') + '" class="esTextBox" autocomplete="off">').css({
+			this.$textbox = $('<input type="text" name="' + $element.attr('id') + '" class="esTextBox" autocomplete="off" placeholder="' + $element.attr('placeholder') + '">').css({
 				width :$clone.outerWidth(),
 				height:$clone.outerHeight()}).attr('tabindex', this.$select.attr('tabindex'));
 			this.$textbox.appendTo(this.$select.parent());
@@ -107,7 +107,7 @@
 				var $element = $(element);
 				var text = $element.text();
 				if ($element.is(':selected')) {
-					self.value = text;
+					self.value = text.trim();
 					selected = true;
 				}
 				var li = $('<li/>', {text:text});
