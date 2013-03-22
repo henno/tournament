@@ -43,10 +43,10 @@
 		h3{
 			color: #777 !important;
 		}
-		div.navbar{
-			color: white !important;
-			text-shadow 0 0 0 #000;
+		div.navbar a{
+			text-shadow: 0 0 0 #000 !important;
 		}
+
 	</style>
 
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
