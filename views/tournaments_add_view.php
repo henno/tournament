@@ -145,7 +145,7 @@
 <script src="/tournament/assets/js/jquery-ui-timepicker-addon.js"></script>
 <form method="post">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
-<input type="hidden" id="tournament_id" value="<?= $tournaments['tournament_id'] ?>">
+<input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>">
 <div style="clear: both; margin: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
@@ -161,7 +161,7 @@
 			<th>Turniiri nimi:</th>
 			<td><input id="tournament-name" onfocus="$(this).removeClass('viga')" type="text"
 			           name="tournament[tournament_name]" autocomplete="off"
-			           value="<?= $tournaments['tournament_name'] ?>"></td>
+			           value="<?= $tournament['tournament_name'] ?>"></td>
 		</tr>
 		<tr>
 			<th>Koht:</th>
@@ -180,7 +180,7 @@
 
 			<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
 			           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"
-			           value="<?= $tournaments['tournament_start'] ?>"></td>
+			           value="<?= $tournament['tournament_start'] ?>"></td>
 
 		</tr>
 		<tr>
@@ -188,48 +188,48 @@
 			<td>
 				<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
 				       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"
-				       value="<?= $tournaments['tournament_end'] ?>"></td>
+				       value="<?= $tournament['tournament_end'] ?>"></td>
 		</tr>
 		<tr>
 			<th>Kaotajate ring:</th>
 			<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
-					<?=$tournaments['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
+					<?=$tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
 		</tr>
 		<tr>
 			<th>Mängu kestvus:</th>
 			<td><input id="game-length" class="spinner" min="1" maxlength="2"
 			           name="tournament[tournament_game_time]" onkeypress="validate(event)"
-			           onfocus="$(this).removeClass('viga')" value="<?= $tournaments['tournament_game_time'] ?>"></td>
+			           onfocus="$(this).removeClass('viga')" value="<?= $tournament['tournament_game_time'] ?>"></td>
 		</tr>
 		<tr>
 			<th>Paus:</th>
 			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_game_pause]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_pause'] ?>"></td>
+			           onkeypress="validate(event)" value="<?= $tournament['tournament_game_pause'] ?>"></td>
 		</tr>
 		<tr>
 			<th>Platside arv:</th>
 			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_field]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_field'] ?>"/></td>
+			           onkeypress="validate(event)" value="<?= $tournament['tournament_field'] ?>"/></td>
 		</tr>
 		<tr>
 			<th>Edasipääsejaid:</th>
 			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_win]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_win'] ?>"/></td>
+			           onkeypress="validate(event)" value="<?= $tournament['tournament_win'] ?>"/></td>
 		</tr>
 		<tr>
 			<th>Võit:</th>
 			<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_win]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_win'] ?>"/></td>
+			           onkeypress="validate(event)" value="<?= $tournament['tournament_game_win'] ?>"/></td>
 		</tr>
 		<tr>
 			<th>Viik:</th>
 			<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_tie]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_tie'] ?>"/></td>
+			           onkeypress="validate(event)" value="<?= $tournament['tournament_game_tie'] ?>"/></td>
 		</tr>
 		<tr>
 			<th>Kaotus:</th>
 			<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_loss]"
-			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_loss'] ?>"/></td>
+			           onkeypress="validate(event)" value="<?= $tournament['tournament_game_loss'] ?>"/></td>
 		</tr>
 		</tbody>
 	</table>
@@ -244,14 +244,13 @@
 	<div style="width: 200px; float:left">
 		<p>Alagruppide arv:
 			<input class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
-			       onkeypress="validate(event); reset_groups()" value="<?= $tournaments['tournament_group'] ?>"/></p>
+			       onkeypress="validate(event); reinit_groups()" value="<?= $tournament['tournament_group'] ?>"/></p>
+		<p>Võistlejaid alagrupis: 5</p>
 	</div>
 	<div style="width: 250px; float:left">
-		<p>Võistlejate arv alagrupis:
-			<input class="spinner" min="1" maxlength="2" name="tournament[tournament_]"
-			       onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></p>
+		<span class="help-block">Alagruppide arvu muutmisel määratakse mängijatele uued alagrupid.</span>
 	</div>
-	<div style="clear: both">
+		<div style="clear: both">
 		<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
 			<thead>
 			<tr>
@@ -414,6 +413,6 @@
 	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
 <script>
-	participants = JSON.parse(<?=json_encode($participants)?>);
+	participants = JSON.parse('<?=json_encode($participants)?>');
 </script>
 </form>

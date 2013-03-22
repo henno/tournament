@@ -22,13 +22,13 @@ class tournaments
 		// If submit
 		if (isset($_POST['participants'])) {
 			require 'modules/tournament.php';
-			$tournament = new tournament;
-			$tournament->add();
+			$tournament_model = new tournament;
+			$tournament_model->add();
 		}
 		$datetime = new DateTime; // current time = server time
 		$EEtime  = new DateTimeZone('Europe/Tallinn');
 		$datetime->setTimezone($EEtime); // calculates with new EE time(UTC+2) now
-		$tournaments = array(
+		$tournament = array(
 			'tournament_id'            => '',
 			'tournament_name'          => '',
 			'tournament_year'          => '',
@@ -49,7 +49,7 @@ class tournaments
 			'tournament_game_loss'     => '1'
 		);
 		$place_name = '';
-		$participants = '';
+		$participants = array();
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		require 'views/master_view.php';
