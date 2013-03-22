@@ -36,11 +36,11 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="brand" href="#">EMÜ turniirirakendus</a>
+			<a class="brand" href="<?= BASE_URL ?>tournaments">EMÜ turniirirakendus</a>
 
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="<?= BASE_URL ?>tournaments">Home</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="<?= BASE_URL ?>auth/logout">Logout</a></li>
 				</ul>
