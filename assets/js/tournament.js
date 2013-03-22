@@ -1,5 +1,5 @@
 // Declare global variables
-var participant_id = 0;
+var new_participant_id = 0;
 var tournament_id = 0;
 var groups = 'ABCDEFGHIJKLMNOPQRSTUVXYZ';
 var participant_name_field;
@@ -101,19 +101,19 @@ function add_participant() {
 	}
 		// Add new row to participants' table
 	participants_table_body.append('' +
-		'<tr id="new_participant' + participant_id + '">' +
+		'<tr id="new_participant' + new_participant_id + '">' +
 		'<td>x</td>' +
 		'<td>' + participant_name_field.val().trim() + '</td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
 		'<td>' + group_name + '</td>' +
-		'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
+		'<td><input type="checkbox" onclick="toggle_favorite(' + new_participant_id + ')"></td>' +
 		'<td>' +
-		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
+		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + new_participant_id + ')"><i class="icon-trash"></i></a>' +
 		'</td>' +
 		'</tr>');
 
 	// Store new participant in participants array
-	participants['new_participant' + participant_id] = {
+	participants['new_participant' + new_participant_id] = {
 		"participant_name"    : participant_name_field.val(),
 		"institute_name"      : institute_name_field.val(),
 		"group_name"          : group_name,
@@ -121,7 +121,7 @@ function add_participant() {
 	};
 
 	// Bump participants' array's next id number
-	participant_id++;
+	new_participant_id++;
 
 	// Clear participant name and institute fields
 	institute_name_field.val('');
