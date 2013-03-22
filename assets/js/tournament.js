@@ -28,6 +28,7 @@ function add_participant_ajax() {
 					'<td>x</td>' +
 					'<td>' + participant_name_field.val() + '</td>' +
 					'<td>' + institute_name_field.val() + '</td>' +
+					'<td>' + "asd" + '</td>' +
 					'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
 					'<td>' +
 					'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant_ajax(' + participant_id + '); return false"><i class="icon-trash"></i></a>' +
@@ -95,12 +96,16 @@ function add_participant() {
 		var check_participant_id = check_participant_id + 1;
 	}
 
+	// Determine group
+	console.log(participants_table_body.find('tr:last').children('td').eq(3).html().trim());
+
 	// Add new row to participants' table
 	participants_table_body.append('' +
 		'<tr id="participant' + participant_id + '">' +
 		'<td>x</td>' +
 		'<td>' + participant_name_field.val().trim() + '</td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
+		'<td>' + "asd" + '</td>' +
 		'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
 		'<td>' +
 		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
@@ -111,6 +116,7 @@ function add_participant() {
 	participants[participant_id] = {
 		"participant_name"    : participant_name_field.val(),
 		"institute_name"      : institute_name_field.val(),
+		//"group_name"          :
 		"participant_favorite": false
 	};
 
@@ -149,7 +155,7 @@ function convert_table_to_json() {
 	}
 
 	// Check that tournament_place is given & its length is under 21
-	if ($('input[name=tournament-place]').val().length > 21) {
+	if ($('input[name="tournament[place_name]"]').val().length > 21) {
 		alert("Koht ei saa nii pikk olla!");
 		return false;
 	}

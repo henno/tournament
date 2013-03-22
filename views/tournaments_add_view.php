@@ -256,7 +256,7 @@
 		<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
 			<thead>
 			<tr>
-				<td colspan="5">
+				<td colspan="6">
 					<!-- add row begins here -->
 
 					<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name" autocomplete="off"
@@ -283,10 +283,13 @@
 					#
 				</th>
 				<th>
-					Meeskonna/mängija nimi
+					Osaleja
 				</th>
 				<th>
-					instituut
+					Instituut
+				</th>
+				<th>
+					Alagrupp
 				</th>
 				<th title="Vali favoriidiks" style="width: 20px">
 					<i class="icon-star"></i>
@@ -309,6 +312,9 @@
 						</td>
 						<td>
 							<?=$participant['institute_name']?>
+						</td>
+						<td>
+							<?=$participant['group_name']?>
 						</td>
 						<td>
 							<input type="checkbox">
