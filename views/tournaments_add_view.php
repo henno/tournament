@@ -159,13 +159,13 @@
 	<table id="tournament-attributes-table" class="table table-bordered ">
 		<tbody>
 		<tr>
-			<th>Turniiri nimi</th>
+			<th>Turniiri nimi:</th>
 			<td><input id="tournament-name" onfocus="$(this).removeClass('viga')" type="text"
 			           name="tournament[tournament_name]" autocomplete="off"
 			           value="<?= $tournaments['tournament_name'] ?>"></td>
 		</tr>
 		<tr>
-			<th>Koht</th>
+			<th>Koht:</th>
 			<td>
 				<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
 					<option value=""><?=! empty($place_name) ? $place_name : '&nbsp;'?></option>
@@ -177,7 +177,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th>Turniiri algus</th>
+			<th>Turniiri algus:</th>
 
 			<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
 			           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"
@@ -185,7 +185,7 @@
 
 		</tr>
 		<tr>
-			<th>Turniiri lõpp</th>
+			<th>Turniiri lõpp:</th>
 			<td>
 				<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
 				       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"
@@ -197,18 +197,18 @@
 					<?=$tournaments['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
 		</tr>
 		<tr>
-			<th>Mängu kestvus</th>
+			<th>Mängu kestvus:</th>
 			<td><input id="game-length" class="spinner" min="1" maxlength="2"
 			           name="tournament[tournament_game_time]" onkeypress="validate(event)"
 			           onfocus="$(this).removeClass('viga')" value="<?= $tournaments['tournament_game_time'] ?>"></td>
 		</tr>
 		<tr>
-			<th>Paus</th>
+			<th>Paus:</th>
 			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_game_pause]"
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_pause'] ?>"></td>
 		</tr>
 		<tr>
-			<th>Platside arv</th>
+			<th>Platside arv:</th>
 			<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_field]"
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_field'] ?>"/></td>
 		</tr>
@@ -218,7 +218,7 @@
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_win'] ?>"/></td>
 		</tr>
 		<tr>
-			<th>Võit :</th>
+			<th>Võit:</th>
 			<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_win]"
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_win'] ?>"/></td>
 		</tr>
@@ -228,7 +228,7 @@
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_tie'] ?>"/></td>
 		</tr>
 		<tr>
-			<th>Kaotus :</th>
+			<th>Kaotus:</th>
 			<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_loss]"
 			           onkeypress="validate(event)" value="<?= $tournaments['tournament_game_loss'] ?>"/></td>
 		</tr>
@@ -248,7 +248,7 @@
 			       onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></p>
 	</div>
 	<div style="width: 250px; float:left">
-		<p>V6istlejate arv alagrups:
+		<p>Võistlejate arv alagrupis:
 			<input class="spinner" min="1" maxlength="2" name="tournament[tournament_]"
 			       onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></p>
 	</div>
@@ -395,7 +395,7 @@
 
 	<label class="checkbox">
 		<input type="radio" name="radiobutton" onclick="$(hidediv4).hide();$('#ranking-div').show(400);">
-		Paremusj2rjestus
+		Paremusjärjestus
 	</label>
 
 	<div id="ranking-div" style="display: none"><img
