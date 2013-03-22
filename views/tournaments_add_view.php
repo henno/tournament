@@ -141,14 +141,13 @@
 
 
 </style>
-
 <script src="/tournament/assets/js/jquery.combobox.js"></script>
 <script src="/tournament/assets/js/jquery-ui-timepicker-addon.js"></script>
+<form method="post">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournaments['tournament_id'] ?>">
 <div style="clear: both; margin: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
-	<input type="hidden" id="participants" name="participants">
 	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
 
@@ -244,8 +243,8 @@
 
 	<div style="width: 200px; float:left">
 		<p>Alagruppide arv:
-			<input class="spinner" min="1" maxlength="2" name="tournament[tournament_group]"
-			       onkeypress="validate(event)" value="<?= $tournaments['tournament_group'] ?>"/></p>
+			<input class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
+			       onkeypress="validate(event); reset_groups()" value="<?= $tournaments['tournament_group'] ?>"/></p>
 	</div>
 	<div style="width: 250px; float:left">
 		<p>Võistlejate arv alagrupis:
@@ -409,9 +408,12 @@
 	var hidediv4 = "#round-robin-groups-playoff-div, #round-robin-groups-div, #playoffs-div";
 </script>
 
-
 <div style="clear: both; padding: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<input type="hidden" id="participants" name="participants">
 	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
+<script>
+	participants = JSON.parse(<?=json_encode($participants)?>);
+</script>
+</form>
