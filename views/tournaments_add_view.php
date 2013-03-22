@@ -1,20 +1,31 @@
 <style type="text/css">
 	body {
-		background-image: url('http://ekodu.bcghaldus.ee/assets/img/light_alu.png');
 	}
-
 	.kast {
+		box-shadow: 1px 1px 5px 0px #363636, -1px -1px 5px 0px #363636;
+		border-radius: 5px;
 		width: 450px;
 		float: left;
 		border: 1px solid black;
-		padding: 5px 30px 10px 30px;
-		border-color: lightgray darkgrey darkgray lightgrey;
+		padding: 90px 30px 10px 30px;
+		border-color: #ddd;
 		margin-right: 20px;
 		margin-top: 10px;
 		position: relative !important;
 		background: #eeeeee;
+		/*background: url('<?=ASSETS_URL?>img/bm.jpg') #eee repeat;*/
 	}
-
+	.titlebar {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		border-radius: 5px 5px 0 0;
+		height: 50px;
+		border-bottom: 1px solid lightgrey;
+		padding-bottom: 10px;
+		background: url('<?=ASSETS_URL?>img/titleebar-bg.png') #ddd repeat-x;
+	}
 	.number {
 		display: inline-block;
 		position: absolute;
@@ -23,12 +34,9 @@
 		font-size: 2.5em;
 		font-weight: bold;
 		color: lightgrey;
+		z-index: 20;
 	}
 
-	h3 {
-		float: left;
-		clear: both;
-	}
 
 		/* css for timepicker */
 	.ui-timepicker-div dl {
@@ -77,6 +85,7 @@
 	.makeEditable {
 		width: 100px;
 	}
+
 	.esItemHover {
 		background: #E3E4FA;
 	}
@@ -112,10 +121,6 @@
 		padding: 5px;
 	}
 
-	table.table-bordered tr {
-		background-color: #F9F9F9;
-	}
-
 	#tournament-attributes-table td {
 		max-width: 125px;
 		padding: 5px;
@@ -133,11 +138,13 @@
 	.datetimepicker {
 		background: url(../assets/ico/arrowdown.png) 98% 50% no-repeat;
 	}
+
+
 </style>
 
 <script src="/tournament/assets/js/jquery.combobox.js"></script>
 <script src="/tournament/assets/js/jquery-ui-timepicker-addon.js"></script>
-<h1>Turniiri lisamine</h1>
+<div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournaments['tournament_id'] ?>">
 <div style="clear: both; margin: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
@@ -147,7 +154,8 @@
 
 <div class="kast">
 	<div class="number">1</div>
-	<h3>Turniiri üldandmed</h3>
+	<div class="titlebar"><h3>Turniiri üldandmed</h3>
+	</div>
 	<table id="tournament-attributes-table" class="table table-bordered ">
 		<tbody>
 		<tr>
@@ -160,7 +168,7 @@
 			<th>Koht</th>
 			<td>
 				<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px">
-					<option value=""><?=!empty($place_name) ? $place_name : '&nbsp;'?></option>
+					<option value=""><?=! empty($place_name) ? $place_name : '&nbsp;'?></option>
 					<? foreach ($places as $place) : ?>
 						<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
 					<? endforeach?>
@@ -229,7 +237,10 @@
 </div>
 <div class="kast">
 	<div class="number">2</div>
-	<h3>Osalejad</h3><br/><br/><br/>
+	<div class="titlebar"><h3>
+			Osalejad
+	</h3>
+	</div>
 
 	<div style="width: 200px; float:left">
 		<p>Alagruppide arv:
