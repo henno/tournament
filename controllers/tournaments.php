@@ -22,13 +22,13 @@ class tournaments
 		// If submit
 		if (isset($_POST['participants'])) {
 			require 'modules/tournament.php';
-			$tournament = new tournament;
-			$tournament->add();
+			$tournament_model = new tournament;
+			$tournament_model->add();
 		}
 		$datetime = new DateTime; // current time = server time
 		$EEtime  = new DateTimeZone('Europe/Tallinn');
 		$datetime->setTimezone($EEtime); // calculates with new EE time(UTC+2) now
-		$tournaments = array(
+		$tournament = array(
 			'tournament_id'            => '',
 			'tournament_name'          => '',
 			'tournament_year'          => '',
@@ -49,7 +49,7 @@ class tournaments
 			'tournament_game_loss'     => '1'
 		);
 		$place_name = '';
-		$participants = '';
+		$participants = array();
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
 		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		require 'views/master_view.php';
@@ -92,6 +92,7 @@ class tournaments
 
 	function view()
 	{
+		var_dump($_POST);
 		global $_request;
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
@@ -113,19 +114,20 @@ class tournaments
 		global $_request;
 		$this->scripts[] = 'tournament.js';
 		$id = $_request->params[0];
-		$tournaments = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
-		$tournaments = $tournaments[0];
+		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
+		$tournament = $tournament[0];
 		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
-		$participants = get_all(
-			"SELECT * FROM participant as pa LEFT JOIN institute using(institute_id) WHERE pa.deleted=0 AND tournament_id='$id'"
-		);
+		$participants = get_all("SELECT *
+								 FROM participant as pa
+								 LEFT JOIN institute using(institute_id)
+								 WHERE pa.deleted=0 AND tournament_id='$id'");
 
-		$place_id = $tournaments['place_id'];
+		$place_id = $tournament['place_id'];
 		$place_name = get_one("SELECT place_name FROM place WHERE place_id = $place_id ");
-		$tournament_id = $tournaments['tournament_id'];
-		$tournaments['tournament_start'] = $this->convert_date2($tournaments['tournament_start']);
-		$tournaments['tournament_end'] = $this->convert_date2($tournaments['tournament_end']);
+		$tournament_id = $tournament['tournament_id'];
+		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
+		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
 		require 'views/master_view.php';
 
 	}

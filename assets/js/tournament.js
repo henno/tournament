@@ -1,10 +1,12 @@
 // Declare global variables
-var participant_id = 0;
+var new_participant_id = 0;
 var tournament_id = 0;
-var participants = new Array;
+var groups = 'ABCDEFGHIJKLMNOPQRSTUVXYZ';
 var participant_name_field;
 var participants_table_body;
 var institute_name_field;
+var max_groups_field;
+var current_group_number = -1;
 
 function add_participant_ajax() {
 
@@ -28,6 +30,7 @@ function add_participant_ajax() {
 					'<td>x</td>' +
 					'<td>' + participant_name_field.val() + '</td>' +
 					'<td>' + institute_name_field.val() + '</td>' +
+					'<td>' + "asd" + '</td>' +
 					'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
 					'<td>' +
 					'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant_ajax(' + participant_id + '); return false"><i class="icon-trash"></i></a>' +
@@ -60,7 +63,7 @@ function remove_participant_ajax(id) {
 	// Remove specified row from participant table
 	$.post(BASE_URL + "tournaments/remove_participant/" + id)
 		.done(function (data) {
-			if (data == 'OK'){
+			if (data == 'OK') {
 				$('table#participants-table>tbody>tr#participant' + id).remove();
 				// Reset numbers
 				reset_numbers();
@@ -70,8 +73,13 @@ function remove_participant_ajax(id) {
 		});
 }
 
-function add_participant() {
+function get_group_name() {
 
+	current_group_number = (current_group_number++ >= max_groups_field.val()-1) ? 0 : current_group_number;
+	return groups[current_group_number];
+}
+function add_participant() {
+	group_name = get_group_name();
 	// Verify that the participant name field is correctly filled, or else abort
 	if (!participant_name_field.val()) {
 		participant_name_field.addClass('viga');
@@ -84,38 +92,36 @@ function add_participant() {
 	}
 
 	//Verify that the participant names are not same
-	var current = participant_name_field.val();
-	var check_participant_id = 0;
-	for (q = 1; q <= participant_id; q++) {
-		var check = participants[check_participant_id].participant_name;
-		if (current == check) {
-			alert("Selline nimi on juba olemas!");
+	var new_name = participant_name_field.val();
+	for (var participant_id in participants) {
+		if(new_name == participants[participant_id].participant_name){
+			alert('Osaleja "' + new_name + '" on juba lisatud.');
 			return false;
 		}
-		var check_participant_id = check_participant_id + 1;
 	}
-
-	// Add new row to participants' table
+		// Add new row to participants' table
 	participants_table_body.append('' +
-		'<tr id="participant' + participant_id + '">' +
+		'<tr id="new_participant' + new_participant_id + '">' +
 		'<td>x</td>' +
 		'<td>' + participant_name_field.val().trim() + '</td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
-		'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
+		'<td>' + group_name + '</td>' +
+		'<td><input type="checkbox" onclick="toggle_favorite(' + new_participant_id + ')"></td>' +
 		'<td>' +
-		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + participant_id + ')"><i class="icon-trash"></i></a>' +
+		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + new_participant_id + ')"><i class="icon-trash"></i></a>' +
 		'</td>' +
 		'</tr>');
 
 	// Store new participant in participants array
-	participants[participant_id] = {
+	participants['new_participant' + new_participant_id] = {
 		"participant_name"    : participant_name_field.val(),
 		"institute_name"      : institute_name_field.val(),
+		"group_name"          : group_name,
 		"participant_favorite": false
 	};
 
 	// Bump participants' array's next id number
-	participant_id++;
+	new_participant_id++;
 
 	// Clear participant name and institute fields
 	institute_name_field.val('');
@@ -126,6 +132,22 @@ function add_participant() {
 
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
+}
+
+/**
+ * Reorganizes groups based on max_group field value.
+ */
+function reinit_groups() {
+	// Reset table
+	participants_table_body.find('tr').each(function () {
+
+		// Overwrite group cell
+		var new_group_name = get_group_name();
+		$(this).find('td:nth-child(4)').html(new_group_name);
+		var participant_id = $(this).attr('id');
+		console.log(participant_id);
+		participants[participant_id]['group_name'] = new_group_name;
+	});
 }
 function toggle_favorite(participant_id) {
 	participants[participant_id]['participant_favorite'] = participants[participant_id]['participant_favorite'] ? false : true;
@@ -149,7 +171,7 @@ function convert_table_to_json() {
 	}
 
 	// Check that tournament_place is given & its length is under 21
-	if ($('input[name=tournament-place]').val().length > 21) {
+	if ($('input[name="tournament[place_name]"]').val().length > 21) {
 		alert("Koht ei saa nii pikk olla!");
 		return false;
 	}
@@ -160,7 +182,7 @@ function convert_table_to_json() {
 		return false;
 	}
 
-// JSONize participants array
+	// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
 
 	// Assign JSONized array to hidden input field
@@ -212,13 +234,21 @@ $(function () {
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	$('.spinner').spinner();
 
-	// Initialize place_name combobox
+	$('#max_groups').spinner({
+		stop: function (event, ui) {
+			current_group_number = -1;
+			reinit_groups()
+		}
+	});
+
+// Initialize place_name combobox
 	$('.makeEditable').editableSelect();
 
-	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
+// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
 	institute_name_field = $('input[name="institute_name"]');
-	participant_name_field = $('#participant_name');
+	participant_name_field = $('input#participant_name');
 	participants_table_body = $('table#participants-table > tbody:last');
+	max_groups_field = $('input#max_groups');
 
 	var keyStop = {
 		8 : ":not(input:text, textarea)", // stop backspace = back
@@ -277,4 +307,5 @@ $(function () {
 			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
 		}
 	});
-});
+})
+;
