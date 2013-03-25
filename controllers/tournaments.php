@@ -92,7 +92,6 @@ class tournaments
 
 	function view()
 	{
-		var_dump($_POST);
 		global $_request;
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
