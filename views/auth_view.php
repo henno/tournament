@@ -16,6 +16,17 @@
 			background-color: #f5f5f5;
 		}
 
+		#supported_browsers {
+			text-align:center;
+			padding-bottom: 40px;
+			font-size: 16px;
+			color: #333333;
+		}
+		a img {
+			width:86px;
+			margin-top: 40px;
+		}
+
 		.form-signin {
 			max-width: 300px;
 			padding: 19px 29px 29px;
@@ -70,6 +81,24 @@
 		<?=$error?>
 	</div>
 	<? endforeach; endif ?>
+
+	<!--If user browser is unsupported-->
+	<!--
+	Unsupported:
+		Safari  and lower
+		IE 9? and lower
+		Opera 9? (or higher? - couldn't test higher than 9)
+	-->
+	<!--[if lt IE 9]>
+	<div id="supported_browsers">
+	<span>Praeguse brauseri kasutamisel võib lehega tekkida probleeme. <br/> Parima kasutuskogemuse jaoks on soovitatav
+		kasutatada uuemaid brausereid:</span><br/>
+	<a href="https://www.google.com/intl/et/chrome/browser/"><img src="<?= ASSETS_URL ?>ico/browsers/chrome.png"/></a>
+	<a href="http://www.mozilla.org/et/firefox/new/"><img src="<?= ASSETS_URL ?>ico/browsers/firefox.png"/></a>
+	<a href="http://www.opera.com/computer/"><img src="<?= ASSETS_URL ?>ico/browsers/opera.png"/></a>
+	<a href="http://windows.microsoft.com/et-ee/internet-explorer/download-ie"><img src="<?= ASSETS_URL ?>ico/browsers/ie.png"/></a>
+	</div>
+	<![endif]-->
 
 	<form class="form-signin" method="post">
 		<h2 class="form-signin-heading">Logi sisse</h2>
