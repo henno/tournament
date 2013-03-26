@@ -176,7 +176,8 @@
 <ul>
 	<li><a href="#tabs-1">Üldandmed</a></li>
 	<li><a href="#tabs-2">Mängijate lisamine</a></li>
-	<li><a href="#tabs-3">Playoff</a></li>
+	<li style="display: none" name="alagrupp"><a href="#tabs-3">Alagrupp</a></li>
+	<li style="display: none" name="playoff"><a href="#tabs-4">Playoff</a></li>
 </ul>
 
 <div id="tabs-1">
@@ -363,7 +364,8 @@
 			</table>
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv1).hide();$('#round-robin-groups-playoff-div').show(400)">
+			<input type="radio" name="radiobutton" onclick="$(hidediv1).hide();$('#round-robin-groups-playoff-div').show(400);
+			$('[name=playoff]').show();$('[name=alagrupp]').show();">
 			Alagrupid + playoff
 		</label>
 
@@ -409,8 +411,8 @@
 			</table>
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv2).hide();$('#round-robin-groups-div').show(400);"
-			"> Alagrupid
+			<input type="radio" name="radiobutton" onclick="$(hidediv2).hide();$('#round-robin-groups-div').show(400);
+			 $('[name=alagrupp]').show();$('[name=playoff]').hide();"> Alagrupid
 		</label>
 
 		<div id="round-robin-groups-div" style="display: none"><img
@@ -418,15 +420,16 @@
 
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv3).hide();$('#playoffs-div').show(400);
-"> Playoff
+			<input type="radio" name="radiobutton" onclick="$(hidediv3).hide();$('#playoffs-div').show(400);$('[name=playoff]')
+			.show();$('[name=alagrupp]').hide();"> Playoff
 		</label>
 
 		<div id="playoffs-div" style="display: none"><img
 				src="http://png.findicons.com/files/icons/622/care_bears/128/ooopsy_bear.png"/></div>
 
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv4).hide();$('#ranking-div').show(400);">
+			<input type="radio" name="radiobutton" onclick="$(hidediv4).hide();$('#ranking-div').show(400); $
+			('[name=alagrupp]').hide();$('[name=playoff]').hide();">
 			Paremusjärjestus
 		</label>
 
