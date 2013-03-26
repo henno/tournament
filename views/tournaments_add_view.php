@@ -15,7 +15,7 @@
 		position: relative !important;
 		background: #eeeeee;
 		/*background: url('
-	<?=ASSETS_URL?> img/bm.jpg') #eee repeat;*/
+	<?=ASSETS_URL?>  img/bm.jpg') #eee repeat;*/
 	}
 
 	.titlebar {
@@ -166,7 +166,7 @@
 <script src="/tournament/assets/js/jquery-ui-timepicker-addon.js"></script>
 <form method="post" id="tournament-add-form">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
-<input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name ="tournament[tournament_id]">
+<input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
 
 <div style="clear: both; margin: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
@@ -277,7 +277,8 @@
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
 				<input class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
-				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()" value="<?= $tournament['tournament_group'] ?>"/></p>
+				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()"
+				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
 			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
 		</div>
@@ -362,6 +363,13 @@
 				}?>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<div class="kast">
+		<div class="number">3</div>
+		<div class="titlebar"><h3>
+				Mängu tüüp
+			</h3>
 		</div>
 		<label class="checkbox">
 			<input type="radio" name="radiobutton" onclick="$(hidediv1).hide();$('#round-robin-groups-playoff-div').show(400);
