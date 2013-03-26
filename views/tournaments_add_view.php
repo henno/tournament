@@ -372,8 +372,7 @@
 			</h3>
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv1).hide();$('#round-robin-groups-playoff-div').show(400);
-			$('[name=playoff]').show();$('[name=alagrupp]').show();">
+			<input type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').show();">
 			Alagrupid + playoff
 		</label>
 
@@ -419,40 +418,22 @@
 			</table>
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv2).hide();$('#round-robin-groups-div').show(400);
-			 $('[name=alagrupp]').show();$('[name=playoff]').hide();"> Alagrupid
+			<input type="radio" name="radiobutton" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide();"> Alagrupid
 		</label>
 
-		<div id="round-robin-groups-div" style="display: none"><img
-				src="http://png.findicons.com/files/icons/1601/cute_critters/512/t9panda_trans.png"/>
-
-		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv3).hide();$('#playoffs-div').show(400);$('[name=playoff]')
-			.show();$('[name=alagrupp]').hide();"> Playoff
+			<input type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide();"> Playoff
 		</label>
 
-		<div id="playoffs-div" style="display: none"><img
-				src="http://png.findicons.com/files/icons/622/care_bears/128/ooopsy_bear.png"/></div>
-
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$(hidediv4).hide();$('#ranking-div').show(400); $
-			('[name=alagrupp]').hide();$('[name=playoff]').hide();">
+			<input type="radio" name="radiobutton" onclick="$('[name=alagrupp]').hide();$('[name=playoff]').hide();">
 			Paremusjärjestus
 		</label>
 
-		<div id="ranking-div" style="display: none"><img
-				src="http://png.findicons.com/files/icons/622/care_bears/128/cheer_bear.png"/></div>
-
 	</div>
 </div>
-<script type="text/javascript">
-	var hidediv1 = "#round-robin-groups-div, #playoffs-div, #ranking-div";
-	var hidediv2 = "#round-robin-groups-playoff-div, #playoffs-div, #ranking-div";
-	var hidediv3 = "#round-robin-groups-playoff-div, #round-robin-groups-div,#ranking-div";
-	var hidediv4 = "#round-robin-groups-playoff-div, #round-robin-groups-div, #playoffs-div";
-</script>
-
+<div id="tabs-3"></div>
+<div id="tabs-4"></div>
 </div>
 <div style="clear: both; padding: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
