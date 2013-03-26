@@ -72,6 +72,18 @@ function remove_participant_ajax(id) {
 				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
 		});
 }
+function remove_tournament_ajax(id) {
+
+	// Remove specified row from table
+	$.post(BASE_URL + "tournaments/remove/" + id)
+		.done(function (data) {
+			if (data == 'OK') {
+				$('table#tournaments-table>tbody>tr#tournament' + id).remove();
+			}
+			else
+				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
+		});
+}
 
 function get_group_name() {
 
