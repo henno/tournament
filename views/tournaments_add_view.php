@@ -277,7 +277,7 @@
 
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
-				<input class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
+				<input tabindex="1"  class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
 				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
@@ -293,16 +293,17 @@
 					<td colspan="6">
 						<!-- add row begins here -->
 
-						<input type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name"
+						<input tabindex="2" type="text" class="input-small" placeholder="Võistleja nimi" id="participant_name"
 						       autocomplete="off"
-						       style="height:35px; width: 150px" onfocus="$(this).removeClass('viga')">
-						<select id="institute_name" class="makeEditable" style="height: 35px" placeholder="Instituut">
+						       style="height:35px; width: 150px;" onfocus="$(this).removeClass('viga')">
+						<select tabindex="3" id="institute_name" class="makeEditable" style="height: 35px;"
+						        placeholder="Instituut">
 							<option value="">&nbsp;</option>
 							<? foreach ($institutes as $institute) : ?>
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button type="button" class="btn btn-large" onclick="add_participant()"
+						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant()"
 						        style="margin-left:5px; float: right ">
 							Lisa
 							mängija
@@ -373,7 +374,8 @@
 			</h3>
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').show();">
+			<input tabindex="5" type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').show()
+			;">
 			Alagrupid + playoff
 		</label>
 
@@ -419,15 +421,18 @@
 			</table>
 		</div>
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide();"> Alagrupid
+			<input tabindex="6"  type="radio" name="radiobutton" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide
+			();"> Alagrupid
 		</label>
 
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide();"> Playoff
+			<input  tabindex="7" type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
+			();"> Playoff
 		</label>
 
 		<label class="checkbox">
-			<input type="radio" name="radiobutton" onclick="$('[name=alagrupp]').hide();$('[name=playoff]').hide();">
+			<input tabindex="8" type="radio" name="radiobutton" onclick="$('[name=alagrupp]').hide();$('[name=playoff]').hide()
+			;">
 			Paremusjärjestus
 		</label>
 
@@ -437,9 +442,9 @@
 <div id="tabs-4"></div>
 </div>
 <div style="clear: both; padding: 15px 0">
-	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
+	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<input type="hidden" id="participants" name="participants">
-	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
+	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
 <script>
 	var participants = JSON.parse('<?=json_encode($participants)?>');
