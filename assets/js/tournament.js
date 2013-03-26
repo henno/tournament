@@ -90,6 +90,9 @@ function get_group_name() {
 	current_group_number = (current_group_number++ >= max_groups_field.val()-1) ? 0 : current_group_number;
 	return groups[current_group_number];
 }
+function update_participant_count() {
+	$('#participant-count').html(Math.round(participants_table_body.find('tr').length / $('#max_groups').val()));
+}
 function add_participant() {
 	group_name = get_group_name();
 	// Verify that the participant name field is correctly filled, or else abort
@@ -142,6 +145,8 @@ function add_participant() {
 	// Reset numbers
 	reset_numbers();
 
+	// Update participant count
+	update_participant_count();
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
@@ -157,9 +162,9 @@ function reinit_groups() {
 		var new_group_name = get_group_name();
 		$(this).find('td:nth-child(4)').html(new_group_name);
 		var participant_id = $(this).attr('id');
-		console.log(participant_id);
 		participants[participant_id]['group_name'] = new_group_name;
 	});
+	update_participant_count();
 }
 function toggle_favorite(participant_id) {
 	participants[participant_id]['participant_favorite'] = participants[participant_id]['participant_favorite'] ? false : true;
@@ -200,6 +205,7 @@ function convert_table_to_json() {
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 
+	// Check whether the tournament start is set and is earlier than tournament end
 	$(".datepicker").datetimepicker();
 
 	var start = $('#tournament_start').val();
@@ -246,10 +252,12 @@ $(function () {
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	$('.spinner').spinner();
 
+	participants_table_body = $('table#participants-table > tbody:last');
 	$('#max_groups').spinner({
 		stop: function (event, ui) {
 			current_group_number = -1;
-			reinit_groups()
+			reinit_groups();
+			update_participant_count()
 		}
 	});
 
@@ -259,7 +267,6 @@ $(function () {
 // Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
 	institute_name_field = $('input[name="institute_name"]');
 	participant_name_field = $('input#participant_name');
-	participants_table_body = $('table#participants-table > tbody:last');
 	max_groups_field = $('input#max_groups');
 
 	var keyStop = {

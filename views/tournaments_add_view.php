@@ -271,14 +271,14 @@
 			</h3>
 		</div>
 
-		<div style="width: 200px; float:left">
+		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
 				<input class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
-				       onkeypress="validate(event); reinit_groups()" value="<?= $tournament['tournament_group'] ?>"/></p>
+				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()" value="<?= $tournament['tournament_group'] ?>"/></p>
 
-			<p>Võistlejaid alagrupis: 5</p>
+			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
 		</div>
-		<div style="width: 250px; float:left">
+		<div style="width: 200px; float:left">
 			<span class="help-block">Alagruppide arvu muutmisel määratakse mängijatele uued alagrupid.</span>
 		</div>
 		<div style="clear: both">
