@@ -155,6 +155,7 @@
 		box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
 		border-radius: 5px;
 	}
+	@media screen and (max-width:1200px) { .kast { float: none} }
 
 </style>
 <script>
@@ -266,7 +267,7 @@
 		</table>
 	</div>
 </div>
-<div id="tabs-2">
+<div id="tabs-2" >
 	<div class="kast">
 		<div class="number">2</div>
 		<div class="titlebar"><h3>
