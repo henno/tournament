@@ -3,7 +3,7 @@
 	}
 
 	.kast {
-		box-shadow: 1px 1px 5px 0px #363636, -1px -1px 5px 0px #363636;
+		box-shadow: 1px 1px 5px 0 #505050, -1px -1px 5px 0 #505050;
 		border-radius: 5px;
 		width: 450px;
 		float: left;
@@ -152,6 +152,8 @@
 		zoom: 1;
 		float: left;
 		padding-bottom: 15px;
+		box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
+		border-radius: 5px;
 	}
 
 </style>
