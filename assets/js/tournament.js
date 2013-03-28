@@ -8,6 +8,20 @@ var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
 
+function remove_tournament_ajax(id) {
+
+	// Remove specified row from table
+	$.post(BASE_URL + "tournaments/remove/" + id)
+		.done(function (data) {
+			if (data == 'OK') {
+				$('table#tournaments-table>tbody>tr#tournament' + id).remove();
+				alert("Turniir kustutatud");
+			}
+			else
+				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
+		});
+}
+
 function get_group_name() {
 
 	current_group_number = (current_group_number++ >= max_groups_field.val() - 1) ? 0 : current_group_number;
