@@ -59,6 +59,25 @@ function add_participant() {
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
+function verify_participant_names(){
+	if(participants_table_body.find('tr').length == 0){
+
+		add_participant()
+	}
+	else{
+participants_table_body.find('tr').each(function () {
+	var participant_name = $(this).find('td:nth-child(2)').html();
+	if (participant_name == participant_name_field.val().trim()) {
+		if (!confirm('Oled kindel?')) {
+			return false;
+		}
+		else{
+			add_participant();
+		}
+	}
+});
+	}
+}
 
 /**
  * Reorganizes groups based on max_group field value.

@@ -303,7 +303,7 @@
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant()"
+						<button tabindex="4"  type="button"  class="btn btn-large" onclick="verify_participant_names()"
 						        style="margin-left:5px; float: right ">
 							Lisa
 							mängija
