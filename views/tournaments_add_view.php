@@ -163,8 +163,8 @@
 		$("#tabs").tabs();
 	});
 </script>
-<script src="/tournament/assets/js/jquery.combobox.js"></script>
-<script src="/tournament/assets/js/jquery-ui-timepicker-addon.js"></script>
+<script src="<?= ASSETS_URL?>/tournament/assets/js/jquery.combobox.js"></script>
+<script src="<?= ASSETS_URL?>/tournament/assets/js/jquery-ui-timepicker-addon.js"></script>
 <form method="post" id="tournament-add-form">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
