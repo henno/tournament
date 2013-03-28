@@ -122,7 +122,6 @@ class tournaments
 								 FROM participant as pa
 								 LEFT JOIN institute using(institute_id)
 								 WHERE pa.deleted=0 AND tournament_id='$id'");
-
 		$place_id = $tournament['place_id'];
 		$place_name = get_one("SELECT place_name FROM place WHERE place_id = $place_id ");
 		$tournament_id = $tournament['tournament_id'];

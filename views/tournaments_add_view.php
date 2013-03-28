@@ -339,7 +339,7 @@
 				<? if (! empty($participants)) {
 					$i = 1;
 					foreach ($participants as $participant): ?>
-						<tr id="participant<?= $participant['participant_id'] ?>">
+						<tr id="existing_participant<?= $participant['participant_id'] ?>">
 							<td>
 								<?=$i ++?>
 							</td>
@@ -353,12 +353,13 @@
 								<?=$participant['group_name']?>
 							</td>
 							<td>
-								<input type="checkbox">
+								<input id="favorite" type="checkbox">
 							</td>
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
-								   onclick="if (!confirm('Oled kindel?'))return false; remove_participant_ajax
-									   (<?= $participant['participant_id'] ?>); return false"><i class="icon-trash">
+								   onclick="if (!confirm('Oled kindel?'))return false; remove_participant
+									   ('existing_participant<?= $participant['participant_id'] ?>'); return false"><i
+										class="icon-trash">
 							</td>
 						</tr>
 					<? endforeach;
@@ -449,4 +450,5 @@
 <script>
 	var participants = JSON.parse('<?=json_encode($participants)?>');
 </script>
+<?var_dump($participants)?>
 </form>

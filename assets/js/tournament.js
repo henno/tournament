@@ -8,83 +8,6 @@ var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
 
-function add_participant_ajax() {
-
-	// Verify that the participant name field is correctly filled, or else abort
-	if (!participant_name_field.val()) {
-		participant_name_field.addClass('viga');
-		return false;
-	}
-	// Add specified row from participant table
-	$.post(BASE_URL + "tournaments/add_participant", {
-		"participant_name": participant_name_field.val(),
-		"institute_name"  : institute_name_field.val(),
-		"tournament_id"   : tournament_id
-
-	})
-		.done(function (data) {
-			if (data == 'OK') {
-				// Add new row to participants' table
-				participants_table_body.append('' +
-					'<tr id="participant' + participant_id + '">' +
-					'<td>x</td>' +
-					'<td>' + participant_name_field.val() + '</td>' +
-					'<td>' + institute_name_field.val() + '</td>' +
-					'<td>' + "asd" + '</td>' +
-					'<td><input type="checkbox" onclick="toggle_favorite(' + participant_id + ')"></td>' +
-					'<td>' +
-					'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant_ajax(' + participant_id + '); return false"><i class="icon-trash"></i></a>' +
-					'</td>' +
-					'</tr>');
-
-				// Store new participant in participants array
-				participants[participant_id] = {
-					"participant_name"    : participant_name_field.val(),
-					"institute_name"      : institute_name_field.val(),
-					"participant_favorite": false
-				};
-
-				// Reset numbers
-				reset_numbers();
-
-				// Bump participants' array's next id number
-				participant_id++;
-
-				// Clear participant name and institute fields
-				institute_name_field.val('');
-				participant_name_field.val('');
-			}
-			else
-				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
-		});
-}
-function remove_participant_ajax(id) {
-
-	// Remove specified row from participant table
-	$.post(BASE_URL + "tournaments/remove_participant/" + id)
-		.done(function (data) {
-			if (data == 'OK') {
-				$('table#participants-table>tbody>tr#participant' + id).remove();
-				// Reset numbers
-				reset_numbers();
-			}
-			else
-				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
-		});
-}
-function remove_tournament_ajax(id) {
-
-	// Remove specified row from table
-	$.post(BASE_URL + "tournaments/remove/" + id)
-		.done(function (data) {
-			if (data == 'OK') {
-				$('table#tournaments-table>tbody>tr#tournament' + id).remove();
-			}
-			else
-				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
-		});
-}
-
 function get_group_name() {
 
 	current_group_number = (current_group_number++ >= max_groups_field.val()-1) ? 0 : current_group_number;
@@ -106,14 +29,8 @@ function add_participant() {
 		return false;
 	}
 
-	//Verify that the participant names are not same
-	var new_name = participant_name_field.val();
-	for (var participant_id in participants) {
-		if(new_name == participants[participant_id].participant_name){
-			alert('Osaleja "' + new_name + '" on juba lisatud.');
-			return false;
-		}
-	}
+	// TODO Verify that the participant names are not same
+
 		// Add new row to participants' table
 	participants_table_body.append('' +
 		'<tr id="new_participant' + new_participant_id + '">' +
@@ -121,19 +38,11 @@ function add_participant() {
 		'<td>' + participant_name_field.val().trim() + '</td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
 		'<td>' + group_name + '</td>' +
-		'<td><input type="checkbox" onclick="toggle_favorite(' + new_participant_id + ')"></td>' +
+		'<td><input type="checkbox"></td>' +
 		'<td>' +
-		'<a href="#" onclick="if (confirm(' + "'Oled kindel?'" + ')) remove_participant(' + new_participant_id + ')"><i class="icon-trash"></i></a>' +
+		'<a href="#" onclick="if (confirm(' + "'Oled kindel?')) remove_participant('new_participant" + new_participant_id + "')"+'"><i class="icon-trash"></i></a>' +
 		'</td>' +
 		'</tr>');
-
-	// Store new participant in participants array
-	participants['new_participant' + new_participant_id] = {
-		"participant_name"    : participant_name_field.val(),
-		"institute_name"      : institute_name_field.val(),
-		"group_name"          : group_name,
-		"participant_favorite": false
-	};
 
 	// Bump participants' array's next id number
 	new_participant_id++;
@@ -162,12 +71,8 @@ function reinit_groups() {
 		var new_group_name = get_group_name();
 		$(this).find('td:nth-child(4)').html(new_group_name);
 		var participant_id = $(this).attr('id');
-		participants[participant_id]['group_name'] = new_group_name;
 	});
 	update_participant_count();
-}
-function toggle_favorite(participant_id) {
-	participants[participant_id]['participant_favorite'] = participants[participant_id]['participant_favorite'] ? false : true;
 }
 function reset_numbers() {
 
@@ -198,6 +103,15 @@ function convert_table_to_json() {
 		$('#game-length').addClass('viga');
 		return false;
 	}
+
+	// Create participants array
+	participants_table_body.find('tr').each(function () {
+		var participant_id = $(this).attr('id');
+		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').html();
+		participants[participant_id]['institute_name'] = $(this).find('td:nth-child(3)').html();
+		participants[participant_id]['group_name'] = $(this).find('td:nth-child(4)').html();
+		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5)').html();
+	});
 
 	// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
@@ -230,7 +144,7 @@ function convert_table_to_json() {
 function remove_participant(id) {
 
 	// Remove specified row from participant table
-	$('table#participants-table>tbody>tr#participant' + id).remove();
+	$('table#participants-table>tbody>tr#' + id).remove();
 
 	// Reset numbers
 	reset_numbers();
