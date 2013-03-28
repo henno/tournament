@@ -375,7 +375,7 @@
 			</h3>
 		</div>
 		<label class="checkbox">
-			<input tabindex="5" type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').show()
+			<input tabindex="5" type="radio" name="radiobutton1" onclick="$('[name=playoff]').show();$('[name=alagrupp]').show()
 			;">
 			Alagrupid + playoff
 		</label>
@@ -422,17 +422,17 @@
 			</table>
 		</div>
 		<label class="checkbox">
-			<input tabindex="6"  type="radio" name="radiobutton" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide
+			<input tabindex="6" type="radio" name="radiobutton2" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide
 			();"> Alagrupid
 		</label>
 
 		<label class="checkbox">
-			<input  tabindex="7" type="radio" name="radiobutton" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
+			<input  tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
 			();"> Playoff
 		</label>
 
 		<label class="checkbox">
-			<input tabindex="8" type="radio" name="radiobutton" onclick="$('[name=alagrupp]').hide();$('[name=playoff]').hide()
+			<input tabindex="8" type="radio" name="radiobutton4" onclick="$('[name=alagrupp]').hide();$('[name=playoff]').hide()
 			;">
 			Paremusjärjestus
 		</label>
