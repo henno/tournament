@@ -232,7 +232,7 @@
 			</tr>
 			<tr>
 				<th>Paus:</th>
-				<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_game_pause]"
+				<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_pause]"
 				           onkeypress="validate(event)" value="<?= $tournament['tournament_game_pause'] ?>"></td>
 			</tr>
 			<tr>
