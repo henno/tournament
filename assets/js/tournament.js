@@ -10,7 +10,7 @@ var current_group_number = -1;
 
 function get_group_name() {
 
-	current_group_number = (current_group_number++ >= max_groups_field.val()-1) ? 0 : current_group_number;
+	current_group_number = (current_group_number++ >= max_groups_field.val() - 1) ? 0 : current_group_number;
 	return groups[current_group_number];
 }
 function update_participant_count() {
@@ -18,6 +18,8 @@ function update_participant_count() {
 }
 function add_participant() {
 	group_name = get_group_name();
+
+
 	// Verify that the participant name field is correctly filled, or else abort
 	if (!participant_name_field.val()) {
 		participant_name_field.addClass('viga');
@@ -31,7 +33,10 @@ function add_participant() {
 
 	// TODO Verify that the participant names are not same
 
-		// Add new row to participants' table
+	if (!verify_participant_names()) {
+		return false;
+	}
+	// Add new row to participants' table
 	participants_table_body.append('' +
 		'<tr id="new_participant' + new_participant_id + '">' +
 		'<td>x</td>' +
@@ -40,7 +45,7 @@ function add_participant() {
 		'<td>' + group_name + '</td>' +
 		'<td><input type="checkbox"></td>' +
 		'<td>' +
-		'<a href="#" onclick="if (confirm(' + "'Oled kindel?')) remove_participant('new_participant" + new_participant_id + "')"+'"><i class="icon-trash"></i></a>' +
+		'<a href="#" onclick="if (confirm(' + "'Oled kindel?')) remove_participant('new_participant" + new_participant_id + "')" + '"><i class="icon-trash"></i></a>' +
 		'</td>' +
 		'</tr>');
 
@@ -59,24 +64,28 @@ function add_participant() {
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
-function verify_participant_names(){
-	if(participants_table_body.find('tr').length == 0){
-
-		add_participant()
-	}
-	else{
-participants_table_body.find('tr').each(function () {
-	var participant_name = $(this).find('td:nth-child(2)').html();
-	if (participant_name == participant_name_field.val().trim()) {
+function verify_participant_names() {
+	var fail = 0;
+	participants_table_body.find('tr').each(function () {
+		var participant_name = $(this).find('td:nth-child(2)').html().trim();
+		if (participant_name == participant_name_field.val().trim()) {
+			fail = 1;
+			return false;
+		}
+	});
+	console.log(fail);
+	if (fail) {
 		if (!confirm('Oled kindel?')) {
 			return false;
 		}
-		else{
-			add_participant();
+		else {
+			return true;
 		}
+	} else {
+		return true;
 	}
-});
-	}
+	;
+
 }
 
 /**
