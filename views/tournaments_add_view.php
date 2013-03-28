@@ -3,13 +3,11 @@
 	}
 
 	.kast {
-		box-shadow: 1px 1px 5px 0 #505050, -1px -1px 5px 0 #505050;
-		border-radius: 5px;
 		width: 450px;
 		float: left;
 		border: 1px solid black;
 		padding: 90px 30px 10px 30px;
-		border-color: #ddd;
+		border-color: #bbb;
 		margin-right: 20px;
 		margin-top: 10px;
 		position: relative !important;
@@ -23,7 +21,6 @@
 		left: 0;
 		top: 0;
 		width: 100%;
-		border-radius: 5px 5px 0 0;
 		height: 50px;
 		border-bottom: 1px solid lightgrey;
 		padding-bottom: 10px;
