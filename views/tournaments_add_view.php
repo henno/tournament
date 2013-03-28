@@ -94,7 +94,7 @@
 	}
 
 	.esTextBox {
-		background: url(../assets/ico/arrowdown.png) 98% 50% no-repeat;
+		background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
 	}
 
 	.spinner {
@@ -138,7 +138,7 @@
 	}
 
 	.datetimepicker {
-		background: url(../assets/ico/arrowdown.png) 98% 50% no-repeat;
+		background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
 	}
 
 	#tabs ul {
