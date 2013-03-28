@@ -131,11 +131,13 @@ function convert_table_to_json() {
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
 		$('#tournament-name').addClass('viga');
+		$("#tabs").tabs("option", "active", 0);
 		return false;
 	}
 
 	// Check that tournament_place is given & its length is under 21
 	if ($('input[name="tournament[place_name]"]').val().length > 21) {
+		$("#tabs").tabs("option", "active", 0);
 		alert("Koht ei saa nii pikk olla!");
 		return false;
 	}
@@ -143,6 +145,7 @@ function convert_table_to_json() {
 	// Check that game length is not 0
 	if (!$('#game-length').val() || $('#game-length').val() == '0' || $('#game-length').val() == '00') {
 		$('#game-length').addClass('viga');
+		$("#tabs").tabs("option", "active", 0);
 		return false;
 	}
 
@@ -168,6 +171,7 @@ function convert_table_to_json() {
 	var end = $('#tournament_end').val();
 
 	if (start >= end || !start) {
+		$("#tabs").tabs("option", "active", 0);
 		alert("Turniiri algus peab olema varasem kui lõpp!");
 		$('#tournament_start').addClass('viga');
 		$('#tournament_end').addClass('viga');
