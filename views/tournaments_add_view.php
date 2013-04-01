@@ -1,7 +1,4 @@
 <style type="text/css">
-	body {
-	}
-
 	.kast {
 		width: 450px;
 		float: left;
@@ -62,10 +59,6 @@
 
 	.ui-timepicker-rtl dl dd {
 		margin: 0 65px 10px 10px;
-	}
-
-	.container {
-		margin-top: 10px;
 	}
 
 	.esContainer {
