@@ -1,7 +1,4 @@
 <style type="text/css">
-	body {
-	}
-
 	.kast {
 		width: 450px;
 		float: left;
@@ -24,7 +21,7 @@
 		height: 50px;
 		border-bottom: 1px solid lightgrey;
 		padding-bottom: 10px;
-		background: url('<?=ASSETS_URL?>img/titleebar-bg.png') #ddd repeat-x;
+		background: #ddd ;
 	}
 
 	.number {
@@ -62,10 +59,6 @@
 
 	.ui-timepicker-rtl dl dd {
 		margin: 0 65px 10px 10px;
-	}
-
-	.container {
-		margin-top: 10px;
 	}
 
 	.esContainer {
