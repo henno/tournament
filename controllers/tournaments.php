@@ -38,6 +38,8 @@ class tournaments
 			'deleted'                  => '0',
 			'tournament_start'         => $datetime->format('d.m.Y h:i:s'),
 			'tournament_end'           => $datetime->format('d.m.Y h:i:s'),
+			'tournament_participant'   => 'Võistkond',
+			'tournament_classification'=> 'Instituut',
 			'tournament_loser_bracket' => '0',
 			'tournament_game_time'     => '1',
 			'tournament_game_pause'    => '1',

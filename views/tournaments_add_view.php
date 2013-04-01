@@ -220,6 +220,21 @@
 					       value="<?= $tournament['tournament_end'] ?>"></td>
 			</tr>
 			<tr>
+				<th>Osaleja tüüp:</th>
+				<td><input id="tournament_participant" onfocus="$(this).removeClass('viga')"
+				           onblur="get_tournament_participant();" type="text"
+				           name="tournament[tournament_participant]" autocomplete="off"
+				           value="<?= $tournament['tournament_participant'] ?>"></td>
+				</td>
+			</tr>
+			<tr>
+				<th>Asutus:</th>
+				<td><input id="tournament_classification" onfocus="$(this).removeClass('viga')"
+				           onblur="get_tournament_classification();" type="text"
+				           name="tournament[tournament_classification]" autocomplete="off"
+				           value="<?= $tournament['tournament_classification'] ?>"></td>
+			</tr>
+			<tr>
 				<th>Kaotajate ring:</th>
 				<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
 						<?=$tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
@@ -315,11 +330,9 @@
 					<th>
 						#
 					</th>
-					<th>
-						Osaleja
+					<th class="tournament_participant">
 					</th>
-					<th>
-						Instituut
+					<th class="tournament_classification">
 					</th>
 					<th>
 						Alagrupp

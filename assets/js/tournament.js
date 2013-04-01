@@ -7,6 +7,13 @@ var participants_table_body;
 var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
+function get_tournament_participant(){
+	$('.tournament_participant').html(document.getElementById('tournament_participant').value)
+};
+
+function get_tournament_classification(){
+	$('.tournament_classification').html(document.getElementById('tournament_classification').value)
+};
 
 function remove_tournament_ajax(id) {
 
@@ -184,6 +191,18 @@ function convert_table_to_json() {
 		return false;
 	}
 
+	if (!$('#tournament_participant').val()) {
+		$('#tournament_participant').addClass('viga');
+		$("#tabs").tabs("option", "active", 0);
+		return false;
+	}
+
+	if (!$('#tournament_classification').val()) {
+		$('#tournament_classification').addClass('viga');
+		$("#tabs").tabs("option", "active", 0);
+		return false;
+	}
+
 	// Submit form
 	$('#tournament-add-form').submit();
 }
@@ -209,6 +228,8 @@ function validate(evt) {
 }
 
 $(function () {
+	get_tournament_participant();
+	get_tournament_classification();
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	$('.spinner').spinner();
 
@@ -286,5 +307,7 @@ $(function () {
 			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
 		}
 	});
+
+
 })
 ;
