@@ -21,7 +21,7 @@
 		height: 50px;
 		border-bottom: 1px solid lightgrey;
 		padding-bottom: 10px;
-		background: url('<?=ASSETS_URL?>img/titleebar-bg.png') #ddd repeat-x;
+		background: #ddd ;
 	}
 
 	.number {
