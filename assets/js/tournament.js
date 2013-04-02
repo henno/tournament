@@ -7,11 +7,76 @@ var participants_table_body;
 var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
-function get_tournament_participant(){
-	$('.tournament_participant').html(document.getElementById('tournament_participant').value)
+
+function get_group_member_count(group_name) {
+	var counter = 0;
+	participants_table_body.find('tr').each(function () {
+		var this_group_name = $(this).find('td:nth-child(4)').html().trim();
+		if (this_group_name == group_name) {
+			counter++;
+		}
+	})
+	return counter;
 };
 
-function get_tournament_classification(){
+
+function add_group() {
+	$('#tabs-3').empty();
+
+
+	for (var i = 0; i < $('#max_groups').val(); i++) {
+		if (!document.getElementById('table' + groups[i] + '')) {
+			group_table_header = '<th></th>';
+			participants_table_body.find('tr').each(function () {
+				var this_group_name = $(this).find('td:nth-child(4)').html().trim();
+				var participant_name = $(this).find('td:nth-child(2)').html().trim();
+				if (this_group_name == groups[i]) {
+					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
+				}
+
+			})
+			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
+			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">väravate vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
+
+		}
+	}
+
+	// For each participant...
+	participants_table_body.find('tr').each(function () {
+		var group_name = $(this).find('td:nth-child(4)').html().trim();  // A
+		var participant_name = $(this).find('td:nth-child(2)').html().trim(); // Juku
+
+		// Generate body row
+		group_table = ''
+		for (n = 0; n <= get_group_member_count(group_name) + 2; n++) {
+			group_table += '<td>' + '</td>';
+		}
+
+
+		// Generate body
+		$('#group-table' + group_name + '').append(
+			'<tr>' +
+				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
+				'</tr>');
+	});
+
+	black_background();
+};
+function black_background() {
+	for (var i = 0; i < $('#max_groups').val(); i++) {
+	var counter=1;
+	$('#group-table'+groups[i]+'').find('tr').each(function() {
+		$(this).find('td:nth-child('+counter+')').addClass('blackbackground');
+		counter++;
+	})}
+}
+
+
+function get_tournament_participant() {
+	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
+};
+
+function get_tournament_classification() {
 	$('.tournament_classification').html(document.getElementById('tournament_classification').value)
 };
 
@@ -122,6 +187,7 @@ function reinit_groups() {
 		var participant_id = $(this).attr('id');
 	});
 	update_participant_count();
+	add_group();
 }
 function reset_numbers() {
 
@@ -213,6 +279,7 @@ function remove_participant(id) {
 
 	// Reset numbers
 	reset_numbers();
+	add_group();
 }
 
 function validate(evt) {
