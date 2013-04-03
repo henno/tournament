@@ -61,7 +61,7 @@ function add_participant() {
 	participants_table_body.append('' +
 		'<tr id="new_participant' + new_participant_id + '">' +
 		'<td>x</td>' +
-		'<td>' + participant_name_field.val().trim() + '</td>' +
+		'<td><input class="input-small" style="border-radius: 3px" id="n_participant_name" value="' + participant_name_field.val().trim() + '"></td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
 		'<td>' + group_name + '</td>' +
 		'<td><input type="checkbox"></td>' +
@@ -94,7 +94,6 @@ function verify_participant_names() {
 			return false;
 		}
 	});
-	console.log(fail);
 	if (fail) {
 		if (!confirm('Oled kindel?')) {
 			return false;
@@ -157,9 +156,11 @@ function convert_table_to_json() {
 	}
 
 	// Create participants array
+	var participants = new Array();
 	participants_table_body.find('tr').each(function () {
 		var participant_id = $(this).attr('id');
-		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').html();
+		participants[participant_id] = new Array();
+		participants[participant_id]['participant_name'] = $(this).find('input').attr('value');
 		participants[participant_id]['institute_name'] = $(this).find('td:nth-child(3)').html();
 		participants[participant_id]['group_name'] = $(this).find('td:nth-child(4)').html();
 		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5)').html();
@@ -228,8 +229,6 @@ function validate(evt) {
 }
 
 $(function () {
-	get_tournament_participant();
-	get_tournament_classification();
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	$('.spinner').spinner();
 

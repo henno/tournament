@@ -347,7 +347,7 @@
 								<?=$i ++?>
 							</td>
 							<td>
-								<?=$participant['participant_name']?>
+								<input class="input-small" id="e_participant_name" value="<?=$participant['participant_name']?>">
 							</td>
 							<td>
 								<?=$participant['institute_name']?>
@@ -451,6 +451,10 @@
 	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
 <script>
+	$(function () {
+	get_tournament_participant();
+	get_tournament_classification();
+	});
 	var participants = JSON.parse('<?=json_encode($participants)?>');
 </script>
 <?var_dump($participants)?>
