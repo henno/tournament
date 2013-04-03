@@ -1,4 +1,7 @@
 <style type="text/css">
+	.blackbackground{
+		background: #bbb;
+	}
 	.kast {
 		width: 450px;
 		float: left;
@@ -283,7 +286,7 @@
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
 				<input tabindex="1"  class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
-				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()"
+				       onkeypress="validate(event); reinit_groups();" onclick="update_participant_count()"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
 			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
@@ -308,7 +311,7 @@
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant()"
+						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant();add_group()"
 						        style="margin-left:5px; float: right ">
 							Lisa
 							mängija
@@ -361,7 +364,8 @@
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
 								   onclick="if (!confirm('Oled kindel?'))return false; remove_participant
-									   ('existing_participant<?= $participant['participant_id'] ?>'); return false"><i
+									   ('existing_participant<?= $participant['participant_id'] ?>'); return false;
+									   "><i
 										class="icon-trash">
 							</td>
 						</tr>
@@ -382,54 +386,11 @@
 			;">
 			Alagrupid + playoff
 		</label>
-
-		<div id="round-robin-groups-playoff-div" style="display: none">
-			<table class="table table-bordered">
-				<tr>
-					<td></td>
-					<td>Kalle</td>
-					<td>Malle</td>
-					<td>Valle</td>
-					<td>Salle</td>
-				</tr>
-				<tr>
-					<td>Kalle</td>
-					<td>X</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Malle</td>
-					<td></td>
-					<td>X</td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Valle</td>
-					<td></td>
-					<td></td>
-					<td>X</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Salle</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>X</td>
-				</tr>
-
-
-			</table>
-		</div>
 		<label class="checkbox">
 			<input tabindex="6" type="radio" name="radiobutton2" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide
-			();"> Alagrupid
+			();$('#alagrupid_add_group').show()"> Alagrupid
 		</label>
-
-		<label class="checkbox">
+			<label class="checkbox">
 			<input  tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
 			();"> Playoff
 		</label>
@@ -442,7 +403,8 @@
 
 	</div>
 </div>
-<div id="tabs-3"></div>
+<div id="tabs-3">
+</div>
 <div id="tabs-4"></div>
 </div>
 <div style="clear: both; padding: 15px 0">
@@ -456,6 +418,7 @@
 	get_tournament_classification();
 	});
 	var participants = JSON.parse('<?=json_encode($participants)?>');
+
 </script>
 <?var_dump($participants)?>
 </form>
