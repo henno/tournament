@@ -18,7 +18,7 @@ class tournaments
 	function add()
 	{
 		global $_request;
-		$this->scripts[] = 'tournament.js';
+		$this->scripts[] = 'tournament_addedit.js';
 
 		// If submit
 		if (isset($_POST['participants'])) {
@@ -114,7 +114,7 @@ class tournaments
 			$_request->redirect('tournaments');
 		}
 		global $_request;
-		$this->scripts[] = 'tournament.js';
+		$this->scripts[] = 'tournament_addedit.js';
 		$id = $_request->params[0];
 		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
 		$tournament = $tournament[0];

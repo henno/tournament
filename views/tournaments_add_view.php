@@ -218,7 +218,7 @@
 			<tr>
 				<th>Osaleja tüüp:</th>
 				<td><input id="tournament_participant" onfocus="$(this).removeClass('viga')"
-				           onblur="get_tournament_participant();" type="text"
+				           onblur="set_participant_type();" type="text"
 				           name="tournament[tournament_participant]" autocomplete="off"
 				           value="<?= $tournament['tournament_participant'] ?>"></td>
 				</td>
@@ -226,7 +226,7 @@
 			<tr>
 				<th>Asutus:</th>
 				<td><input id="tournament_classification" onfocus="$(this).removeClass('viga')"
-				           onblur="get_tournament_classification();" type="text"
+				           onblur="set_unit_type();" type="text"
 				           name="tournament[tournament_classification]" autocomplete="off"
 				           value="<?= $tournament['tournament_classification'] ?>"></td>
 			</tr>
@@ -413,11 +413,7 @@
 	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
 <script>
-	$(function () {
-	get_tournament_participant();
-	get_tournament_classification();
-	});
-	var participants = JSON.parse('<?=json_encode($participants)?>');
+
 
 </script>
 <?var_dump($participants)?>
