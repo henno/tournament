@@ -22,18 +22,25 @@ function get_group_member_count(group_name) {
 
 function add_group() {
 	$('#tabs-3').empty();
+			var participants_row = new Array();
+			var participants_cell = new Array();
 
-	// Creates participant names to table header
+	// Iterate sub-group tables
 	for (var i = 0; i < $('#max_groups').val(); i++) {
-		if (!document.getElementById('table' + groups[i] + '')) {
+		if (!document.getElementById('group-table' + groups[i] + '')) {
 			group_table_header = '<th></th>';
 			participants_table_body.find('tr').each(function () {
 				var this_group_name = $(this).find('td:nth-child(4)').html().trim();
-				var participant_name = $(this).find('td:nth-child(2)').html().trim();
-				if (this_group_name == groups[i]) {
-					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
+				var participant_name = $(this).find('td:nth-child(2) input').val();
+				var participant_id = $(this).attr('id');
+				if(typeof participants_cell[this_group_name] == 'undefined'){
+					participants_cell[this_group_name] = new Array();
 				}
-
+				if (this_group_name == groups[i]) {
+					group_table_header += '<th width="120px" height="25px">' + participant_id +' ' + participant_name + '</th>';
+				participants_cell[this_group_name].push(participant_id);
+				}
+				participants_row.push(participant_id);
 			})
 			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
 			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">väravate vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
@@ -41,18 +48,20 @@ function add_group() {
 		}
 	}
 
+
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
 		var group_name = $(this).find('td:nth-child(4)').html().trim();  // A
-		var participant_name = $(this).find('td:nth-child(2)').html().trim(); // Juku
+		var participant_name = $(this).find('td:nth-child(2) input').val(); // Juku
+		var participant_id = $(this).attr('id');
 
 		// Generate body row
-		var row = $(this).closest('tr').index() + 1;
-		var cell = $(this).closest('td').index() + 2;
+		var row = $(this).index();
+
 		group_table = '';
-		for (n = 0; n <= get_group_member_count(group_name) + 2; n++) {
-			if (n <= get_group_member_count(group_name)) {
-				group_table += '<td><input id="' + group_name + '" value="' + row + cell++ + '"></td>';
+		for (cell = 0; cell <= get_group_member_count(group_name) + 2; cell++) {
+			if (cell < get_group_member_count(group_name)) {
+				group_table += '<td><input style="width:100%" id="' + group_name + '" value="' + get_scores(participants_row[row],participants_cell[group_name][cell]) + '"></td>';
 			}
 			else {
 				group_table += '<td>' + '</td>';
@@ -61,12 +70,11 @@ function add_group() {
 		}
 
 		// Generate body
-		$('#group-table' + group_name + '').append(
+		$('#group-table' + group_name).append(
 			'<tr>' +
-				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
+				'<th width="120px" height="25px">' + participant_id +' ' + participant_name + '</th>' + group_table +
 				'</tr>');
 	});
-
 	black_background();
 }
 function black_background() {
@@ -80,7 +88,10 @@ function black_background() {
 }
 function set_participant_type() {
 	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
-};
+}
+function get_scores(a,b){
+	return '0:5';
+}
 
 function set_unit_type() {
 	$('.tournament_classification').html(document.getElementById('tournament_classification').value)
