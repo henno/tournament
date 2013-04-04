@@ -23,7 +23,7 @@ function get_group_member_count(group_name) {
 function add_group() {
 	$('#tabs-3').empty();
 
-
+	// Creates participant names to table header
 	for (var i = 0; i < $('#max_groups').val(); i++) {
 		if (!document.getElementById('table' + groups[i] + '')) {
 			group_table_header = '<th></th>';
@@ -47,11 +47,18 @@ function add_group() {
 		var participant_name = $(this).find('td:nth-child(2)').html().trim(); // Juku
 
 		// Generate body row
-		group_table = ''
+		var row = $(this).closest('tr').index() + 1;
+		var cell = $(this).closest('td').index() + 2;
+		group_table = '';
 		for (n = 0; n <= get_group_member_count(group_name) + 2; n++) {
-			group_table += '<td>' + '</td>';
-		}
+			if (n <= get_group_member_count(group_name)) {
+				group_table += '<td><input id="' + group_name + '" value="' + row + cell++ + '"></td>';
+			}
+			else {
+				group_table += '<td>' + '</td>';
 
+			}
+		}
 
 		// Generate body
 		$('#group-table' + group_name + '').append(
@@ -61,18 +68,16 @@ function add_group() {
 	});
 
 	black_background();
-};
+}
 function black_background() {
 	for (var i = 0; i < $('#max_groups').val(); i++) {
 		var counter = 1;
 		$('#group-table' + groups[i] + '').find('tr').each(function () {
-			$(this).find('td:nth-child(' + counter + ')').addClass('blackbackground');
+			$(this).find('td:nth-child(' + counter + ')').addClass('blackbackground').html('');
 			counter++;
 		})
 	}
 }
-
-
 function set_participant_type() {
 	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
 };
@@ -92,7 +97,6 @@ function update_participant_count() {
 function add_participant() {
 	group_name = get_group_name();
 
-
 	// Verify that the participant name field is correctly filled, or else abort
 	if (!participant_name_field.val()) {
 		participant_name_field.addClass('viga');
@@ -104,8 +108,7 @@ function add_participant() {
 		return false;
 	}
 
-	// TODO Verify that the participant names are not same
-
+	// Verify that the participant names are not same
 	if (!verify_participant_names()) {
 		return false;
 	}
@@ -140,7 +143,7 @@ function add_participant() {
 function verify_participant_names() {
 	var fail = 0;
 	participants_table_body.find('tr').each(function () {
-		var participant_name = $(this).find('td:nth-child(2)').html().trim();
+		var participant_name = $(this).find('td:nth-child(2)').find('input').val();
 		if (participant_name == participant_name_field.val().trim()) {
 			fail = 1;
 			return false;
@@ -213,7 +216,7 @@ function convert_table_to_json() {
 	participants_table_body.find('tr').each(function () {
 		var participant_id = $(this).attr('id');
 		participants[participant_id] = new Array();
-		participants[participant_id]['participant_name'] = $(this).find('input').attr('value');
+		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').find('input').val();
 		participants[participant_id]['institute_name'] = $(this).find('td:nth-child(3)').html();
 		participants[participant_id]['group_name'] = $(this).find('td:nth-child(4)').html();
 		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5)').html();
