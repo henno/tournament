@@ -286,7 +286,7 @@
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
 				<input tabindex="1"  class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
-				       onkeypress="validate(event); reinit_groups();" onclick="update_participant_count()"
+				       onkeyup="validate(event); reinit_groups();" onclick="update_participant_count()"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
 			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
