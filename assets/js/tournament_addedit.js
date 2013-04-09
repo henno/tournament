@@ -22,8 +22,8 @@ function get_group_member_count(group_name) {
 
 function add_group() {
 	$('#tabs-3').empty();
-			var participants_row = new Array();
-			var participants_cell = new Array();
+	var participants_row = new Array();
+	var participants_cell = new Array();
 
 	// Iterate sub-group tables
 	for (var i = 0; i < $('#max_groups').val(); i++) {
@@ -33,21 +33,20 @@ function add_group() {
 				var this_group_name = $(this).find('td:nth-child(4)').html().trim();
 				var participant_name = $(this).find('td:nth-child(2) input').val();
 				var participant_id = $(this).attr('id');
-				if(typeof participants_cell[this_group_name] == 'undefined'){
+				if (typeof participants_cell[this_group_name] == 'undefined') {
 					participants_cell[this_group_name] = new Array();
 				}
 				if (this_group_name == groups[i]) {
-					group_table_header += '<th width="120px" height="25px">' + participant_id +' ' + participant_name + '</th>';
-				participants_cell[this_group_name].push(participant_id);
+					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
+					participants_cell[this_group_name].push(participant_id);
 				}
 				participants_row.push(participant_id);
-			})
+			});
 			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
 			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">väravate vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
 
 		}
 	}
-
 
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
@@ -57,11 +56,10 @@ function add_group() {
 
 		// Generate body row
 		var row = $(this).index();
-
 		group_table = '';
 		for (cell = 0; cell <= get_group_member_count(group_name) + 2; cell++) {
 			if (cell < get_group_member_count(group_name)) {
-				group_table += '<td><input style="width:100%" id="' + group_name + '" value="' + get_scores(participants_row[row],participants_cell[group_name][cell]) + '"></td>';
+				group_table += '<td><input style="width:100%" onchange="get_scores()" id="' + participants_row[row] + ':' + participants_cell[group_name][cell] + '" value="' + get_scores(participants_row[row], participants_cell[group_name][cell]) + '"></td>';
 			}
 			else {
 				group_table += '<td>' + '</td>';
@@ -72,7 +70,7 @@ function add_group() {
 		// Generate body
 		$('#group-table' + group_name).append(
 			'<tr>' +
-				'<th width="120px" height="25px">' + participant_id +' ' + participant_name + '</th>' + group_table +
+				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
 				'</tr>');
 	});
 	black_background();
@@ -89,13 +87,27 @@ function black_background() {
 function set_participant_type() {
 	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
 }
-function get_scores(a,b){
-	return '0:5';
+function get_scores(a, b) {
+	if (typeof a == 'undefined' || typeof b == 'undefined') {
+		return 'andmed puuduvad';
+	}
+	else {
+		obj = JSON.parse(get_scores_ajax(a, b));
+		return obj['a'] + ':' + obj['b'];
+	}
 }
+function get_scores_ajax(a, b) {
+
+	console.log($.ajax({type: 'post', dataType: 'json', url: BASE_URL + 'tournaments/get_scores', a: a, b: b, async: false})
+		.done(function (msg) {
+			alert(msg);
+		}).responseText);
+}
+
 
 function set_unit_type() {
 	$('.tournament_classification').html(document.getElementById('tournament_classification').value)
-};
+}
 
 function get_group_name() {
 
@@ -170,8 +182,6 @@ function verify_participant_names() {
 	} else {
 		return true;
 	}
-	;
-
 }
 
 /**
