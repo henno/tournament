@@ -1,0 +1,1 @@
+<img src="https://www.google.ee/intl/en_ALL/images/logos/images_logo_lg.gif">

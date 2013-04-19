@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
+	<title></title>
+</head>
+<body>
+<a href="#" id="ee" title="blabla" class="withajaxpopover" data-poload="popover.php">blabla</a>
+</body>
+<script>
+	$(function () {
+		$("#ee").hover(
+				function () {
+					var el = $(this);
+					$.get(el.attr('data-poload'), function (d) {
+						el.unbind('hover').popover({content: d,html:true});
+					});
+				})
+	});
+</script>
+
+</html>
