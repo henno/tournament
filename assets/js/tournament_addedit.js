@@ -58,13 +58,7 @@ function add_group() {
 		var row = $(this).index();
 		group_table = '';
 		for (cell = 0; cell <= get_group_member_count(group_name) + 2; cell++) {
-			if (cell < get_group_member_count(group_name)) {
-				group_table += '<td><input style="width:100%" onchange="get_scores()" id="' + participants_row[row] + ':' + participants_cell[group_name][cell] + '" value="' + get_scores(participants_row[row], participants_cell[group_name][cell]) + '"></td>';
-			}
-			else {
-				group_table += '<td>' + '</td>';
-
-			}
+				group_table += '<td>&nbsp;</td>';
 		}
 
 		// Generate body
@@ -88,7 +82,9 @@ function set_participant_type() {
 	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
 }
 function get_scores(a, b) {
-	if (typeof a == 'undefined' || typeof b == 'undefined') {
+	console.debug(a);
+	console.debug(b);
+	if (typeof a == 'undefined' || typeof b == 'undefined' || a.substr(0,3)=='new') {
 		return 'andmed puuduvad';
 	}
 	else {
