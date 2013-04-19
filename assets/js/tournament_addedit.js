@@ -204,7 +204,7 @@ function reset_numbers() {
 	});
 }
 
-function convert_table_to_json() {
+function submit() {
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
 		$('#tournament-name').addClass('viga');
