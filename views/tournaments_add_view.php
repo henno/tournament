@@ -336,7 +336,7 @@
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant()"
+						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant_wrapper()"
 						        style="margin-left:5px; float: right ">
 							Lisa mängija
 						</button>
@@ -450,7 +450,7 @@
 <textarea id="import-participants" style="width:400px" onclick="import_participants()" rows="3">nimi1	instituut1	alagrupp1	0
 nimi2	instituut2	alagrupp2	favoriit2
 nimi3	instituut3	alagrupp3	1</textarea>
-<button tabindex="4" type="button" class="btn btn-large" onclick="import_participants()/*add_participant()*/"
+<button tabindex="4" type="button" class="btn btn-large" onclick="import_participants();add_participant();"
         style="margin-left:5px; float: right ">
 	Lisa mängijad
 </button>
