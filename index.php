@@ -6,6 +6,7 @@
  * Time: 21:18
  * To change this template use File | Settings | File Templates.
  */
+
 require 'config.php';
 require 'modules/request.php';
 require 'modules/user.php';
@@ -21,4 +22,6 @@ if (file_exists('controllers/'.$_request->controller.'.php')) {
 } else {
 	echo "The page '{$_request->controller}' does not exist";
 }
+echo microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
+
 

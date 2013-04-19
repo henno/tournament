@@ -18,7 +18,7 @@ class tournaments
 	function add()
 	{
 		global $_request;
-		$this->scripts[] = 'tournament.js';
+		$this->scripts[] = 'tournament_addedit.js';
 
 		// If submit
 		if (isset($_POST['participants'])) {
@@ -27,27 +27,29 @@ class tournaments
 			$tournament_model->add();
 		}
 		$datetime = new DateTime; // current time = server time
-		$EEtime  = new DateTimeZone('Europe/Tallinn');
+		$EEtime = new DateTimeZone('Europe/Tallinn');
 		$datetime->setTimezone($EEtime); // calculates with new EE time(UTC+2) now
 		$tournament = array(
-			'tournament_id'            => '',
-			'tournament_name'          => '',
-			'tournament_year'          => '',
-			'tournament_place'         => '',
-			'place_id'                 => '',
-			'deleted'                  => '0',
-			'tournament_start'         => $datetime->format('d.m.Y h:i:s'),
-			'tournament_end'           => $datetime->format('d.m.Y h:i:s'),
-			'tournament_loser_bracket' => '0',
-			'tournament_game_time'     => '1',
-			'tournament_game_pause'    => '1',
-			'tournament_field'         => '1',
-			'tournament_group'         => '1',
-			'tournament_win'           => '1',
-			'tournament_type'          => '1',
-			'tournament_game_win'      => '3',
-			'tournament_game_tie'      => '2',
-			'tournament_game_loss'     => '1'
+			'tournament_id'             => '',
+			'tournament_name'           => '',
+			'tournament_year'           => '',
+			'tournament_place'          => '',
+			'place_id'                  => '',
+			'deleted'                   => '0',
+			'tournament_start'          => $datetime->format('d.m.Y h:i:s'),
+			'tournament_end'            => $datetime->format('d.m.Y h:i:s'),
+			'tournament_participant'    => 'Võistkond',
+			'tournament_classification' => 'Instituut',
+			'tournament_loser_bracket'  => '0',
+			'tournament_game_time'      => '1',
+			'tournament_game_pause'     => '1',
+			'tournament_field'          => '1',
+			'tournament_group'          => '1',
+			'tournament_win'            => '1',
+			'tournament_type'           => '1',
+			'tournament_game_win'       => '3',
+			'tournament_game_tie'       => '2',
+			'tournament_game_loss'      => '1'
 		);
 		$place_name = '';
 		$participants = array();
@@ -121,16 +123,18 @@ class tournaments
 			$_request->redirect('tournaments');
 		}
 		global $_request;
-		$this->scripts[] = 'tournament.js';
+		$this->scripts[] = 'tournament_addedit.js';
 		$id = $_request->params[0];
 		$tournament = get_all("SELECT * FROM tournament WHERE tournament_id='$id'");
 		$tournament = $tournament[0];
 		$places = get_all("SELECT * FROM place WHERE place_deleted=0");
 		$institutes = get_all("SELECT * FROM institute WHERE deleted=0");
-		$participants = get_all("SELECT *
+		$participants = get_all(
+			"SELECT *
 								 FROM participant as pa
 								 LEFT JOIN institute using(institute_id)
-								 WHERE pa.deleted=0 AND tournament_id='$id'");
+								 WHERE pa.deleted=0 AND tournament_id='$id'"
+		);
 		$place_id = $tournament['place_id'];
 		$place_name = get_one("SELECT place_name FROM place WHERE place_id = $place_id ");
 		$tournament_id = $tournament['tournament_id'];
@@ -160,5 +164,31 @@ class tournaments
 		list($d, $mon, $y) = explode('.', $date);
 		list($h, $min) = explode(':', $time);
 		return "$y-$mon-$d $h:$min:00";
+	}
+
+	public function get_scores()
+	{
+
+		ob_end_clean();
+		global $_request;
+		if ($_request->params['a'] > $_request->params['b']) {
+			$b = $_request->params['a'];
+			$a = $_request->params['b'];
+		} else {
+			$a = $_request->params['a'];
+			$b = $_request->params['b'];
+		}
+		$t = $_request->params['t'];
+		$scores = get_all(
+			"SELECT * FROM game WHERE participant_a_id='$a' AND participant_b_id='$b' AND tournament_id='$t' AND deleted=0"
+		);
+		if (count($scores) != 1) {
+			throw new Exception('Olukord 0x243289');
+		}
+		$scores = $scores[0];
+		if ($_request->params['a'] > $_request->params['b']) {
+			exit(json_encode(array('a' => $scores['participant_b_id'], 'b' => $scores['participant_a_id'])));
+		}
+		exit(json_encode(array('a' => $scores['participant_a_id'], 'b' => $scores['participant_b_id'])));
 	}
 }

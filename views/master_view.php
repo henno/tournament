@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="KHK">
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
@@ -98,5 +98,40 @@
 		<script src="<?= ASSETS_URL ?>js/<?= $script ?>"></script>
 	<? endforeach ?>
 <? endif?>
+<script>
+	$.ajaxSetup({
+		type    : 'post',
+		dataType: 'json',
+		complete: function (xhr) {
+			if (xhr.responseText != null && xhr.responseText != "") {
+				try {
+					var responseText = eval('(' + xhr.responseText + ')');
+				}
+				catch (e) {
+					alert('Error:\n\nAjax päring feilis: JSON-i parsemine nurjus.\n\nServeri vastus: "' + xhr.responseText + '"');
+				}
+			}
+		},
+		error   : function (x, e) {
+			if (x.status == 0) {
+				alert('Error:\n\nAjax päring feilis: Sul pole netti!');
+			} else if (x.status == 401) {
+				alert('Error:\n\nAjax päring feilis: Sessioon on aegunud');
+				window.location.replace(BASE_URL + 'auth');
+			} else if (x.status == 404) {
+				alert('Error:\n\nAjax päring feilis: HTTP 404 (faili ei leitud)');
+			} else if (x.status == 500) {
+				alert('Error:\n\nAjax päring feilis: Server on valesti konfigureeritud: Internal Server Error.');
+			} else if (e == 'parsererror') {
+				alert('Error:\n\nAjax päring feilis: JSON-i parsemine nurjus.\n\nServeri vastus: "' + x.responseText + '"');
+			} else if (e == 'timeout') {
+				alert('Error:\n\nAjax päring feilis: Server ei vastanud mõistliku aja jooksul.');
+			}
+			else {
+				alert('Error:\n\nAjax päring feilis: mingi arusaamatu viga.\n' + x.responseText);
+			}
+		}
+	});
+</script>
 </body>
 </html>

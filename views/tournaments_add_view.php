@@ -1,5 +1,6 @@
 <style type="text/css">
-	body {
+	.blackbackground {
+		background: #bbb;
 	}
 
 	.kast {
@@ -12,9 +13,6 @@
 		margin-top: 10px;
 		position: relative !important;
 		background: #eeeeee;
-		/*background: url('
-
-	<?=ASSETS_URL?>          img/bm.jpg') #eee repeat;*/
 	}
 
 	.titlebar {
@@ -25,7 +23,7 @@
 		height: 50px;
 		border-bottom: 1px solid lightgrey;
 		padding-bottom: 10px;
-		background: url('<?=ASSETS_URL?>img/titleebar-bg.png') #ddd repeat-x;
+		background: #ddd;
 	}
 
 	.number {
@@ -63,10 +61,6 @@
 
 	.ui-timepicker-rtl dl dd {
 		margin: 0 65px 10px 10px;
-	}
-
-	.container {
-		margin-top: 10px;
 	}
 
 	.esContainer {
@@ -153,6 +147,7 @@
 		box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
 		border-radius: 5px;
 	}
+	@media screen and (max-width:1200px) { .kast { float: none} }
 
 	@media screen and (max-width:1200px) {
 		.kast {
@@ -163,18 +158,36 @@
 </style>
 <script>
 	$(function () {
+
 		$("#tabs").tabs();
+
+		<? switch ($tournament['tournament_type']){
+		case 0:?>
+		$('[name=playoff]').show();
+		$('[name=alagrupp]').show();
+		<?break; case 1:?>
+		$('[name=alagrupp]').show();
+		<?break; case 2:?>
+		$('[name=playoff]').show();
+		<?break; case 3:?>
+		$('[name=playoff]').show();
+		<?break;}?>
+
+
+
+
 	});
+
 </script>
-<script src="<?= ASSETS_URL ?>js/jquery.combobox.js"></script>
-<script src="<?= ASSETS_URL ?>js/jquery-ui-timepicker-addon.js"></script>
+<script src="<?= ASSETS_URL?>js/jquery.combobox.js"></script>
+<script src="<?= ASSETS_URL?>js/jquery-ui-timepicker-addon.js"></script>
 <form method="post" id="tournament-add-form">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
 
 <div style="clear: both; margin: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
-	<button class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
+	<button class="btn btn-large btn-primary" type="button" onclick="submit()">Salvesta</button>
 </div>
 <div id="tabs">
 <ul>
@@ -226,6 +239,21 @@
 					       value="<?= $tournament['tournament_end'] ?>"></td>
 			</tr>
 			<tr>
+				<th>Osaleja tüüp:</th>
+				<td><input id="tournament_participant" onfocus="$(this).removeClass('viga')"
+				           onblur="set_participant_type();" type="text"
+				           name="tournament[tournament_participant]" autocomplete="off"
+				           value="<?= $tournament['tournament_participant'] ?>"></td>
+				</td>
+			</tr>
+			<tr>
+				<th>Asutus:</th>
+				<td><input id="tournament_classification" onfocus="$(this).removeClass('viga')"
+				           onblur="set_unit_type();" type="text"
+				           name="tournament[tournament_classification]" autocomplete="off"
+				           value="<?= $tournament['tournament_classification'] ?>"></td>
+			</tr>
+			<tr>
 				<th>Kaotajate ring:</th>
 				<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
 						<?=$tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
@@ -271,6 +299,7 @@
 	</div>
 </div>
 <div id="tabs-2">
+<div id="tabs-2">
 	<div class="kast">
 		<div class="number">2</div>
 		<div class="titlebar"><h3>
@@ -282,7 +311,7 @@
 			<p>Alagruppide arv:
 				<input tabindex="1" class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]"
 				       id="max_groups"
-				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()"
+				       onkeyup="validate(event); reinit_groups();" onclick="update_participant_count()"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
 			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
@@ -307,7 +336,7 @@
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button tabindex="4" type="button" class="btn btn-large" onclick="add_participant_wrapper()"
+						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant()"
 						        style="margin-left:5px; float: right ">
 							Lisa mängija
 						</button>
@@ -328,11 +357,9 @@
 					<th>
 						#
 					</th>
-					<th>
-						Osaleja
+					<th class="tournament_participant">
 					</th>
-					<th>
-						Instituut
+					<th class="tournament_classification">
 					</th>
 					<th>
 						Alagrupp
@@ -354,7 +381,8 @@
 								<?=$i ++?>
 							</td>
 							<td>
-								<?=$participant['participant_name']?>
+								<input class="input-small" id="e_participant_name"
+								       value="<?= $participant['participant_name'] ?>">
 							</td>
 							<td>
 								<?=$participant['institute_name']?>
@@ -368,7 +396,8 @@
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
 								   onclick="if (!confirm('Oled kindel?'))return false; remove_participant
-									   ('existing_participant<?= $participant['participant_id'] ?>'); return false"><i
+									   ('existing_participant<?= $participant['participant_id'] ?>'); return false;
+									   "><i
 										class="icon-trash">
 							</td>
 						</tr>
@@ -385,77 +414,38 @@
 			</h3>
 		</div>
 		<label class="checkbox">
-			<input tabindex="5" type="radio" name="radiobutton1" onclick="$('[name=playoff]').show();$('[name=alagrupp]').show()
+			<input tabindex="5" type="radio" name="tournament[tournament_type]" value="0" onclick="$('[name=playoff]').show();$
+			('[name=alagrupp]').show()
 			;">
 			Alagrupid + playoff
 		</label>
-
-		<div id="round-robin-groups-playoff-div" style="display: none">
-			<table class="table table-bordered">
-				<tr>
-					<td></td>
-					<td>Kalle</td>
-					<td>Malle</td>
-					<td>Valle</td>
-					<td>Salle</td>
-				</tr>
-				<tr>
-					<td>Kalle</td>
-					<td>X</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Malle</td>
-					<td></td>
-					<td>X</td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Valle</td>
-					<td></td>
-					<td></td>
-					<td>X</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Salle</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>X</td>
-				</tr>
-
-
-			</table>
-		</div>
 		<label class="checkbox">
-			<input tabindex="6" type="radio" name="radiobutton2" onclick="$('[name=alagrupp]').show();$('[name=playoff]').hide
-			();"> Alagrupid
+			<input tabindex="6" type="radio" name="tournament[tournament_type]" value="1" onclick="$('[name=alagrupp]').show();$
+			('[name=playoff]').hide
+			();$('#alagrupid_add_group').show()"> Alagrupid
 		</label>
-
 		<label class="checkbox">
-			<input tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
+			<input  tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
 			();"> Playoff
 		</label>
 
 		<label class="checkbox">
-			<input tabindex="8" type="radio" name="radiobutton4" onclick="$('[name=alagrupp]').hide();$('[name=playoff]').hide()
+			<input tabindex="8" type="radio" name="tournament[tournament_type]" value="3" onclick="$('[name=alagrupp]').hide();
+			$('[name=playoff]').hide()
 			;">
 			Paremusjärjestus
 		</label>
 
 	</div>
 </div>
-<div id="tabs-3"></div>
+<div id="tabs-3">
+</div>
 <div id="tabs-4"></div>
 </div>
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<input type="hidden" id="participants" name="participants">
-	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
+	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit()">Salvesta</button>
 </div>
 <textarea id="import-participants" style="width:400px" onclick="import_participants()" rows="3">nimi1	instituut1	alagrupp1	0
 nimi2	instituut2	alagrupp2	favoriit2
@@ -466,6 +456,9 @@ nimi3	instituut3	alagrupp3	1</textarea>
 </button>
 
 <script>
-	var participants = JSON.parse('<?=json_encode($participants)?>');
+
+
 </script>
+<?var_dump($participants)?>
+
 </form>
