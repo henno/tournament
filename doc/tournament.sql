@@ -52,7 +52,7 @@ CREATE TABLE `participant` (
   `participant_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `participant_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `institute_id` int(10) unsigned DEFAULT NULL,
-  `group_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL DEFAULT '',
+  `pool_name` varchar(255) COLLATE utf8_estonian_ci NOT NULL DEFAULT '',
   `participant_favorite` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `tournament_id` int(11) unsigned NOT NULL DEFAULT '1',
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -65,7 +65,7 @@ CREATE TABLE `participant` (
 -- Andmete tõmmistamine tabelile `participant`
 --
 
-INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`, `group_name`, `participant_favorite`, `tournament_id`, `deleted`) VALUES
+INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`, `pool_name`, `participant_favorite`, `tournament_id`, `deleted`) VALUES
 (1, 'test', 1, '', 0, 1, 0),
 (2, 'bhgfdh', 3, 'A', 1, 1, 0),
 (3, 'test', 1, '', 0, 1, 0),
