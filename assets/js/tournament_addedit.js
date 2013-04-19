@@ -97,11 +97,9 @@ function get_scores(a, b) {
 	}
 }
 function get_scores_ajax(a, b) {
-
-	console.log($.ajax({type: 'post', dataType: 'json', url: BASE_URL + 'tournaments/get_scores', a: a, b: b, async: false})
+	return $.ajax({type: 'post', name: 'test', dataType: 'json', url: BASE_URL + 'tournaments/get_scores', a: a, b: b, async: false})
 		.done(function (msg) {
-			alert(msg);
-		}).responseText);
+		}).responseText;
 }
 
 

@@ -154,4 +154,10 @@ class tournaments
 		list($h, $min) = explode(':', $time);
 		return "$y-$mon-$d $h:$min:00";
 	}
+	public function get_scores(){
+
+		ob_end_clean();
+		echo json_encode(array('a'=>2, 'b'=>2));
+		exit();
+	}
 }
