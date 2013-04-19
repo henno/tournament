@@ -1,5 +1,6 @@
 // Declare global variables
 var new_participant_id = 0;
+var participant_array = new Array();
 var tournament_id = 0;
 var groups = 'ABCDEFGHIJKLMNOPQRSTUVXYZ';
 var participant_name_field;
@@ -22,24 +23,75 @@ function remove_tournament_ajax(id) {
 		});
 }
 
-function get_group_name() {
-
+function get_pool_name() {
 	current_group_number = (current_group_number++ >= max_groups_field.val() - 1) ? 0 : current_group_number;
 	return groups[current_group_number];
 }
 function update_participant_count() {
 	$('#participant-count').html(Math.round(participants_table_body.find('tr').length / $('#max_groups').val()));
 }
-function add_participant() {
-	group_name = get_group_name();
 
+// Import participants from an Excel (or equivalent) file
+function import_participants() {
+	//$input = document.getElementById('import-participants').innerHTML;
+	var input = $('textarea#import-participants').val();
+	var rows = input.split("\n");
 
+	// Participant template
+	function participant(participant, unit, pool, favorite) {
+		this.participant = participant,
+			this.unit = unit,
+			this.pool = pool,
+			this.favorite = favorite;
+	}
+
+	// Save rows as (participant) objects & place those objects into one (participants) array
+	for (var r = 0; r < rows.length; r++) {
+		var fields = rows[r].split("\t");                       //what if there are spaces or sth similar?
+		var field_array = new Array();
+
+		for (var f = 0; f < fields.length; f++) {
+			field_array[f] = fields[f];
+		}
+
+		// Any alphabetic or numeric char (except 0) makes 'favorite == true'
+		var favorite = function () {
+			var fav_value = field_array[3];
+			if (/[a-zA-Z1-9]/.test(fav_value)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		};
+		participant_array[r] = new participant(field_array[0], field_array[1], field_array[2], favorite());
+		//console.log(participant_array[r]);
+	}
+	//console.log(participant_array[0].participant);
+	for (var p in participant_array) {
+		add_participant(participant, unit, pool, favorite);
+	}
+}
+
+function test() {
+	console.log(participant_array[0].participant);
+}
+
+function add_participant_wrapper() {
+	var participant = participant_name_field.val();
+	var unit = $('[name="institute_name"]').val();
+	var pool = get_pool_name();
+	var favorite = false;
+	add_participant(participant, unit, pool, favorite);
+}
+
+function add_participant(participant, unit, pool, favorite) {
 	// Verify that the participant name field is correctly filled, or else abort
-	if (!participant_name_field.val()) {
+	if (!participant) {
 		participant_name_field.addClass('viga');
 		return false;
 	}
-	var institute_name_length = $('[name="institute_name"]').val().length;
+	var institute_name_length = unit.length;
 	if (institute_name_length > 17) {
 		alert("Instituudi nimi on liiga pikk!");
 		return false;
@@ -51,13 +103,14 @@ function add_participant() {
 		return false;
 	}
 	// Add new row to participants' table
+	var checked = favorite ? 'checked="checked"' : '';
 	participants_table_body.append('' +
 		'<tr id="new_participant' + new_participant_id + '">' +
 		'<td>x</td>' +
-		'<td>' + participant_name_field.val().trim() + '</td>' +
+		'<td>' + participant.trim() + '</td>' +
 		'<td>' + institute_name_field.val().trim() + '</td>' +
-		'<td>' + group_name + '</td>' +
-		'<td><input type="checkbox"></td>' +
+		'<td>' + pool + '</td>' +
+		'<td><input type="checkbox" '+ checked +'></td>' +
 		'<td>' +
 		'<a href="#" onclick="if (confirm(' + "'Oled kindel?')) remove_participant('new_participant" + new_participant_id + "')" + '"><i class="icon-trash"></i></a>' +
 		'</td>' +
@@ -78,6 +131,7 @@ function add_participant() {
 	// Cancel <a>'s onclick event to prevent page reload
 	return false;
 }
+
 function verify_participant_names() {
 	var fail = 0;
 	participants_table_body.find('tr').each(function () {
@@ -98,8 +152,6 @@ function verify_participant_names() {
 	} else {
 		return true;
 	}
-	;
-
 }
 
 /**
@@ -110,8 +162,8 @@ function reinit_groups() {
 	participants_table_body.find('tr').each(function () {
 
 		// Overwrite group cell
-		var new_group_name = get_group_name();
-		$(this).find('td:nth-child(4)').html(new_group_name);
+		var new_pool_name = get_pool_name();
+		$(this).find('td:nth-child(4)').html(new_pool_name);
 		var participant_id = $(this).attr('id');
 	});
 	update_participant_count();
@@ -154,7 +206,7 @@ function convert_table_to_json() {
 		var participant_id = $(this).attr('id');
 		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').html();
 		participants[participant_id]['institute_name'] = $(this).find('td:nth-child(3)').html();
-		participants[participant_id]['group_name'] = $(this).find('td:nth-child(4)').html();
+		participants[participant_id]['pool_name'] = $(this).find('td:nth-child(4)').html();
 		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5)').html();
 	});
 
@@ -286,5 +338,4 @@ $(function () {
 			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
 		}
 	});
-})
-;
+});

@@ -57,6 +57,15 @@ class tournaments
 
 	}
 
+	function import()
+	{
+		$this->scripts[] = 'tournament.js';
+		global $_request;
+		global $_user;
+		//$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place WHERE tournament.deleted=0");
+		require 'views/tournaments_import_view.php';
+	}
+
 	function remove()
 	{
 		global $_request;

@@ -13,7 +13,8 @@
 		position: relative !important;
 		background: #eeeeee;
 		/*background: url('
-	<?=ASSETS_URL?>  img/bm.jpg') #eee repeat;*/
+
+	<?=ASSETS_URL?>          img/bm.jpg') #eee repeat;*/
 	}
 
 	.titlebar {
@@ -152,7 +153,12 @@
 		box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
 		border-radius: 5px;
 	}
-	@media screen and (max-width:1200px) { .kast { float: none} }
+
+	@media screen and (max-width:1200px) {
+		.kast {
+			float: none
+		}
+	}
 
 </style>
 <script>
@@ -160,8 +166,8 @@
 		$("#tabs").tabs();
 	});
 </script>
-<script src="<?= ASSETS_URL?>js/jquery.combobox.js"></script>
-<script src="<?= ASSETS_URL?>js/jquery-ui-timepicker-addon.js"></script>
+<script src="<?= ASSETS_URL ?>js/jquery.combobox.js"></script>
+<script src="<?= ASSETS_URL ?>js/jquery-ui-timepicker-addon.js"></script>
 <form method="post" id="tournament-add-form">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
@@ -264,7 +270,7 @@
 		</table>
 	</div>
 </div>
-<div id="tabs-2" >
+<div id="tabs-2">
 	<div class="kast">
 		<div class="number">2</div>
 		<div class="titlebar"><h3>
@@ -274,7 +280,8 @@
 
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
-				<input tabindex="1"  class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]" id="max_groups"
+				<input tabindex="1" class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]"
+				       id="max_groups"
 				       onkeypress="validate(event); reinit_groups()" onclick="update_participant_count()"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
@@ -300,10 +307,16 @@
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant()"
+						<button tabindex="4" type="button" class="btn btn-large" onclick="add_participant_wrapper()"
 						        style="margin-left:5px; float: right ">
-							Lisa
-							mängija
+							Lisa mängija
+						</button>
+						<button tabindex="4" type="button" class="btn btn-large" onclick="
+							newwindow = window.open(BASE_URL+'tournaments/import/','name','height=500, width=650','resizable=no');
+							if (window.focus) {newwindow.focus()}
+							return false;"
+						        style="margin-left:5px; float: right ">
+							Impordi mängijad
 						</button>
 
 						<!-- add row ends here -->
@@ -347,7 +360,7 @@
 								<?=$participant['institute_name']?>
 							</td>
 							<td>
-								<?=$participant['group_name']?>
+								<?=$participant['pool_name']?>
 							</td>
 							<td>
 								<input id="favorite" type="checkbox">
@@ -424,7 +437,7 @@
 		</label>
 
 		<label class="checkbox">
-			<input  tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
+			<input tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
 			();"> Playoff
 		</label>
 
@@ -444,8 +457,15 @@
 	<input type="hidden" id="participants" name="participants">
 	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="convert_table_to_json()">Salvesta</button>
 </div>
+<textarea id="import-participants" style="width:400px" onclick="import_participants()" rows="3">nimi1	instituut1	alagrupp1	0
+nimi2	instituut2	alagrupp2	favoriit2
+nimi3	instituut3	alagrupp3	1</textarea>
+<button tabindex="4" type="button" class="btn btn-large" onclick="import_participants()/*add_participant()*/"
+        style="margin-left:5px; float: right ">
+	Lisa mängijad
+</button>
+
 <script>
 	var participants = JSON.parse('<?=json_encode($participants)?>');
 </script>
-<?var_dump($participants)?>
 </form>
