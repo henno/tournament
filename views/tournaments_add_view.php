@@ -187,7 +187,7 @@
 
 <div style="clear: both; margin: 15px 0">
 	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
-	<button class="btn btn-large btn-primary" type="button" onclick="submit()">Salvesta</button>
+	<button class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
 </div>
 <div id="tabs">
 <ul>
@@ -341,8 +341,7 @@
 							Lisa mängija
 						</button>
 						<button tabindex="4" type="button" class="btn btn-large" onclick="
-							newwindow = window.open(BASE_URL+'tournaments/import/','name','height=500, width=650','resizable=no');
-							if (window.focus) {newwindow.focus()}
+							newwindow = window.open(BASE_URL+'tournaments/import/','name','height=500, width=650','resizable=no'); if (window.focus) {newwindow.focus()}
 							return false;"
 						        style="margin-left:5px; float: right ">
 							Impordi mängijad
@@ -391,7 +390,7 @@
 								<?=$participant['pool_name']?>
 							</td>
 							<td>
-								<input id="favorite" type="checkbox">
+								<input type="checkbox" id="favorite" value="favorite">
 							</td>
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
@@ -444,8 +443,8 @@
 </div>
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
-	<input type="hidden" id="participants" name="participants">
-	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit()">Salvesta</button>
+	<input type="text" id="participants" name="participants" value="">
+	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
 </div>
 <textarea id="import-participants" style="width:400px" onclick="import_participants()" rows="3">nimi1	instituut1	alagrupp1	0
 nimi2	instituut2	alagrupp2	favoriit2
@@ -459,6 +458,6 @@ nimi3	instituut3	alagrupp3	1</textarea>
 
 
 </script>
-<?var_dump($participants)?>
+
 
 </form>

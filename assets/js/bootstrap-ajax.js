@@ -75,7 +75,7 @@
 			, url = $this.attr('action')
 			, method = $this.attr('method')
 			, data = new FormData($this[0])
-			, button = $this.find('input[type=submit],button[type=submit]')
+			, button = $this.find('input[type=submit1],button[type=submit1]')
 
 		button.attr('disabled', 'disabled')
 
@@ -249,7 +249,7 @@
 
 	$(function () {
 		$('body').on('click', 'a.ajax', Ajax.prototype.click)
-		$('body').on('submit', 'form.ajax', Ajax.prototype.submit)
+		$('body').on('submit1', 'form.ajax', Ajax.prototype.submit)
 		$('body').on('click', 'a[data-cancel-closest]', Ajax.prototype.cancel)
 	})
 }(window.jQuery);

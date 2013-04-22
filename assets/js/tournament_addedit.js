@@ -255,11 +255,13 @@ function reset_numbers() {
 	});
 }
 
-function submit() {
+function submit1() {
+
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
 		$('#tournament-name').addClass('viga');
 		$("#tabs").tabs("option", "active", 0);
+		alert("Turniiri nimi on puudu!");
 		return false;
 	}
 
@@ -274,22 +276,29 @@ function submit() {
 	if (!$('#game-length').val() || $('#game-length').val() == '0' || $('#game-length').val() == '00') {
 		$('#game-length').addClass('viga');
 		$("#tabs").tabs("option", "active", 0);
+		alert("Mängu pikkus on 0!");
 		return false;
 	}
 
 	// Create participants array
-	var participants = new Array();
+	var participants = {};
 	participants_table_body.find('tr').each(function () {
 		var participant_id = $(this).attr('id');
-		participants[participant_id] = new Array();
-		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').find('input').val();
+		participants[participant_id] = {};
+		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').html();
 		participants[participant_id]['institute_name'] = $(this).find('td:nth-child(3)').html();
 		participants[participant_id]['pool_name'] = $(this).find('td:nth-child(4)').html();
-		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5)').html();
+		var $tc = $(this).find('td:nth-child(5)');
+		participants[participant_id]['participant_favorite'] = $tc.find('input').prop('checked') ? "1" : "0";
+
+
 	});
 
 	// JSONize participants array
 	var json_text = JSON.stringify(participants, null, 2);
+	alert(json_text);
+	//console.log(participants);
+	return false;
 
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
@@ -328,6 +337,7 @@ function submit() {
 
 	// Submit form
 	$('#tournament-add-form').submit();
+
 }
 function remove_participant(id) {
 
@@ -378,7 +388,7 @@ $(function () {
 
 	var keyStop = {
 		8 : ":not(input:text, textarea)", // stop backspace = back
-		13: "input:text", // stop enter = submit
+		13: "input:text", // stop enter = submit1
 
 		end: null
 	};

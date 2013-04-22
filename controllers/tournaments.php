@@ -20,7 +20,7 @@ class tournaments
 		global $_request;
 		$this->scripts[] = 'tournament_addedit.js';
 
-		// If submit
+		// If submit1
 		if (isset($_POST['participants'])) {
 			require 'modules/tournament.php';
 			$tournament_model = new tournament;
