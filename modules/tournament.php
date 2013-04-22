@@ -72,11 +72,11 @@ class tournament
 
 			// Add participants to inserted tournament, if any
 			$participants = json_decode($participants, TRUE);
-			//die(var_dump($participants));
+
 
 			if (! empty ($participants)) {
 				foreach ($participants as $key => $participant) {
-					//die(print_r($key));
+
 					$participant['institute_id'] = $this->get_institute_id($participant['institute_name']);
 					unset($participant['institute_name']);
 					$participant['tournament_id'] = $tournament_id;
@@ -111,7 +111,7 @@ function convert_date($date)
 	list($date, $time) = explode(' ', $date);
 	list($d, $mon, $y) = explode('.', $date);
 	list($h, $min) = explode(':', $time);
-	return "$y - $mon - $d $h:$min:00";
+	return "$y-$mon-$d $h:$min:00";
 }
 
 
