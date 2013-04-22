@@ -303,9 +303,6 @@ function submit1() {
 
 	// JSONize participants array
 	var json_text = JSON.stringify(participants, null);
-	alert(json_text);
-	//console.log(participants);
-	//return false;
 
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);

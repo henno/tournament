@@ -444,7 +444,7 @@
 </div>
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
-	<input type="text" id="participants" name="participants" value="">
+	<input type="hidden" id="participants" name="participants" value="">
 	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
 </div>
 <textarea id="import-participants" style="width:400px" onclick="import_participants()" rows="3">nimi1	instituut1	alagrupp1	0
