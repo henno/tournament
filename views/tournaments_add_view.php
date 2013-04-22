@@ -390,7 +390,8 @@
 								<?=$participant['pool_name']?>
 							</td>
 							<td>
-								<input type="checkbox" id="favorite" value="favorite">
+
+								<input type="checkbox" id="favorite" <?if($participant['participant_favorite']==1){echo "checked";}?> >
 							</td>
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"

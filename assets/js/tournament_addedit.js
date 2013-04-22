@@ -59,7 +59,7 @@ function add_group() {
 		var row = $(this).index();
 		group_table = '';
 		for (cell = 0; cell <= get_group_member_count(group_name) + 2; cell++) {
-				group_table += '<td>&nbsp;</td>';
+			group_table += '<td>&nbsp;</td>';
 		}
 
 		// Generate body
@@ -85,7 +85,7 @@ function set_participant_type() {
 function get_scores(a, b) {
 	console.debug(a);
 	console.debug(b);
-	if (typeof a == 'undefined' || typeof b == 'undefined' || a.substr(0,3)=='new') {
+	if (typeof a == 'undefined' || typeof b == 'undefined' || a.substr(0, 3) == 'new') {
 		return 'andmed puuduvad';
 	}
 	else {
@@ -285,20 +285,27 @@ function submit1() {
 	participants_table_body.find('tr').each(function () {
 		var participant_id = $(this).attr('id');
 		participants[participant_id] = {};
-		participants[participant_id]['participant_name'] = $(this).find('td:nth-child(2)').html();
-		participants[participant_id]['institute_name'] = $(this).find('td:nth-child(3)').html();
-		participants[participant_id]['pool_name'] = $(this).find('td:nth-child(4)').html();
-		var $tc = $(this).find('td:nth-child(5)');
-		participants[participant_id]['participant_favorite'] = $tc.find('input').prop('checked') ? "1" : "0";
+
+		//trim the text to remove newline and tab characters
+		//if the field is editable, use val, else use text
+		//if length > 0, input field exists
+		if (($(this).find('td:nth-child(2) input')).length > 0) {
+			participants[participant_id]['participant_name'] = $.trim($(this).find('td:nth-child(2) input').val());
+		} else {
+			participants[participant_id]['participant_name'] = $.trim($(this).find('td:nth-child(2)').text());
+		}
+		participants[participant_id]['institute_name'] = $.trim($(this).find('td:nth-child(3)').text());
+		participants[participant_id]['pool_name'] = $.trim($(this).find('td:nth-child(4)').text());
+		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5) input').prop('checked') ? "1" : "0";
 
 
 	});
 
 	// JSONize participants array
-	var json_text = JSON.stringify(participants, null, 2);
+	var json_text = JSON.stringify(participants, null);
 	alert(json_text);
 	//console.log(participants);
-	return false;
+	//return false;
 
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);

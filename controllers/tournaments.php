@@ -105,8 +105,26 @@ class tournaments
 	function view()
 	{
 		global $_request;
+
+		if(!isset($_request->params[0])||$_request->params[0]<=0){
+			echo "Turniiri id määramata!";
+			die();
+		}
+		else{
+			$tournament_id=$_request->params[0];
+		}
+
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
+			$participants = $_POST['participants'];
+
+			// If submit1
+			if (isset($_POST['participants'])) {
+				require 'modules/tournament.php';
+				$tournament_model = new tournament;
+				$tournament_model->edit($tournament_id,$tournament,$participants);
+				$_request->redirect('tournaments');
+			}
 
 			$id = $tournament['tournament_id'];
 			unset($tournament['tournament_id']);
@@ -140,6 +158,7 @@ class tournaments
 		$tournament_id = $tournament['tournament_id'];
 		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
 		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
+
 		require 'views/master_view.php';
 
 	}

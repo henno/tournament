@@ -123,10 +123,11 @@ function update($table, $data,$where)
 		}
 		$values = implode(',', $values);
 		if (isset($where)){
-			$sql = "UPDATE {$table} SET {$values} {$where}";
+			$sql = "UPDATE {$table} SET {$values} WHERE {$where}";
 		}
 		else{
-		$sql = "UPDATE {$table} SET {$values}";}
+			$sql = "UPDATE {$table} SET {$values}";
+		}
 		$id = q($sql, $q);
 		return ($id > 0) ? $id : FALSE;
 	} else {
