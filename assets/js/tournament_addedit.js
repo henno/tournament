@@ -44,12 +44,13 @@ function add_group() {
 				participants_row.push(participant_id);
 			});
 
-			$('#tabs-3').append('<h3>Alagrupp test ' + groups[i] + '</h3>');
-			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">väravate vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
+			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
+			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">punktide vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
 
 		}
 	}
-
+	console.debug(participants_row);
+	console.debug(participants_cell);
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
 		var group_name = $(this).find('td:nth-child(4)').html().trim();  // A
@@ -58,10 +59,23 @@ function add_group() {
 
 		// Generate body row
 		var row = $(this).index();
+		var input_a = '<input id="participant_a_score" type="text" value="" class="score-input" >';
+		var input_b = '<input id="participant_b_score" type="text" value="" class="score-input" >';
+		var id_a = '<input id="participant_a_id" type="text" value='+participant_id+' class="score-input" >';
+
+
+		var score = '<strong><p class="text-center" >3</p></strong>';
+		//editable fields
 		group_table = '';
-		for (cell = 0; cell <= get_group_member_count(group_name) + 2; cell++) {
-			group_table += '<td>&nbsp;</td>';
+		for (cell = 0; cell < get_group_member_count(group_name); cell++) {
+			var id_b = '<input id="participant_b_id" type="text" value='+participants_row[cell]+' class="score-input" >';
+			group_table += '<td>' + score + input_a + ":" + input_b +id_a+ id_b+ '</td>';
 		}
+		//summary fields
+		for (cell = 0; cell < 3; cell++) {
+			group_table += '<td>' + 'summary' + '</td>';
+		}
+
 
 		// Generate body
 		$('#group-table' + group_name).append(
@@ -284,6 +298,8 @@ function submit1() {
 
 	// Create participants array
 	var participants = {};
+
+
 	participants_table_body.find('tr').each(function () {
 		var participant_id = $(this).attr('id');
 		participants[participant_id] = {};
@@ -299,8 +315,6 @@ function submit1() {
 		participants[participant_id]['institute_name'] = $.trim($(this).find('td:nth-child(3)').text());
 		participants[participant_id]['pool_name'] = $.trim($(this).find('td:nth-child(4)').text());
 		participants[participant_id]['participant_favorite'] = $(this).find('td:nth-child(5) input').prop('checked') ? "1" : "0";
-
-
 	});
 
 	// JSONize participants array
@@ -309,152 +323,182 @@ function submit1() {
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 
-	// Check whether the tournament start is set and is earlier than tournament end
-	$(".datepicker").datetimepicker();
+	// create games array
+	var games = {};
+	var participants_in_group = Math.round(participants_table_body.find('tr').length / $('#max_groups').val());
 
-	var start = $('#tournament_start').val();
-	var end = $('#tournament_end').val();
+	// Iterate sub-group tables
 
-	if (start >= end || !start) {
-		$("#tabs").tabs("option", "active", 0);
-		alert("Turniiri algus peab olema varasem kui lõpp!");
-		$('#tournament_start').addClass('viga');
-		$('#tournament_end').addClass('viga');
-		if (!start) {
+	for (var i = 0; i < $('#max_groups').val(); i++) {
+		var group_table = $('table#group-table' + groups[i] + '> tbody:last');
+		group_table.find('tr').each(function () {
+			games[game_id] = {};
+			//on each row, skip first cell(participant name) and check if cell has input boxes
+			for (var i = 1; i < $('#max_groups').val()+1; i++) {
+				if(($(this).find('td:nth-child(' + i + ') input')).length>0){
+					games[game_id]['participant_a_score']= ($(this).find('td:nth-child(' + i + ') input#participant_a_score').val());
+					games[game_id]['participant_b_score']= ($(this).find('td:nth-child(' + i + ') input#participant_b_score').val());
+				}
+
+
+
+			}
+
+		});
+			alert(games);
+			die();
+
+		}
+
+
+		// Check whether the tournament start is set and is earlier than tournament end
+		$(".datepicker").datetimepicker();
+
+		var start = $('#tournament_start').val();
+		var end = $('#tournament_end').val();
+
+		if (start >= end || !start) {
+			$("#tabs").tabs("option", "active", 0);
+			alert("Turniiri algus peab olema varasem kui lõpp!");
 			$('#tournament_start').addClass('viga');
-		}
-		if (!end) {
 			$('#tournament_end').addClass('viga');
+			if (!start) {
+				$('#tournament_start').addClass('viga');
+			}
+			if (!end) {
+				$('#tournament_end').addClass('viga');
+			}
+			return false;
 		}
-		return false;
+
+		if (!$('#tournament_participant').val()) {
+			$('#tournament_participant').addClass('viga');
+			$("#tabs").tabs("option", "active", 0);
+			return false;
+		}
+
+		if (!$('#tournament_classification').val()) {
+			$('#tournament_classification').addClass('viga');
+			$("#tabs").tabs("option", "active", 0);
+			return false;
+		}
+
+		// Submit form
+		$('#tournament-add-form').submit();
+
+	}
+	function remove_participant(id) {
+
+		// Remove specified row from participant table
+		$('table#participants-table>tbody>tr#' + id).remove();
+
+		// Reset numbers
+		reset_numbers();
+		add_group();
 	}
 
-	if (!$('#tournament_participant').val()) {
-		$('#tournament_participant').addClass('viga');
-		$("#tabs").tabs("option", "active", 0);
-		return false;
+	function validate(evt) {
+		var theEvent = evt || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		key = String.fromCharCode(key);
+		var r1 = /[0-9]/;
+		var r2 = /[\b]/;
+		if (!(r1.test(key) || r2.test(key))) {
+			theEvent.returnValue = false;
+			if (theEvent.preventDefault) theEvent.preventDefault();
+		}
 	}
 
-	if (!$('#tournament_classification').val()) {
-		$('#tournament_classification').addClass('viga');
-		$("#tabs").tabs("option", "active", 0);
-		return false;
-	}
+	$(function () {
 
-	// Submit form
-	$('#tournament-add-form').submit();
+		// Write participant table captions
+		set_participant_type();
+		set_unit_type();
 
-}
-function remove_participant(id) {
+		// Initialize place_name combobox
+		$('.makeEditable').editableSelect();
 
-	// Remove specified row from participant table
-	$('table#participants-table>tbody>tr#' + id).remove();
+		// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
+		institute_name_field = $('input[name="institute_name"]');
+		participant_name_field = $('input#participant_name');
+		max_groups_field = $('input#max_groups');
+		tournament_id = $('input[type=hidden]#tournament_id').val();
+		participants_table_body = $('table#participants-table > tbody:last');
 
-	// Reset numbers
-	reset_numbers();
-	add_group();
-}
-
-function validate(evt) {
-	var theEvent = evt || window.event;
-	var key = theEvent.keyCode || theEvent.which;
-	key = String.fromCharCode(key);
-	var r1 = /[0-9]/;
-	var r2 = /[\b]/;
-	if (!(r1.test(key) || r2.test(key))) {
-		theEvent.returnValue = false;
-		if (theEvent.preventDefault) theEvent.preventDefault();
-	}
-}
-
-$(function () {
-	// Write participant table captions
-	set_participant_type();
-	set_unit_type();
-
-	// Initialize place_name combobox
-	$('.makeEditable').editableSelect();
-
-	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
-	institute_name_field = $('input[name="institute_name"]');
-	participant_name_field = $('input#participant_name');
-	max_groups_field = $('input#max_groups');
-	tournament_id = $('input[type=hidden]#tournament_id').val();
-	participants_table_body = $('table#participants-table > tbody:last');
-
-	// Initialize spinners
-	$('.spinner').spinner();
-	$('#max_groups').spinner({
-		stop: function (event, ui) {
-			current_group_number = -1;
-			reinit_groups();
-			update_participant_count();
-		}
-	});
-
-	//Display groups on load
-	update_participant_count();
-	validate(event);
-	reinit_groups();
-
-	var keyStop = {
-		8 : ":not(input:text, textarea)", // stop backspace = back
-		13: "input:text", // stop enter = submit1
-
-		end: null
-	};
-	$(document).bind("keydown", function (event) {
-		var selector = keyStop[event.which];
-
-		if (selector !== undefined && $(event.target).is(selector)) {
-			event.preventDefault(); //stop event
-		}
-		return true;
-	});
-
-	var startDateTextBox = $('#tournament_start');
-	var endDateTextBox = $('#tournament_end');
-
-	startDateTextBox.datetimepicker({
-		dateFormat: 'dd.mm.yy',
-		onClose   : function (dateText, inst) {
-			if (endDateTextBox.val() != '') {
-				var testStartDate = startDateTextBox.datetimepicker('getDate');
-				var testEndDate = endDateTextBox.datetimepicker('getDate');
-				if (testStartDate > testEndDate)
-					endDateTextBox.datetimepicker('setDate', testStartDate);
+		// Initialize spinners
+		$('.spinner').spinner();
+		$('#max_groups').spinner({
+			stop: function (event, ui) {
+				current_group_number = -1;
+				reinit_groups();
+				update_participant_count();
 			}
-			else {
-				endDateTextBox.val(dateText);
+		});
+
+
+		var keyStop = {
+			8 : ":not(input:text, textarea)", // stop backspace = back
+			13: "input:text", // stop enter = submit1
+
+			end: null
+		};
+		$(document).bind("keydown", function (event) {
+			var selector = keyStop[event.which];
+
+			if (selector !== undefined && $(event.target).is(selector)) {
+				event.preventDefault(); //stop event
 			}
-		},
-		onSelect  : function (selectedDateTime) {
+			return true;
+		});
 
-			var x = startDateTextBox.datetimepicker('getDate');
-			x.setDate(x.getDate() + 365);
+		var startDateTextBox = $('#tournament_start');
+		var endDateTextBox = $('#tournament_end');
 
-			endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
-			endDateTextBox.datetimepicker('option', 'maxDate', x);
-		}
-	});
-	endDateTextBox.datetimepicker({
-		dateFormat: 'dd.mm.yy',
-		onClose   : function (dateText, inst) {
-			if (startDateTextBox.val() != '') {
-				var testStartDate = startDateTextBox.datetimepicker('getDate');
-				var testEndDate = endDateTextBox.datetimepicker('getDate');
-				if (testStartDate > testEndDate)
-					startDateTextBox.datetimepicker('setDate', testEndDate);
+		startDateTextBox.datetimepicker({
+			dateFormat: 'dd.mm.yy',
+			onClose   : function (dateText, inst) {
+				if (endDateTextBox.val() != '') {
+					var testStartDate = startDateTextBox.datetimepicker('getDate');
+					var testEndDate = endDateTextBox.datetimepicker('getDate');
+					if (testStartDate > testEndDate)
+						endDateTextBox.datetimepicker('setDate', testStartDate);
+				}
+				else {
+					endDateTextBox.val(dateText);
+				}
+			},
+			onSelect  : function (selectedDateTime) {
+
+				var x = startDateTextBox.datetimepicker('getDate');
+				x.setDate(x.getDate() + 365);
+
+				endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
+				endDateTextBox.datetimepicker('option', 'maxDate', x);
 			}
-			else {
-				startDateTextBox.val(dateText);
+		});
+		endDateTextBox.datetimepicker({
+			dateFormat: 'dd.mm.yy',
+			onClose   : function (dateText, inst) {
+				if (startDateTextBox.val() != '') {
+					var testStartDate = startDateTextBox.datetimepicker('getDate');
+					var testEndDate = endDateTextBox.datetimepicker('getDate');
+					if (testStartDate > testEndDate)
+						startDateTextBox.datetimepicker('setDate', testEndDate);
+				}
+				else {
+					startDateTextBox.val(dateText);
+				}
+			},
+			onSelect  : function (selectedDateTime) {
+				startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
 			}
-		},
-		onSelect  : function (selectedDateTime) {
-			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
-		}
-	});
+		});
+
+		//Display groups on load
+		update_participant_count();
+		validate(event);
+		reinit_groups();
 
 
-})
-;
+	})
+	;

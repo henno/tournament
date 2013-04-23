@@ -133,6 +133,11 @@
 		background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
 	}
 
+	.score-input {
+		width: 25px;
+		text-align: center;
+	}
+
 	#tabs ul {
 		background: none;
 		border: none;
@@ -158,6 +163,8 @@
 </style>
 <script>
 	$(function () {
+
+
 
 		$("#tabs").tabs();
 		<? switch ($tournament['tournament_type']){
@@ -447,7 +454,9 @@
 
 	</div>
 </div>
-<div id="tabs-3"></div>
+<div id="tabs-3">
+	<input type="text" id="games" name="games" value="">
+</div>
 <div id="tabs-4"></div>
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
