@@ -58,7 +58,6 @@ class tournament
 
 		if (isset($tournament_id, $tournament, $participants)) {
 
-
 			// Convert dates
 			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
 			$tournament['tournament_end'] = $this->convert_date($tournament['tournament_end']);
@@ -80,9 +79,8 @@ class tournament
 					$participant['institute_id'] = $this->get_institute_id($participant['institute_name']);
 					unset($participant['institute_name']);
 					$participant['tournament_id'] = $tournament_id;
-					//TODO renamed participant will not be found, create new user when renamed or package old name with the form
 					if (substr($key, 0, 20) == "existing_participant") {
-						update('participant', $participant, "participant_name='{$participant['participant_name']}'");
+						update('participant', $participant, "participant_id=".substr($key, 20, strlen($key))."");
 					} else {
 						save('participant', $participant);
 					}

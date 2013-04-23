@@ -134,8 +134,26 @@
 	}
 
 	.score-input {
-		width: 25px;
+		width: 35px;
+	}
+
+	.score_cell {
+		width: 100%;
 		text-align: center;
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+
+		-webkit-opacity: 0.3;
+		-moz-opacity: 0.3;
+		opacity: 0.3;
+
+	}
+
+	#tabs-3 input {
+		text-align: center;
+		font-weight: 600;
 	}
 
 	#tabs ul {
@@ -152,7 +170,12 @@
 		box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
 		border-radius: 5px;
 	}
-	@media screen and (max-width:1200px) { .kast { float: none} }
+
+	@media screen and (max-width:1200px) {
+		.kast {
+			float: none
+		}
+	}
 
 	@media screen and (max-width:1200px) {
 		.kast {
@@ -163,7 +186,6 @@
 </style>
 <script>
 	$(function () {
-
 
 
 		$("#tabs").tabs();
@@ -180,13 +202,11 @@
 		<?break;}?>
 
 
-
-
 	});
 
 </script>
-<script src="<?= ASSETS_URL?>js/jquery.combobox.js"></script>
-<script src="<?= ASSETS_URL?>js/jquery-ui-timepicker-addon.js"></script>
+<script src="<?= ASSETS_URL ?>js/jquery.combobox.js"></script>
+<script src="<?= ASSETS_URL ?>js/jquery-ui-timepicker-addon.js"></script>
 <form method="post" id="tournament-add-form">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
@@ -314,7 +334,7 @@
 
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
-				<input tabindex="1" class="spinner" min="1" value="<?=$tournament['tournament_group']?>" maxlength="2"
+				<input tabindex="1" class="spinner" min="1" value="<?= $tournament['tournament_group'] ?>" maxlength="2"
 				       name="tournament[tournament_group]"
 				       id="max_groups"
 				       onkeyup="validate(event); reinit_groups();" onclick="update_participant_count()"
@@ -342,7 +362,7 @@
 								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
 							<? endforeach?>
 						</select>
-						<button tabindex="4"  type="button"  class="btn btn-large" onclick="add_participant_wrapper()"
+						<button tabindex="4" type="button" class="btn btn-large" onclick="add_participant_wrapper()"
 						        style="margin-left:5px; float: right ">
 							Lisa mängija
 						</button>
@@ -397,7 +417,9 @@
 							</td>
 							<td>
 
-								<input type="checkbox" id="favorite" <?if($participant['participant_favorite']==1){echo "checked";}?> >
+								<input type="checkbox" id="favorite" <?if ($participant['participant_favorite'] == 1) {
+									echo "checked";
+								}?> >
 							</td>
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
@@ -420,7 +442,8 @@
 			</h3>
 		</div>
 		<label class="checkbox">
-			<input tabindex="5" id="alagrupp_playoff" type="radio" <?if($tournament['tournament_type']==0){echo "checked";
+			<input tabindex="5" id="alagrupp_playoff" type="radio" <?if ($tournament['tournament_type'] == 0) {
+				echo "checked";
 			}?> name="tournament[tournament_type]" value="0" onclick="$
 			('[name=playoff]').show();$
 			('[name=alagrupp]').show()
@@ -428,7 +451,8 @@
 			Alagrupid + playoff
 		</label>
 		<label class="checkbox">
-			<input tabindex="6" id="alagrupp" type="radio" <?if($tournament['tournament_type']==1){echo "checked";
+			<input tabindex="6" id="alagrupp" type="radio" <?if ($tournament['tournament_type'] == 1) {
+				echo "checked";
 			}?> name="tournament[tournament_type]" value="1" onclick="$
 			('[name=alagrupp]').show
 			();$
@@ -436,14 +460,16 @@
 			();$('#alagrupid_add_group').show()"> Alagrupid
 		</label>
 		<label class="checkbox">
-			<input  tabindex="7" id="playoff" type="radio" <?if($tournament['tournament_type']==2){echo "checked";
+			<input tabindex="7" id="playoff" type="radio" <?if ($tournament['tournament_type'] == 2) {
+				echo "checked";
 			}?> name="tournament[tournament_type]" onclick="$('[name=playoff]').show();$
 			('[name=alagrupp]').hide
 			();"> Playoff
 		</label>
 
 		<label class="checkbox">
-			<input tabindex="8" id="leaderboard" type="radio" <?if($tournament['tournament_type']==3){echo "checked";
+			<input tabindex="8" id="leaderboard" type="radio" <?if ($tournament['tournament_type'] == 3) {
+				echo "checked";
 			}?> name="tournament[tournament_type]" value="3" onclick="$
 			('[name=alagrupp]').hide
 			();

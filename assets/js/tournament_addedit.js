@@ -49,8 +49,6 @@ function add_group() {
 
 		}
 	}
-	console.debug(participants_row);
-	console.debug(participants_cell);
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
 		var group_name = $(this).find('td:nth-child(4)').html().trim();  // A
@@ -59,17 +57,32 @@ function add_group() {
 
 		// Generate body row
 		var row = $(this).index();
-		var input_a = '<input id="participant_a_score" type="text" value="" class="score-input" >';
-		var input_b = '<input id="participant_b_score" type="text" value="" class="score-input" >';
-		var id_a = '<input id="participant_a_id" type="text" value='+participant_id+' class="score-input" >';
-
-
-		var score = '<strong><p class="text-center" >3</p></strong>';
 		//editable fields
 		group_table = '';
 		for (cell = 0; cell < get_group_member_count(group_name); cell++) {
-			var id_b = '<input id="participant_b_id" type="text" value='+participants_row[cell]+' class="score-input" >';
-			group_table += '<td>' + score + input_a + ":" + input_b +id_a+ id_b+ '</td>';
+
+			//fetch participant id's
+			//We assume participants have been saved once (existing_participant+id)
+			var id_a = participant_id.substring(20, participant_id.length);
+			var id_b = (participants_cell[group_name][cell]).substring(20, (participants_cell[group_name][cell]).length);
+
+			//this mess creates unique composite id's with a reversed one to look up the other side of the input pair
+			var composite_id_a = id_a + "_" + tournament_id + "_" + id_a + "_" + id_b;
+			var reverse_id_a = id_a + "_" + tournament_id + "_" + id_b + "_" + id_a;
+			var composite_id_b = id_b + "_" + tournament_id + "_" + id_a + "_" + id_b;
+			var reverse_id_b = id_b + "_" + tournament_id + "_" + id_b + "_" + id_a;
+			// plus one composite id for score
+			var composite_id_score = tournament_id + "_" + id_a + "_" + id_b;
+
+			//if input changes, change its reciprocal input too
+			//package all needed data to the inputs - its unique id, its mirror's id, its neighbour's id and the score id
+			var input_a = '<input id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" scoreid="' + composite_id_score + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
+			var input_b = '<input id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" scoreid="' + composite_id_score + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
+			var score = '<p><strong  id="' + composite_id_score + '">'+"-"+'</strong></p>';
+
+			//store participant id's in cells
+			group_table += '<td><div class="score_cell">' + score + input_a + ":" + input_b + '</div></td>';
+
 		}
 		//summary fields
 		for (cell = 0; cell < 3; cell++) {
@@ -94,6 +107,63 @@ function black_background() {
 		})
 	}
 }
+
+function changescore() {
+
+	//TODO deal with possible nonnumerical values
+	//get mirrored cell
+	var reverse_id = $(this).attr('reverseid');
+	var mirrored_cell = $('#' + reverse_id + '');
+	//get current cell value
+	var value = parseInt($(this).val());
+
+
+	//only change the mirrored element if they differ
+	if(mirrored_cell.val()!=value)
+	{
+		mirrored_cell.val('' + value + '');
+		//go through comparison on the other side too
+		changescore.call(mirrored_cell);
+	}
+
+
+
+	//get neighbour cell value
+	var neighbour_id = $(this).attr('neighbourid');
+	var neighbour_value = parseInt($('#' + neighbour_id + '').val());
+
+	//get score element
+	var score_id = $(this).attr('scoreid');
+
+	//get cell name
+	var name = $(this).attr('name');
+
+	//compare
+	if (value > neighbour_value) {
+		if (name == "a") {
+			$('#' + score_id + '').text("võit");
+		}
+		if (name == "b") {
+			$('#' + score_id + '').text("kaotus");
+		}
+	}
+
+	if (value == neighbour_value) {
+		$('#' + score_id + '').text("viik");
+	}
+
+	if (value < neighbour_value) {
+		if (name == "a") {
+			$('#' + score_id + '').text("kaotus");
+		}
+		if (name == "b") {
+			$('#' + score_id + '').text("võit");
+		}
+	}
+
+}
+
+
 function set_participant_type() {
 	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
 }
@@ -325,180 +395,175 @@ function submit1() {
 
 	// create games array
 	var games = {};
-	var participants_in_group = Math.round(participants_table_body.find('tr').length / $('#max_groups').val());
-
+	var game_id = 1;
 	// Iterate sub-group tables
-
 	for (var i = 0; i < $('#max_groups').val(); i++) {
 		var group_table = $('table#group-table' + groups[i] + '> tbody:last');
 		group_table.find('tr').each(function () {
 			games[game_id] = {};
 			//on each row, skip first cell(participant name) and check if cell has input boxes
-			for (var i = 1; i < $('#max_groups').val()+1; i++) {
-				if(($(this).find('td:nth-child(' + i + ') input')).length>0){
-					games[game_id]['participant_a_score']= ($(this).find('td:nth-child(' + i + ') input#participant_a_score').val());
-					games[game_id]['participant_b_score']= ($(this).find('td:nth-child(' + i + ') input#participant_b_score').val());
+			for (var i = 1; i < $('#max_groups').val() + 1; i++) {
+				if (($(this).find('td:nth-child(' + i + ') input')).length > 0) {
+					games[game_id]['participant_a_score'] = ($(this).find('td:nth-child(' + i + ') input#participant_a_score').val());
+					games[game_id]['participant_b_score'] = ($(this).find('td:nth-child(' + i + ') input#participant_b_score').val());
 				}
-
 
 
 			}
 
 		});
-			alert(games);
-			die();
 
-		}
+	}
 
 
-		// Check whether the tournament start is set and is earlier than tournament end
-		$(".datepicker").datetimepicker();
+	// Check whether the tournament start is set and is earlier than tournament end
+	$(".datepicker").datetimepicker();
 
-		var start = $('#tournament_start').val();
-		var end = $('#tournament_end').val();
+	var start = $('#tournament_start').val();
+	var end = $('#tournament_end').val();
 
-		if (start >= end || !start) {
-			$("#tabs").tabs("option", "active", 0);
-			alert("Turniiri algus peab olema varasem kui lõpp!");
+	if (start >= end || !start) {
+		$("#tabs").tabs("option", "active", 0);
+		alert("Turniiri algus peab olema varasem kui lõpp!");
+		$('#tournament_start').addClass('viga');
+		$('#tournament_end').addClass('viga');
+		if (!start) {
 			$('#tournament_start').addClass('viga');
+		}
+		if (!end) {
 			$('#tournament_end').addClass('viga');
-			if (!start) {
-				$('#tournament_start').addClass('viga');
-			}
-			if (!end) {
-				$('#tournament_end').addClass('viga');
-			}
-			return false;
 		}
-
-		if (!$('#tournament_participant').val()) {
-			$('#tournament_participant').addClass('viga');
-			$("#tabs").tabs("option", "active", 0);
-			return false;
-		}
-
-		if (!$('#tournament_classification').val()) {
-			$('#tournament_classification').addClass('viga');
-			$("#tabs").tabs("option", "active", 0);
-			return false;
-		}
-
-		// Submit form
-		$('#tournament-add-form').submit();
-
-	}
-	function remove_participant(id) {
-
-		// Remove specified row from participant table
-		$('table#participants-table>tbody>tr#' + id).remove();
-
-		// Reset numbers
-		reset_numbers();
-		add_group();
+		return false;
 	}
 
-	function validate(evt) {
-		var theEvent = evt || window.event;
-		var key = theEvent.keyCode || theEvent.which;
-		key = String.fromCharCode(key);
-		var r1 = /[0-9]/;
-		var r2 = /[\b]/;
-		if (!(r1.test(key) || r2.test(key))) {
-			theEvent.returnValue = false;
-			if (theEvent.preventDefault) theEvent.preventDefault();
-		}
+	if (!$('#tournament_participant').val()) {
+		$('#tournament_participant').addClass('viga');
+		$("#tabs").tabs("option", "active", 0);
+		return false;
 	}
 
-	$(function () {
+	if (!$('#tournament_classification').val()) {
+		$('#tournament_classification').addClass('viga');
+		$("#tabs").tabs("option", "active", 0);
+		return false;
+	}
 
-		// Write participant table captions
-		set_participant_type();
-		set_unit_type();
+	// Submit form
+	$('#tournament-add-form').submit();
 
-		// Initialize place_name combobox
-		$('.makeEditable').editableSelect();
+}
+function remove_participant(id) {
 
-		// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
-		institute_name_field = $('input[name="institute_name"]');
-		participant_name_field = $('input#participant_name');
-		max_groups_field = $('input#max_groups');
-		tournament_id = $('input[type=hidden]#tournament_id').val();
-		participants_table_body = $('table#participants-table > tbody:last');
+	// Remove specified row from participant table
+	$('table#participants-table>tbody>tr#' + id).remove();
 
-		// Initialize spinners
-		$('.spinner').spinner();
-		$('#max_groups').spinner({
-			stop: function (event, ui) {
-				current_group_number = -1;
-				reinit_groups();
-				update_participant_count();
+	// Reset numbers
+	reset_numbers();
+	add_group();
+}
+
+function validate(evt) {
+	var theEvent = evt || window.event;
+	var key = theEvent.keyCode || theEvent.which;
+	key = String.fromCharCode(key);
+	var r1 = /[0-9]/;
+	var r2 = /[\b]/;
+	if (!(r1.test(key) || r2.test(key))) {
+		theEvent.returnValue = false;
+		if (theEvent.preventDefault) theEvent.preventDefault();
+	}
+}
+
+$(function () {
+
+	// Write participant table captions
+	set_participant_type();
+	set_unit_type();
+
+	// Initialize place_name combobox
+	$('.makeEditable').editableSelect();
+
+	// Cache repetitive and expensive jQuery element finding operation results to variables (makes it faster)
+	institute_name_field = $('input[name="institute_name"]');
+	participant_name_field = $('input#participant_name');
+	max_groups_field = $('input#max_groups');
+	tournament_id = $('input[type=hidden]#tournament_id').val();
+	participants_table_body = $('table#participants-table > tbody:last');
+
+	// Initialize spinners
+	$('.spinner').spinner();
+	$('#max_groups').spinner({
+		stop: function (event, ui) {
+			current_group_number = -1;
+			reinit_groups();
+			update_participant_count();
+		}
+	});
+
+
+	var keyStop = {
+		8 : ":not(input:text, textarea)", // stop backspace = back
+		13: "input:text", // stop enter = submit1
+
+		end: null
+	};
+	$(document).bind("keydown", function (event) {
+		var selector = keyStop[event.which];
+
+		if (selector !== undefined && $(event.target).is(selector)) {
+			event.preventDefault(); //stop event
+		}
+		return true;
+	});
+
+	var startDateTextBox = $('#tournament_start');
+	var endDateTextBox = $('#tournament_end');
+
+	startDateTextBox.datetimepicker({
+		dateFormat: 'dd.mm.yy',
+		onClose   : function (dateText, inst) {
+			if (endDateTextBox.val() != '') {
+				var testStartDate = startDateTextBox.datetimepicker('getDate');
+				var testEndDate = endDateTextBox.datetimepicker('getDate');
+				if (testStartDate > testEndDate)
+					endDateTextBox.datetimepicker('setDate', testStartDate);
 			}
-		});
-
-
-		var keyStop = {
-			8 : ":not(input:text, textarea)", // stop backspace = back
-			13: "input:text", // stop enter = submit1
-
-			end: null
-		};
-		$(document).bind("keydown", function (event) {
-			var selector = keyStop[event.which];
-
-			if (selector !== undefined && $(event.target).is(selector)) {
-				event.preventDefault(); //stop event
+			else {
+				endDateTextBox.val(dateText);
 			}
-			return true;
-		});
+		},
+		onSelect  : function (selectedDateTime) {
 
-		var startDateTextBox = $('#tournament_start');
-		var endDateTextBox = $('#tournament_end');
+			var x = startDateTextBox.datetimepicker('getDate');
+			x.setDate(x.getDate() + 365);
 
-		startDateTextBox.datetimepicker({
-			dateFormat: 'dd.mm.yy',
-			onClose   : function (dateText, inst) {
-				if (endDateTextBox.val() != '') {
-					var testStartDate = startDateTextBox.datetimepicker('getDate');
-					var testEndDate = endDateTextBox.datetimepicker('getDate');
-					if (testStartDate > testEndDate)
-						endDateTextBox.datetimepicker('setDate', testStartDate);
-				}
-				else {
-					endDateTextBox.val(dateText);
-				}
-			},
-			onSelect  : function (selectedDateTime) {
-
-				var x = startDateTextBox.datetimepicker('getDate');
-				x.setDate(x.getDate() + 365);
-
-				endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
-				endDateTextBox.datetimepicker('option', 'maxDate', x);
+			endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
+			endDateTextBox.datetimepicker('option', 'maxDate', x);
+		}
+	});
+	endDateTextBox.datetimepicker({
+		dateFormat: 'dd.mm.yy',
+		onClose   : function (dateText, inst) {
+			if (startDateTextBox.val() != '') {
+				var testStartDate = startDateTextBox.datetimepicker('getDate');
+				var testEndDate = endDateTextBox.datetimepicker('getDate');
+				if (testStartDate > testEndDate)
+					startDateTextBox.datetimepicker('setDate', testEndDate);
 			}
-		});
-		endDateTextBox.datetimepicker({
-			dateFormat: 'dd.mm.yy',
-			onClose   : function (dateText, inst) {
-				if (startDateTextBox.val() != '') {
-					var testStartDate = startDateTextBox.datetimepicker('getDate');
-					var testEndDate = endDateTextBox.datetimepicker('getDate');
-					if (testStartDate > testEndDate)
-						startDateTextBox.datetimepicker('setDate', testEndDate);
-				}
-				else {
-					startDateTextBox.val(dateText);
-				}
-			},
-			onSelect  : function (selectedDateTime) {
-				startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
+			else {
+				startDateTextBox.val(dateText);
 			}
-		});
+		},
+		onSelect  : function (selectedDateTime) {
+			startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
+		}
+	});
 
-		//Display groups on load
-		update_participant_count();
-		validate(event);
-		reinit_groups();
+	//Display groups on load
+	update_participant_count();
+	validate(event);
+	reinit_groups();
 
 
-	})
-	;
+})
+;
