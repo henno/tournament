@@ -391,7 +391,11 @@ $(function () {
 			update_participant_count();
 		}
 	});
+
+	//Display groups on load
 	update_participant_count();
+	validate(event);
+	reinit_groups();
 
 	var keyStop = {
 		8 : ":not(input:text, textarea)", // stop backspace = back
