@@ -9,11 +9,11 @@ var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
 
-function get_group_member_count(group_name) {
+function get_group_member_count(pool_name) {
 	var counter = 0;
 	participants_table_body.find('tr').each(function () {
 		var this_pool_name = $(this).find('td:nth-child(4)').html().trim();
-		if (this_group_name == group_name) {
+		if (this_pool_name == pool_name) {
 			counter++;
 		}
 	})
@@ -43,7 +43,8 @@ function add_group() {
 				}
 				participants_row.push(participant_id);
 			});
-			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
+			console.debug('grupp');
+			$('#tabs-3').append('<h3>Alagrupp test ' + groups[i] + '</h3>');
 			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">väravate vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
 
 		}
@@ -233,6 +234,7 @@ function verify_participant_names() {
  * Reorganizes groups based on max_group field value.
  */
 function reinit_groups() {
+	console.debug('tekst');
 	// Reset table
 	participants_table_body.find('tr').each(function () {
 
@@ -379,6 +381,7 @@ $(function () {
 	max_groups_field = $('input#max_groups');
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	participants_table_body = $('table#participants-table > tbody:last');
+	console.debug(participants_table_body);
 
 	// Initialize spinners
 	$('.spinner').spinner();

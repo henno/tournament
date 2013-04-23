@@ -414,23 +414,33 @@
 			</h3>
 		</div>
 		<label class="checkbox">
-			<input tabindex="5" type="radio" name="tournament[tournament_type]" value="0" onclick="$('[name=playoff]').show();$
+			<input tabindex="5" id="alagrupp_playoff" type="radio" <?if($tournament['tournament_type']==0){echo "checked";
+			}?> name="tournament[tournament_type]" value="0" onclick="$
+			('[name=playoff]').show();$
 			('[name=alagrupp]').show()
 			;">
 			Alagrupid + playoff
 		</label>
 		<label class="checkbox">
-			<input tabindex="6" type="radio" name="tournament[tournament_type]" value="1" onclick="$('[name=alagrupp]').show();$
+			<input tabindex="6" id="alagrupp" type="radio" <?if($tournament['tournament_type']==1){echo "checked";
+			}?> name="tournament[tournament_type]" value="1" onclick="$
+			('[name=alagrupp]').show
+			();$
 			('[name=playoff]').hide
 			();$('#alagrupid_add_group').show()"> Alagrupid
 		</label>
 		<label class="checkbox">
-			<input  tabindex="7" type="radio" name="radiobutton3" onclick="$('[name=playoff]').show();$('[name=alagrupp]').hide
+			<input  tabindex="7" id="playoff" type="radio" <?if($tournament['tournament_type']==2){echo "checked";
+			}?> name="tournament[tournament_type]" onclick="$('[name=playoff]').show();$
+			('[name=alagrupp]').hide
 			();"> Playoff
 		</label>
 
 		<label class="checkbox">
-			<input tabindex="8" type="radio" name="tournament[tournament_type]" value="3" onclick="$('[name=alagrupp]').hide();
+			<input tabindex="8" id="leaderboard" type="radio" <?if($tournament['tournament_type']==3){echo "checked";
+			}?> name="tournament[tournament_type]" value="3" onclick="$
+			('[name=alagrupp]').hide
+			();
 			$('[name=playoff]').hide()
 			;">
 			Paremusjärjestus

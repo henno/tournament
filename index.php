@@ -22,6 +22,6 @@ if (file_exists('controllers/'.$_request->controller.'.php')) {
 } else {
 	echo "The page '{$_request->controller}' does not exist";
 }
-echo microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"];
+echo microtime(true) - $_SERVER["REQUEST_TIME"];
 
 
