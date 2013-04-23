@@ -160,7 +160,6 @@
 	$(function () {
 
 		$("#tabs").tabs();
-
 		<? switch ($tournament['tournament_type']){
 		case 0:?>
 		$('[name=playoff]').show();
@@ -299,7 +298,6 @@
 	</div>
 </div>
 <div id="tabs-2">
-<div id="tabs-2">
 	<div class="kast">
 		<div class="number">2</div>
 		<div class="titlebar"><h3>
@@ -309,7 +307,8 @@
 
 		<div style="width: 250px; float:left">
 			<p>Alagruppide arv:
-				<input tabindex="1" class="spinner" min="1" value="1" maxlength="2" name="tournament[tournament_group]"
+				<input tabindex="1" class="spinner" min="1" value="<?=$tournament['tournament_group']?>" maxlength="2"
+				       name="tournament[tournament_group]"
 				       id="max_groups"
 				       onkeyup="validate(event); reinit_groups();" onclick="update_participant_count()"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
@@ -448,22 +447,14 @@
 
 	</div>
 </div>
-<div id="tabs-3">
-</div>
+<div id="tabs-3"></div>
 <div id="tabs-4"></div>
-</div>
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<input type="hidden" id="participants" name="participants" value="">
 	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
 </div>
-<textarea id="import-participants" style="width:400px" onclick="import_participants()" rows="3">nimi1	instituut1	alagrupp1	0
-nimi2	instituut2	alagrupp2	favoriit2
-nimi3	instituut3	alagrupp3	1</textarea>
-<button tabindex="4" type="button" class="btn btn-large" onclick="import_participants();add_participant();"
-        style="margin-left:5px; float: right ">
-	Lisa mängijad
-</button>
+
 
 <script>
 

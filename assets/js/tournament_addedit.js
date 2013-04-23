@@ -43,7 +43,7 @@ function add_group() {
 				}
 				participants_row.push(participant_id);
 			});
-			console.debug('grupp');
+
 			$('#tabs-3').append('<h3>Alagrupp test ' + groups[i] + '</h3>');
 			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">väravate vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
 
@@ -381,7 +381,6 @@ $(function () {
 	max_groups_field = $('input#max_groups');
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	participants_table_body = $('table#participants-table > tbody:last');
-	console.debug(participants_table_body);
 
 	// Initialize spinners
 	$('.spinner').spinner();
@@ -389,9 +388,10 @@ $(function () {
 		stop: function (event, ui) {
 			current_group_number = -1;
 			reinit_groups();
-			update_participant_count()
+			update_participant_count();
 		}
 	});
+	update_participant_count();
 
 	var keyStop = {
 		8 : ":not(input:text, textarea)", // stop backspace = back
