@@ -145,9 +145,10 @@
 	input::-webkit-outer-spin-button,
 	input::-webkit-inner-spin-button {
 
-		-webkit-opacity: 0.3;
-		-moz-opacity: 0.3;
-		opacity: 0.3;
+		-webkit-opacity: 0.5;
+		-moz-opacity: 0.5;
+		opacity: 0.5;
+
 
 	}
 

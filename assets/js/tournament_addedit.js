@@ -8,6 +8,7 @@ var participants_table_body;
 var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
+var row_scores = [];
 
 function get_group_member_count(pool_name) {
 	var counter = 0;
@@ -26,8 +27,10 @@ function add_group() {
 	var participants_row = new Array();
 	var participants_cell = new Array();
 
+
 	// Iterate sub-group tables
 	for (var i = 0; i < $('#max_groups').val(); i++) {
+		var j = 0;
 		if (!document.getElementById('group-table' + groups[i] + '')) {
 			group_table_header = '<th></th>';
 			participants_table_body.find('tr').each(function () {
@@ -36,19 +39,28 @@ function add_group() {
 				var participant_id = $(this).attr('id');
 				if (typeof participants_cell[this_group_name] == 'undefined') {
 					participants_cell[this_group_name] = new Array();
+					row_scores[this_group_name] = [];
 				}
 				if (this_group_name == groups[i]) {
 					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
 					participants_cell[this_group_name].push(participant_id);
+					row_scores[this_group_name][participant_id] = new Array();
+
+					//row_scores[this_group_name][participant_id] =["test"];
+					j++;
 				}
+
 				participants_row.push(participant_id);
 			});
 
 			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
 			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">punktide vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
-
 		}
+
+
 	}
+
+
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
 		var group_name = $(this).find('td:nth-child(4)').html().trim();  // A
@@ -59,26 +71,38 @@ function add_group() {
 		var row = $(this).index();
 		//editable fields
 		group_table = '';
-		for (cell = 0; cell < get_group_member_count(group_name); cell++) {
+		//members in group
+		var members = get_group_member_count(group_name);
+		for (cell = 0; cell < members; cell++) {
 
 			//fetch participant id's
 			//We assume participants have been saved once (existing_participant+id)
 			var id_a = participant_id.substring(20, participant_id.length);
 			var id_b = (participants_cell[group_name][cell]).substring(20, (participants_cell[group_name][cell]).length);
 
+
 			//this mess creates unique composite id's with a reversed one to look up the other side of the input pair
 			var composite_id_a = id_a + "_" + tournament_id + "_" + id_a + "_" + id_b;
 			var reverse_id_a = id_a + "_" + tournament_id + "_" + id_b + "_" + id_a;
 			var composite_id_b = id_b + "_" + tournament_id + "_" + id_a + "_" + id_b;
 			var reverse_id_b = id_b + "_" + tournament_id + "_" + id_b + "_" + id_a;
-			// plus one composite id for score
+			// plus composites for score fields
 			var composite_id_score = tournament_id + "_" + id_a + "_" + id_b;
+			//
+			var composite_id_score_difference = tournament_id + "_" + participant_id + "_score_difference";
+			var composite_id_score_total = tournament_id + "_" + participant_id + "_score_total";
+			var composite_id_score_place = tournament_id + "_" + participant_id + "_score_place";
+
+			row_scores[group_name][participant_id].push(composite_id_score);
 
 			//if input changes, change its reciprocal input too
 			//package all needed data to the inputs - its unique id, its mirror's id, its neighbour's id and the score id
-			var input_a = '<input id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" scoreid="' + composite_id_score + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
-			var input_b = '<input id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" scoreid="' + composite_id_score + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
-			var score = '<p><strong  id="' + composite_id_score + '">'+"-"+'</strong></p>';
+			var input_a = '<input id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
+			var input_b = '<input id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
+			var score = '<p><strong  id="' + composite_id_score + '">' + "0" + '</strong></p>';
+			var score_difference = '<p><strong  id="' + composite_id_score_difference + '">' + "0" + '</strong></p>';
+			var score_total = '<p><strong  id="' + composite_id_score_total + '">' + "0" + '</strong></p>';
+			var score_place = '<p><strong  id="' + composite_id_score_place + '">' + "0" + '</strong></p>';
 
 			//store participant id's in cells
 			group_table += '<td><div class="score_cell">' + score + input_a + ":" + input_b + '</div></td>';
@@ -86,7 +110,22 @@ function add_group() {
 		}
 		//summary fields
 		for (cell = 0; cell < 3; cell++) {
-			group_table += '<td>' + 'summary' + '</td>';
+
+			//punktide vahe
+			if (cell == 0) {
+				group_table += '<td>' + score_difference + '</td>';
+				row_scores[group_name][participant_id].push(composite_id_score_difference);
+			}
+			//kogupunktid
+			if (cell == 1) {
+				group_table += '<td>' + score_total + '</td>';
+				row_scores[group_name][participant_id].push(composite_id_score_total);
+			}
+			//koht
+			if (cell == 2) {
+				group_table += '<td>' + score_place + '</td>';
+				row_scores[group_name][participant_id].push(composite_id_score_place);
+			}
 		}
 
 
@@ -96,6 +135,7 @@ function add_group() {
 				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
 				'</tr>');
 	});
+	//console.debug(row_scores);
 	black_background();
 }
 function black_background() {
@@ -108,6 +148,36 @@ function black_background() {
 	}
 }
 
+function sumcells(index, group, member_count) {
+
+	var score = 0;
+	var score_id;
+	//we have the index for the changed row, get the subarray and sum the elements
+	for (var i = 0; i < row_scores[group][index].length; i++) {
+		score_id = row_scores[group][index][i];
+
+		//we are summing the scores
+		if (($('#' + score_id + '').text() != "") && (i < member_count)) {
+			score += parseInt($('#' + score_id + '').text(), 10);
+		}
+
+		//we are at score difference cell
+		if (i == member_count) {
+			$('#' + score_id + '').text(score);
+		}
+		//we are at total score cell
+		if (i == member_count + 1) {
+			$('#' + score_id + '').text(score);
+		}
+		//we are at place cell
+		if (i == member_count + 2) {
+			$('#' + score_id + '').text(score);
+		}
+
+	}
+
+}
+
 function changescore() {
 
 	//TODO deal with possible nonnumerical values
@@ -116,16 +186,12 @@ function changescore() {
 	var mirrored_cell = $('#' + reverse_id + '');
 	//get current cell value
 	var value = parseInt($(this).val());
-
-
-	//only change the mirrored element if they differ
-	if(mirrored_cell.val()!=value)
-	{
-		mirrored_cell.val('' + value + '');
-		//go through comparison on the other side too
-		changescore.call(mirrored_cell);
-	}
-
+	//get row id
+	var row_id = $(this).attr('rowid');
+	//get subgroup id
+	var group_id = $(this).attr('groupid');
+	//get members in group
+	var member_count = parseInt($(this).attr('membercount'), 10);
 
 
 	//get neighbour cell value
@@ -138,28 +204,44 @@ function changescore() {
 	//get cell name
 	var name = $(this).attr('name');
 
+	win_points = $('input[name="tournament[tournament_game_win]"]').val();
+	tie_points = $('input[name="tournament[tournament_game_tie]"]').val();
+	loss_points = $('input[name="tournament[tournament_game_loss]"]').val();
+
+
 	//compare
 	if (value > neighbour_value) {
 		if (name == "a") {
-			$('#' + score_id + '').text("võit");
+			$('#' + score_id + '').text(win_points);
 		}
 		if (name == "b") {
-			$('#' + score_id + '').text("kaotus");
+			$('#' + score_id + '').text(loss_points);
 		}
 	}
 
 	if (value == neighbour_value) {
-		$('#' + score_id + '').text("viik");
+		$('#' + score_id + '').text(tie_points);
 	}
 
 	if (value < neighbour_value) {
 		if (name == "a") {
-			$('#' + score_id + '').text("kaotus");
+			$('#' + score_id + '').text(loss_points);
 		}
 		if (name == "b") {
-			$('#' + score_id + '').text("võit");
+			$('#' + score_id + '').text(win_points);
 		}
 	}
+
+	//only change the mirrored element if they differ
+	if (mirrored_cell.val() != value) {
+		//change value
+		mirrored_cell.val('' + value + '');
+		//go through comparison on the other side too
+		changescore.call(mirrored_cell);
+	}
+
+	//give the index for the subarray to be summed, we need to sum the cells in it again
+	sumcells(row_id, group_id, member_count);
 
 }
 
@@ -474,6 +556,18 @@ function validate(evt) {
 	}
 }
 
+function createmultidimArray(length) {
+	var arr = new Array(length || 0),
+		i = length;
+
+	if (arguments.length > 1) {
+		var args = Array.prototype.slice.call(arguments, 1);
+		while (i--) arr[length - 1 - i] = createArray.apply(this, args);
+	}
+
+	return arr;
+}
+
 $(function () {
 
 	// Write participant table captions
@@ -489,6 +583,7 @@ $(function () {
 	max_groups_field = $('input#max_groups');
 	tournament_id = $('input[type=hidden]#tournament_id').val();
 	participants_table_body = $('table#participants-table > tbody:last');
+
 
 	// Initialize spinners
 	$('.spinner').spinner();
