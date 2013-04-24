@@ -44,9 +44,9 @@ function add_group() {
 				if (this_group_name == groups[i]) {
 					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
 					participants_cell[this_group_name].push(participant_id);
+					row_scores[this_group_name].push(participant_id);
 					row_scores[this_group_name][participant_id] = new Array();
 
-					//row_scores[this_group_name][participant_id] =["test"];
 					j++;
 				}
 
@@ -102,12 +102,12 @@ function add_group() {
 			//package all needed data to the inputs - its unique id, its mirror's id, its neighbour's id and the score id
 			var input_a = '<input id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
 			var input_b = '<input id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
-			var score = '<p><strong  id="' + composite_id_score + '">' + "0" + '</strong></p>';
-			var score_difference = '<p><strong  id="' + composite_id_score_difference + '">' + "0" + '</strong></p>';
-			var score_difference_points = '<p><strong  id="' + composite_id_score_difference_points + '">' + "0" + '</strong></p>';
+			var score = '<p><strong  id="' + composite_id_score + '">' + "-" + '</strong></p>';
+			var score_difference = '<p><strong  id="' + composite_id_score_difference + '">' + "-" + '</strong></p>';
+			var score_difference_points = '<p><strong  id="' + composite_id_score_difference_points + '">' + "-" + '</strong></p>';
 
 			var points_total = '<p><strong  id="' + composite_id_points_total + '">' + "0" + '</strong></p>';
-			var score_place = '<p><strong  id="' + composite_id_score_place + '">' + "0" + '</strong></p>';
+			var score_place = '<p><strong  id="' + composite_id_score_place + '">' + "-" + '</strong></p>';
 
 			//store participant id's in cells
 			group_table += '<td><div class="score_cell">' + score + input_a + ":" + input_b + '</div></td>';
@@ -118,18 +118,18 @@ function add_group() {
 
 			//punktide vahe
 			if (cell == 0) {
-				group_table += '<td>' + score_difference + score_difference_points + '</td>';
+				group_table += '<td><div class="score_cell">' + score_difference + score_difference_points + '</div></td>';
 				row_scores[group_name][participant_id].push(composite_id_score_difference);
 				row_scores[group_name][participant_id].push(composite_id_score_difference_points);
 			}
 			//kogupunktid
 			if (cell == 1) {
-				group_table += '<td>' + points_total + '</td>';
+				group_table += '<td><div class="score_cell">' + points_total + '</div></td>';
 				row_scores[group_name][participant_id].push(composite_id_points_total);
 			}
 			//koht
 			if (cell == 2) {
-				group_table += '<td>' + score_place + '</td>';
+				group_table += '<td><div class="score_cell">' + score_place + '</div></td>';
 				row_scores[group_name][participant_id].push(composite_id_score_place);
 			}
 		}
@@ -141,7 +141,7 @@ function add_group() {
 				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
 				'</tr>');
 	});
-	//console.debug(row_scores);
+	console.debug(row_scores);
 	black_background();
 }
 function black_background() {
@@ -165,19 +165,19 @@ function sumcells(index, group, member_count) {
 		score_id = row_scores[group][index][i];
 
 		//we are summing the scores
-		if (($('#' + score_id + '').text() != "") && (i < member_count)) {
+		if (($('#' + score_id + '').text() != "") && ($('#' + score_id + '').text() != "-") && (i < member_count)) {
 			score += parseInt($('#' + score_id + '').text(), 10);
 
 			var score_input_a = row_scores[group][index][score_id][0];
 			var score_input_b = row_scores[group][index][score_id][1];
-			total_score_a += parseInt($('#' + score_input_a + '').val(),10);
-			total_score_b += parseInt($('#' + score_input_b + '').val(),10);
+			total_score_a += parseInt($('#' + score_input_a + '').val(), 10);
+			total_score_b += parseInt($('#' + score_input_b + '').val(), 10);
 		}
 
 		//we are at score difference
 		if (i == member_count) {
 			//set score difference
-			$('#' + score_id + '').text(total_score_a-total_score_b);
+			$('#' + score_id + '').text(total_score_a - total_score_b);
 		}
 		//we are at score difference point
 		if (i == member_count + 1) {
@@ -192,12 +192,60 @@ function sumcells(index, group, member_count) {
 
 		//we are at place cell
 		if (i == member_count + 3) {
+			//set place
 			$('#' + score_id + '').text(score);
+			changeplace();
 		}
 
 	}
 
+	function changeplace() {
+		var scorearray = [];
+		var placearray = [];
+
+		for (var j = 0; j < row_scores[group].length; j++) {
+			var foreign_total_score_index = row_scores[group][row_scores[group][j]].length - 2;
+			var foreign_total_score_id = row_scores[group][row_scores[group][j]][foreign_total_score_index];
+			var foreign_total_place_index = row_scores[group][row_scores[group][j]].length - 1;
+			var foreign_total_place_id = row_scores[group][row_scores[group][j]][foreign_total_place_index];
+
+			var foreign_score = parseInt($('#' + foreign_total_score_id + '').text());
+
+			//insert at the bottom and percolate up
+			scorearray.push(foreign_score)
+			placearray.push(foreign_total_place_id);
+			var sorted = false;
+			var pos = scorearray.length - 1;
+			var tmp;
+			while (!sorted && scorearray.length > 1) {
+				if (scorearray[pos] > scorearray[pos - 1]) {
+					tmp = scorearray[pos];
+					scorearray[pos] = scorearray[pos - 1];
+					scorearray[pos - 1] = tmp;
+
+					tmp = placearray[pos];
+					placearray[pos] = placearray[pos - 1];
+					placearray[pos - 1] = tmp;
+
+					pos--;
+				}
+				else {
+					sorted = true;
+				}
+
+			}
+		}
+
+		//we have the sorted places, assign the numbers
+		for (var k = 0; k < placearray.length; k++) {
+			$('#' + placearray[k] + '').text(k + 1);
+		}
+
+	}
+
+
 }
+
 
 function changescore() {
 

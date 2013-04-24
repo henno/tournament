@@ -135,10 +135,14 @@
 
 	.score-input {
 		width: 45px;
+		font-weight: 600;
+		text-align: center;
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		border-radius: 0px;
 	}
 
 	.score_cell {
-		width: 100%;
 		text-align: center;
 	}
 
@@ -152,9 +156,6 @@
 
 	}
 
-	#tabs-3 input {
-		font-weight: 600;
-	}
 
 	#tabs ul {
 		background: none;
