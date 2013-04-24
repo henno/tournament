@@ -134,7 +134,7 @@
 	}
 
 	.score-input {
-		width: 35px;
+		width: 45px;
 	}
 
 	.score_cell {
@@ -153,7 +153,6 @@
 	}
 
 	#tabs-3 input {
-		text-align: center;
 		font-weight: 600;
 	}
 

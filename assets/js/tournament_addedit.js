@@ -90,18 +90,23 @@ function add_group() {
 			var composite_id_score = tournament_id + "_" + id_a + "_" + id_b;
 			//
 			var composite_id_score_difference = tournament_id + "_" + participant_id + "_score_difference";
-			var composite_id_score_total = tournament_id + "_" + participant_id + "_score_total";
+			var composite_id_score_difference_points = tournament_id + "_" + participant_id + "_score_difference_points";
+			var composite_id_points_total = tournament_id + "_" + participant_id + "_score_total";
 			var composite_id_score_place = tournament_id + "_" + participant_id + "_score_place";
 
 			row_scores[group_name][participant_id].push(composite_id_score);
-
+			row_scores[group_name][participant_id][composite_id_score] = new Array();
+			row_scores[group_name][participant_id][composite_id_score].push(composite_id_a);
+			row_scores[group_name][participant_id][composite_id_score].push(composite_id_b);
 			//if input changes, change its reciprocal input too
 			//package all needed data to the inputs - its unique id, its mirror's id, its neighbour's id and the score id
 			var input_a = '<input id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
 			var input_b = '<input id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
 			var score = '<p><strong  id="' + composite_id_score + '">' + "0" + '</strong></p>';
 			var score_difference = '<p><strong  id="' + composite_id_score_difference + '">' + "0" + '</strong></p>';
-			var score_total = '<p><strong  id="' + composite_id_score_total + '">' + "0" + '</strong></p>';
+			var score_difference_points = '<p><strong  id="' + composite_id_score_difference_points + '">' + "0" + '</strong></p>';
+
+			var points_total = '<p><strong  id="' + composite_id_points_total + '">' + "0" + '</strong></p>';
 			var score_place = '<p><strong  id="' + composite_id_score_place + '">' + "0" + '</strong></p>';
 
 			//store participant id's in cells
@@ -113,13 +118,14 @@ function add_group() {
 
 			//punktide vahe
 			if (cell == 0) {
-				group_table += '<td>' + score_difference + '</td>';
+				group_table += '<td>' + score_difference + score_difference_points + '</td>';
 				row_scores[group_name][participant_id].push(composite_id_score_difference);
+				row_scores[group_name][participant_id].push(composite_id_score_difference_points);
 			}
 			//kogupunktid
 			if (cell == 1) {
-				group_table += '<td>' + score_total + '</td>';
-				row_scores[group_name][participant_id].push(composite_id_score_total);
+				group_table += '<td>' + points_total + '</td>';
+				row_scores[group_name][participant_id].push(composite_id_points_total);
 			}
 			//koht
 			if (cell == 2) {
@@ -152,6 +158,8 @@ function sumcells(index, group, member_count) {
 
 	var score = 0;
 	var score_id;
+	var total_score_a = 0;
+	var total_score_b = 0;
 	//we have the index for the changed row, get the subarray and sum the elements
 	for (var i = 0; i < row_scores[group][index].length; i++) {
 		score_id = row_scores[group][index][i];
@@ -159,18 +167,31 @@ function sumcells(index, group, member_count) {
 		//we are summing the scores
 		if (($('#' + score_id + '').text() != "") && (i < member_count)) {
 			score += parseInt($('#' + score_id + '').text(), 10);
+
+			var score_input_a = row_scores[group][index][score_id][0];
+			var score_input_b = row_scores[group][index][score_id][1];
+			total_score_a += parseInt($('#' + score_input_a + '').val(),10);
+			total_score_b += parseInt($('#' + score_input_b + '').val(),10);
 		}
 
-		//we are at score difference cell
+		//we are at score difference
 		if (i == member_count) {
-			$('#' + score_id + '').text(score);
+			//set score difference
+			$('#' + score_id + '').text(total_score_a-total_score_b);
 		}
-		//we are at total score cell
+		//we are at score difference point
 		if (i == member_count + 1) {
+			///set score difference in points
+			$('#' + score_id + '').text(total_score_a + ":" + total_score_b);
+		}
+
+		//we are at total score cell
+		if (i == member_count + 2) {
 			$('#' + score_id + '').text(score);
 		}
+
 		//we are at place cell
-		if (i == member_count + 2) {
+		if (i == member_count + 3) {
 			$('#' + score_id + '').text(score);
 		}
 
