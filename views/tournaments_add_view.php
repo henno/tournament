@@ -199,7 +199,7 @@
 		<?break; case 2:?>
 		$('[name=playoff]').show();
 		<?break; case 3:?>
-		$('[name=playoff]').show();
+		$('[name=leaderboard]').show();
 		<?break;}?>
 
 
@@ -222,6 +222,7 @@
 	<li><a href="#tabs-2">Mängijate lisamine</a></li>
 	<li style="display: none" name="alagrupp"><a href="#tabs-3">Alagrupp</a></li>
 	<li style="display: none" name="playoff"><a href="#tabs-4">Playoff</a></li>
+	<li style="display: none" name="leaderboard"><a href="#tabs-5">Paremusjärjestus</a></li>
 </ul>
 
 <div id="tabs-1">
@@ -448,7 +449,7 @@
 			}?> name="tournament[tournament_type]" value="0" onclick="$
 			('[name=playoff]').show();$
 			('[name=alagrupp]').show()
-			;">
+			;$('[name=leaderboard]').hide();">
 			Alagrupid + playoff
 		</label>
 		<label class="checkbox">
@@ -458,6 +459,8 @@
 			('[name=alagrupp]').show
 			();$
 			('[name=playoff]').hide
+			();$
+			('[name=leaderboard]').hide
 			();$('#alagrupid_add_group').show()"> Alagrupid
 		</label>
 		<label class="checkbox">
@@ -465,6 +468,8 @@
 				echo "checked";
 			}?> name="tournament[tournament_type]" onclick="$('[name=playoff]').show();$
 			('[name=alagrupp]').hide
+			();$
+			('[name=leaderboard]').hide
 			();"> Playoff
 		</label>
 
@@ -472,10 +477,9 @@
 			<input tabindex="8" id="leaderboard" type="radio" <?if ($tournament['tournament_type'] == 3) {
 				echo "checked";
 			}?> name="tournament[tournament_type]" value="3" onclick="$
-			('[name=alagrupp]').hide
-			();
+			('[name=alagrupp]').hide();
 			$('[name=playoff]').hide()
-			;">
+			;$('[name=leaderboard]').show();">
 			Paremusjärjestus
 		</label>
 
@@ -485,6 +489,7 @@
 	<input type="text" id="games" name="games" value="">
 </div>
 <div id="tabs-4"></div>
+<div id="tabs-5"></div>
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<input type="hidden" id="participants" name="participants" value="">
