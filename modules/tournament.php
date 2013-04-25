@@ -52,11 +52,11 @@ class tournament
 	 * @param $tournament array
 	 * @param $participants array
 	 */
-	function edit($tournament_id, $tournament, $participants)
+	function edit($tournament_id, $tournament, $participants, $games)
 	{
 
 
-		if (isset($tournament_id, $tournament, $participants)) {
+		if (isset($tournament_id, $tournament, $participants, $games)) {
 
 			// Convert dates
 			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
@@ -87,43 +87,52 @@ class tournament
 				}
 			}
 
+			//add games to tournament
+			$games = json_decode($games, TRUE);
+
+			if (! empty ($games)) {
+				foreach ($games as $key => $game) {
+					//update('game', $game, "game_id="."'".$game['game_id']."'"."");
+					save('game', $game);
+				}
+			}
+
 		}
 	}
 
 
-
-function add_participant($participant_name, $tournament_id, $institute_name)
-{
-	$institute_id = $this->get_institute_id($institute_name);
-	return q(
-		"INSERT INTO participant
+	function add_participant($participant_name, $tournament_id, $institute_name)
+	{
+		$institute_id = $this->get_institute_id($institute_name);
+		return q(
+			"INSERT INTO participant
 						 SET
 						    tournament_id = '$tournament_id',
 						    participant_name = '$participant_name',
 						    institute_id = '$institute_id'"
-	);
-}
+		);
+	}
 
-function convert_date($date)
-{
-	list($date, $time) = explode(' ', $date);
-	list($d, $mon, $y) = explode('.', $date);
-	list($h, $min) = explode(':', $time);
-	return "$y-$mon-$d $h:$min:00";
-}
-
-
-function get_institute_id($institute_name)
-{
-	$institute_id = get_one("SELECT institute_id FROM institute WHERE institute_name LIKE '$institute_name'");
-	return $institute_id ? $institute_id : q("INSERT INTO institute SET institute_name = '$institute_name'");
-}
+	function convert_date($date)
+	{
+		list($date, $time) = explode(' ', $date);
+		list($d, $mon, $y) = explode('.', $date);
+		list($h, $min) = explode(':', $time);
+		return "$y-$mon-$d $h:$min:00";
+	}
 
 
-function get_place_id($place_name)
-{
-	$place_id = get_one("SELECT place_id FROM place WHERE place_name LIKE '$place_name'");
-	return $place_id ? $place_id : q("INSERT INTO place SET place_name = '$place_name'");
-}
+	function get_institute_id($institute_name)
+	{
+		$institute_id = get_one("SELECT institute_id FROM institute WHERE institute_name LIKE '$institute_name'");
+		return $institute_id ? $institute_id : q("INSERT INTO institute SET institute_name = '$institute_name'");
+	}
+
+
+	function get_place_id($place_name)
+	{
+		$place_id = get_one("SELECT place_id FROM place WHERE place_name LIKE '$place_name'");
+		return $place_id ? $place_id : q("INSERT INTO place SET place_name = '$place_name'");
+	}
 
 }

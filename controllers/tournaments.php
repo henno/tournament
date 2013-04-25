@@ -117,12 +117,13 @@ class tournaments
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
 			$participants = $_POST['participants'];
+			$games = $_POST['games'];
 
 			// If submit1
 			if (isset($_POST['participants'])) {
 				require 'modules/tournament.php';
 				$tournament_model = new tournament;
-				$tournament_model->edit($tournament_id,$tournament,$participants);
+				$tournament_model->edit($tournament_id,$tournament,$participants,$games);
 				$_request->redirect('tournaments');
 			}
 

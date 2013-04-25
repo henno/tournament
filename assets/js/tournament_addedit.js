@@ -9,6 +9,7 @@ var institute_name_field;
 var max_groups_field;
 var current_group_number = -1;
 var row_scores = [];
+var final_scores = {};
 
 function get_group_member_count(pool_name) {
 	var counter = 0;
@@ -89,10 +90,10 @@ function add_group() {
 			// plus composites for score fields
 			var composite_id_score = tournament_id + "_" + id_a + "_" + id_b;
 			//
-			var composite_id_score_difference = tournament_id + "_" + participant_id + "_score_difference";
-			var composite_id_score_difference_points = tournament_id + "_" + participant_id + "_score_difference_points";
-			var composite_id_points_total = tournament_id + "_" + participant_id + "_score_total";
-			var composite_id_score_place = tournament_id + "_" + participant_id + "_score_place";
+			var composite_id_score_difference = tournament_id + "_" + id_a + "_score_difference";
+			var composite_id_score_difference_points = tournament_id + "_" + id_a + "_score_difference_points";
+			var composite_id_points_total = tournament_id + "_" + id_a + "_score_total";
+			var composite_id_score_place = tournament_id + "_" + id_a + "_score_place";
 
 			row_scores[group_name][participant_id].push(composite_id_score);
 			row_scores[group_name][participant_id][composite_id_score] = new Array();
@@ -153,6 +154,75 @@ function black_background() {
 		})
 	}
 }
+
+function prepare_game_array() {
+	//write the array out to a more manageable form
+	for (var grp in row_scores) {
+
+		for (var i = 0; i < row_scores[grp].length; i++) {
+			var a_participant = row_scores[grp][i];
+			var c = 0;
+			for (var cell in row_scores[grp][a_participant]) {
+				c++;
+
+
+				if (c > row_scores[grp][a_participant].length) {
+
+					cell_id = row_scores[grp][a_participant][cell];
+					//console.debug(cell_id);
+					for (var j = 0; j < cell_id.length; j++) {
+
+						var check = checkscore(cell_id);
+						if (check != false) {
+							final_scores[cell_id[j]] = {};
+							final_scores[cell_id[j]]['game_id'] = cell_id[j];
+							final_scores[cell_id[j]]['tournament_id'] = getid(cell_id[j], 1);
+							final_scores[cell_id[j]]['participant_a_id'] = getid(cell_id[j], 2);
+							final_scores[cell_id[j]]['participant_b_id'] = getid(cell_id[j], 3);
+							final_scores[cell_id[j]]['participant_a_score'] = getscore(cell_id, 0);
+							final_scores[cell_id[j]]['participant_b_score'] = getscore(cell_id, 1);
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+
+	function checkscore(double_id) {
+		//returned string
+		var str = "";
+		var element;
+		var reverse_id;
+		//split the id
+		for (var i = 0; i < double_id.length; i++) {
+			//find elements
+			element = $('#' + double_id[i] + '').val();
+			reverse_id = $('#' + double_id[i] + '').attr('reverseid');
+			if (!element) {
+				return false;
+			}
+			//game exists, don't insert
+			if (final_scores[reverse_id]) {
+				return false;
+			}
+
+		}
+		return true;
+	}
+
+	function getid(id, place) {
+		var soup = id.split("_");
+		return soup[place];
+	}
+
+	function getscore(id, place) {
+		return $('#' + id[place] + '').val();
+	}
+
+}
+
 
 function sumcells(index, group, member_count) {
 
@@ -242,7 +312,6 @@ function sumcells(index, group, member_count) {
 		}
 
 	}
-
 
 }
 
@@ -544,27 +613,13 @@ function submit1() {
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 
-	// create games array
-	var games = {};
-	var game_id = 1;
-	// Iterate sub-group tables
-	for (var i = 0; i < $('#max_groups').val(); i++) {
-		var group_table = $('table#group-table' + groups[i] + '> tbody:last');
-		group_table.find('tr').each(function () {
-			games[game_id] = {};
-			//on each row, skip first cell(participant name) and check if cell has input boxes
-			for (var i = 1; i < $('#max_groups').val() + 1; i++) {
-				if (($(this).find('td:nth-child(' + i + ') input')).length > 0) {
-					games[game_id]['participant_a_score'] = ($(this).find('td:nth-child(' + i + ') input#participant_a_score').val());
-					games[game_id]['participant_b_score'] = ($(this).find('td:nth-child(' + i + ') input#participant_b_score').val());
-				}
 
-
-			}
-
-		});
-
-	}
+	//create nice array of game results
+	prepare_game_array();
+	// JSONize game array
+	json_text = JSON.stringify(final_scores, null);
+	//Assign JSONized array to hidden input field
+	$('#games').val(json_text);
 
 
 	// Check whether the tournament start is set and is earlier than tournament end

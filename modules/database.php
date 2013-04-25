@@ -108,7 +108,7 @@ function save($table, $data)
 			$values[] = "$field='".trim($value)."'";
 		}
 		$values = implode(',', $values);
-		$sql = "INSERT INTO {$table} SET {$values}";
+		$sql = "INSERT INTO {$table} SET {$values} ON DUPLICATE KEY UPDATE {$values}";
 		$id = q($sql, $q);
 		return ($id > 0) ? $id : FALSE;
 	} else {

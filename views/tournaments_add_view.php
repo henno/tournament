@@ -493,6 +493,7 @@
 <div style="clear: both; padding: 15px 0">
 	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
 	<input type="hidden" id="participants" name="participants" value="">
+	<input type="hidden" id="games" name="games" value="">
 	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
 </div>
 
