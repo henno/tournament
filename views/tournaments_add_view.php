@@ -153,9 +153,7 @@
 		-moz-opacity: 0.5;
 		opacity: 0.5;
 
-
 	}
-
 
 	#tabs ul {
 		background: none;
@@ -207,11 +205,6 @@
 		<?break;}?>
 
 
-
-
-
-
-
 	});
 
 </script>
@@ -252,10 +245,10 @@
 				<td>
 					<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px"
 					        placeholder="Koht">
-						<option value=""><?=! empty($place_name) ? $place_name : '&nbsp;'?></option>
+						<option value=""><?= ! empty($place_name) ? $place_name : '&nbsp;' ?></option>
 						<? foreach ($places as $place) : ?>
-							<option value="<?= $place['place_name'] ?>"><?=$place['place_name']?></option>
-						<? endforeach?>
+							<option value="<?= $place['place_name'] ?>"><?= $place['place_name'] ?></option>
+						<? endforeach ?>
 					</select>
 
 				</td>
@@ -293,7 +286,7 @@
 			<tr>
 				<th>Kaotajate ring:</th>
 				<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
-						<?=$tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"'?>></td>
+						<?= $tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"' ?>></td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus:</th>
@@ -370,8 +363,8 @@
 						        placeholder="Instituut">
 							<option value="">&nbsp;</option>
 							<? foreach ($institutes as $institute) : ?>
-								<option value="<?= $institute['institute_name'] ?>"><?=$institute['institute_name']?></option>
-							<? endforeach?>
+								<option value="<?= $institute['institute_name'] ?>"><?= $institute['institute_name'] ?></option>
+							<? endforeach ?>
 						</select>
 						<button tabindex="4" type="button" class="btn btn-large" onclick="add_participant_wrapper()"
 						        style="margin-left:5px; float: right ">
@@ -414,17 +407,17 @@
 					foreach ($participants as $participant): ?>
 						<tr id="existing_participant<?= $participant['participant_id'] ?>">
 							<td>
-								<?=$i ++?>
+								<?= $i ++ ?>
 							</td>
 							<td>
 								<input class="input-small" id="e_participant_name"
 								       value="<?= $participant['participant_name'] ?>">
 							</td>
 							<td>
-								<?=$participant['institute_name']?>
+								<?= $participant['institute_name'] ?>
 							</td>
 							<td>
-								<?=$participant['pool_name']?>
+								<?= $participant['pool_name'] ?>
 							</td>
 							<td>
 
@@ -446,7 +439,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="kast<?if(empty($participants)):?> hidden <?endif?> " id="tournament_type">
+	<div class="kast<? if (empty($participants)): ?> hidden <? endif ?> " id="tournament_type">
 		<div class="number">3</div>
 		<div class="titlebar"><h3>
 				Mängu tüüp
@@ -497,7 +490,204 @@
 <div id="tabs-3">
 	<input type="text" id="games" name="games" value="">
 </div>
-<div id="tabs-4"></div>
+<div id="tabs-4">
+	<style type="text/css">
+		.bracket-top {
+			background: url(<?= ASSETS_URL ?>img/brackets/top.gif);
+			background-size: cover;
+			height: 52px;
+			width: 116px;
+		}
+
+		.bracket-low {
+			background: url(<?= ASSETS_URL ?>img/brackets/low.gif);
+			background-size: cover;
+			height: 52px;
+			width: 116px;
+		}
+
+		.bracket-mid {
+			background: url(<?= ASSETS_URL ?>img/brackets/mid.gif);
+			background-size: cover;
+			height: 52px;
+			width: 116px;
+		}
+
+		.bracket-none {
+			background: url(<?= ASSETS_URL ?>img/brackets/non.gif);
+			background-size: cover;
+			height: 52px;
+			width: 116px;
+		}
+
+	</style>
+	<table cellspacing="0" cellpadding="0" border="1" id="playoff-table">
+		<tbody>
+		<tr>
+			<td>#</td>
+			<td align="center">Rnd 1</td>
+			<td align="center">Rnd 2</td>
+			<td align="center">Rnd 3</td>
+			<td align="center">Rnd 4</td>
+			<td align="center">Rnd 5</td>
+		</tr>
+		<tr>
+			<td>
+				<center>1</center>
+			</td>
+			<td class="bracket-none"></td>
+			<td class="bracket-top"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-top"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<center>8</center>
+			</td>
+			<td class="bracket-top"></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-mid"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-low"></td>
+			<td class="bracket-mid"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<center>9</center>
+			</td>
+			<td class="bracket-low"></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-top"></td>
+		</tr>
+		<tr>
+			<td>
+				<center>4</center>
+			</td>
+			<td class="bracket-none"></td>
+			<td class="bracket-top"></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-low"></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td>
+				<center>5</center>
+			</td>
+			<td class="bracket-none"></td>
+			<td class="bracket-low"></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-none"></td>
+		</tr>
+		<tr>
+			<td>
+				<center>2</center>
+			</td>
+			<td class="bracket-none"></td>
+			<td class="bracket-top"></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-top"></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td>
+				<center>7</center>
+			</td>
+			<td class="bracket-top"></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-low"></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td>
+				<center>10</center>
+			</td>
+			<td class="bracket-low"></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-mid"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-low"></td>
+		</tr>
+		<tr>
+			<td>
+				<center>3</center>
+			</td>
+			<td class="bracket-none"></td>
+			<td class="bracket-top"></td>
+			<td class="bracket-mid"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td class="bracket-mid"></td>
+			<td class="bracket-low"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<center>6</center>
+			</td>
+			<td class="bracket-none"></td>
+			<td class="bracket-low"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
 <div id="tabs-5"></div>
 <div style="clear: both; padding: 15px 0">
 

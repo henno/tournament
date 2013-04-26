@@ -80,7 +80,12 @@
 	</div>
 </div>
 
-<div class=" container-fluid">
+<div class=" container-fluid" <? if ($_request->controller == 'tournaments' && $_request->action !=
+	'view'): ?>
+style="max-width:
+980px;
+margin: 0 auto;"<? endif;
+?>>
 
 	<? require 'views/'.$_request->controller.'_'.$_request->action.'_view.php'?>
 

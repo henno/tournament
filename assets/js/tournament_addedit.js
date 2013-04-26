@@ -12,6 +12,7 @@ var row_scores = [];
 var final_scores = {};
 var games_array;
 var tournament_type = -1;
+var playoff_array = [];
 
 function get_group_member_count(pool_name) {
 	var counter = 0;
@@ -43,27 +44,30 @@ function add_group() {
 				if (typeof participants_cell[this_group_name] == 'undefined') {
 					participants_cell[this_group_name] = new Array();
 					row_scores[this_group_name] = [];
+					playoff_array[this_group_name] = [];
 				}
 				if (this_group_name == groups[i]) {
 					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
 					participants_cell[this_group_name].push(participant_id);
 					row_scores[this_group_name].push(participant_id);
 					row_scores[this_group_name][participant_id] = new Array();
+					playoff_array[this_group_name][j] = [];
+					playoff_array[this_group_name][j].push(participant_name);
+					playoff_array[this_group_name][j].push(participant_id);
 
 					j++;
 				}
-
 				participants_row.push(participant_id);
-			});
 
+			});
 			$('#tabs-3').append('<h3>Alagrupp ' + groups[i] + '</h3>');
+
 			$('#tabs-3').append('<table id="group-table' + groups[i] + '" class="table table-bordered group-table"><tbody><tr>' + group_table_header + '<th width="120px">punktide vahe</th><th width="50px">punkte</th><th width="50px">koht</th></tr></tbody></table>');
 		}
 
 
 	}
-
-
+	console.debug(playoff_array);
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
 		var group_name = $(this).find('td:nth-child(4)').html().trim();  // A
@@ -103,8 +107,8 @@ function add_group() {
 			row_scores[group_name][participant_id][composite_id_score].push(composite_id_b);
 			//if input changes, change its reciprocal input too
 			//package all needed data to the inputs - its unique id, its mirror's id, its neighbour's id and the score id
-			var input_a = '<input id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
-			var input_b = '<input id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
+			var input_a = '<input style="border-radius: 0;" id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
+			var input_b = '<input style="border-radius: 0;" id="' + composite_id_b + '" name="b" reverseid="' + reverse_id_b + '" neighbourid="' + composite_id_a + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
 			var score = '<p><strong  id="' + composite_id_score + '">' + "-" + '</strong></p>';
 			var score_difference = '<p><strong  id="' + composite_id_score_difference + '">' + "-" + '</strong></p>';
 			var score_difference_points = '<p><strong  id="' + composite_id_score_difference_points + '">' + "-" + '</strong></p>';
@@ -144,6 +148,8 @@ function add_group() {
 				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
 				'</tr>');
 	});
+
+
 
 	black_background();
 }
