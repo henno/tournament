@@ -14,10 +14,15 @@ function remove_tournament_ajax(id) {
 	$.post(BASE_URL + "tournaments/remove/" + id)
 		.done(function (data) {
 			if (data == 'OK') {
-				$('table#tournaments-table>tbody>tr#tournament' + id).remove();
-			}
-			else
-				alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
-		});
+
+				$('table#tournaments-table>tbody>tr#tournament' + id).hide(400)(function () {
+					$(this).remove();
+				});
+		}
+else
+	alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
+}
+)
+;
 }
 

@@ -146,6 +146,36 @@
 		text-align: center;
 	}
 
+	.bracket-top {
+		background: url(<?= ASSETS_URL ?>img/brackets/top.gif);
+		background-size: cover;
+		height: 52px;
+		width: 116px;
+	}
+
+	.bracket-low {
+		background: url(<?= ASSETS_URL ?>img/brackets/low.gif);
+		background-size: cover;
+		height: 52px;
+		width: 116px;
+	}
+
+	.bracket-mid {
+		background: url(<?= ASSETS_URL ?>img/brackets/mid.gif);
+		background-size: cover;
+		height: 52px;
+		width: 116px;
+	}
+
+	.bracket-none {
+		background: url(<?= ASSETS_URL ?>img/brackets/non.gif);
+		background-size: cover;
+		height: 52px;
+		width: 116px;
+	}
+
+
+
 	input::-webkit-outer-spin-button,
 	input::-webkit-inner-spin-button {
 
@@ -468,7 +498,7 @@
 		<label class="checkbox">
 			<input tabindex="7" id="playoff" type="radio" <?if ($tournament['tournament_type'] == 2) {
 				echo "checked";
-			}?> name="tournament[tournament_type]" onclick="$('[name=playoff]').show();$
+			}?> name="tournament[tournament_type]" value="2" onclick="$('[name=playoff]').show();$
 			('[name=alagrupp]').hide
 			();$
 			('[name=leaderboard]').hide
@@ -488,205 +518,10 @@
 	</div>
 </div>
 <div id="tabs-3">
-	<input type="text" id="games" name="games" value="">
+	<input type="hidden" id="games" name="games" value="">
 </div>
 <div id="tabs-4">
-	<style type="text/css">
-		.bracket-top {
-			background: url(<?= ASSETS_URL ?>img/brackets/top.gif);
-			background-size: cover;
-			height: 52px;
-			width: 116px;
-		}
-
-		.bracket-low {
-			background: url(<?= ASSETS_URL ?>img/brackets/low.gif);
-			background-size: cover;
-			height: 52px;
-			width: 116px;
-		}
-
-		.bracket-mid {
-			background: url(<?= ASSETS_URL ?>img/brackets/mid.gif);
-			background-size: cover;
-			height: 52px;
-			width: 116px;
-		}
-
-		.bracket-none {
-			background: url(<?= ASSETS_URL ?>img/brackets/non.gif);
-			background-size: cover;
-			height: 52px;
-			width: 116px;
-		}
-
-	</style>
-	<table cellspacing="0" cellpadding="0" border="1" id="playoff-table">
-		<tbody>
-		<tr>
-			<td>#</td>
-			<td align="center">Rnd 1</td>
-			<td align="center">Rnd 2</td>
-			<td align="center">Rnd 3</td>
-			<td align="center">Rnd 4</td>
-			<td align="center">Rnd 5</td>
-		</tr>
-		<tr>
-			<td>
-				<center>1</center>
-			</td>
-			<td class="bracket-none"></td>
-			<td class="bracket-top"></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-top"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				<center>8</center>
-			</td>
-			<td class="bracket-top"></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-mid"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-low"></td>
-			<td class="bracket-mid"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				<center>9</center>
-			</td>
-			<td class="bracket-low"></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-top"></td>
-		</tr>
-		<tr>
-			<td>
-				<center>4</center>
-			</td>
-			<td class="bracket-none"></td>
-			<td class="bracket-top"></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-low"></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td>
-				<center>5</center>
-			</td>
-			<td class="bracket-none"></td>
-			<td class="bracket-low"></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-none"></td>
-		</tr>
-		<tr>
-			<td>
-				<center>2</center>
-			</td>
-			<td class="bracket-none"></td>
-			<td class="bracket-top"></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-top"></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td>
-				<center>7</center>
-			</td>
-			<td class="bracket-top"></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-low"></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td>
-				<center>10</center>
-			</td>
-			<td class="bracket-low"></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-mid"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-low"></td>
-		</tr>
-		<tr>
-			<td>
-				<center>3</center>
-			</td>
-			<td class="bracket-none"></td>
-			<td class="bracket-top"></td>
-			<td class="bracket-mid"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td class="bracket-mid"></td>
-			<td class="bracket-low"></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				<center>6</center>
-			</td>
-			<td class="bracket-none"></td>
-			<td class="bracket-low"></td>
-			<td></td>
-			<td></td>
-		</tr>
-		</tbody>
-	</table>
+	<input type="hidden" id="playoffs" name="playoffs" value="">
 </div>
 <div id="tabs-5"></div>
 <div style="clear: both; padding: 15px 0">

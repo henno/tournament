@@ -25,6 +25,49 @@ function get_group_member_count(pool_name) {
 	return counter;
 };
 
+//???!!!??
+function flp2(x)
+{
+	x = x | (x >> 1);
+	x = x | (x >> 2);
+	x = x | (x >> 4);
+	x = x | (x >> 8);
+	x = x | (x >> 16);
+	return x - (x >> 1);
+}
+
+function calculatematchups(number){
+
+var r = Math.log(number)/ Math.LN2;
+var result =Math.pow(2,r)-number;
+var	y = flp2(number);
+	result=number-((number-y)*2);
+console.debug(result);
+
+}
+
+function add_playoff() {
+	var levelnr = 0;
+	calculatematchups(12);
+	calculatematchups(7);
+	$('#tabs-4').empty();
+	var playoff_table = "";
+//$('#tabs-4').append('<h3>Alagrupp ' + groups[i] + '</h3>');
+	var playoff_table_header = '<th width="120px" height="25px">' + "Level "+ levelnr + '</th>';
+	$('#tabs-4').append('<table id="playoff-table" class="table table-bordered playoff-table"><tbody><tr>' + playoff_table_header + '</tr></tbody></table>');
+
+	for (var index in playoff_array) {
+		for (var index2 in playoff_array[index]) {
+			$('#playoff-table').append('<tr>' + playoff_table + '</tr><tr><td></td></tr>');
+			playoff_table = '<td><div >' + playoff_array[index][index2][0] + '</div></td>';
+
+		}
+	}
+	// Generate body
+
+
+}
+
 
 function add_group() {
 	$('#tabs-3').empty();
@@ -150,8 +193,8 @@ function add_group() {
 	});
 
 
-
 	black_background();
+	add_playoff();
 }
 function black_background() {
 	for (var i = 0; i < $('#max_groups').val(); i++) {
@@ -626,7 +669,6 @@ function submit1() {
 		//Assign JSONized array to hidden input field
 		$('#games').val(json_text);
 	}
-
 
 
 	// Check whether the tournament start is set and is earlier than tournament end
