@@ -14,7 +14,6 @@ class tournament
 		global $_request;
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
-
 			// Convert dates
 			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
 			$tournament['tournament_end'] = $this->convert_date($tournament['tournament_end']);
@@ -40,7 +39,8 @@ class tournament
 						save('participant', $participant);
 					}
 				}
-				$_request->redirect('tournaments');
+				$_request->redirect('tournaments/view/'.$id);
+
 			}
 		}
 	}

@@ -188,19 +188,28 @@
 <script>
 	$(function () {
 
+		tournament_type = <?=$tournament['tournament_type']?>;
 
 		$("#tabs").tabs();
 		<? switch ($tournament['tournament_type']){
 		case 0:?>
 		$('[name=playoff]').show();
 		$('[name=alagrupp]').show();
+		games_array = eval('(<?=$games?>)');
 		<?break; case 1:?>
 		$('[name=alagrupp]').show();
+		games_array = eval('(<?=$games?>)');
 		<?break; case 2:?>
 		$('[name=playoff]').show();
 		<?break; case 3:?>
 		$('[name=leaderboard]').show();
+		<?break; case -1:?>
 		<?break;}?>
+
+
+
+
+
 
 
 	});
@@ -213,7 +222,7 @@
 <input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
 
 <div style="clear: both; margin: 15px 0">
-	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
+	<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Tagasi</a>
 	<button class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
 </div>
 <div id="tabs">
@@ -345,7 +354,7 @@
 			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
 		</div>
 		<div style="width: 200px; float:left">
-			<span class="help-block">Alagruppide arvu muutmisel määratakse mängijatele uued alagrupid.</span>
+			<span class="help-block">Turniiri tüübi muutmiseks lisa mängijad ja vajuta "Salvesta"</span>
 		</div>
 		<div style="clear: both">
 			<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
@@ -437,7 +446,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="kast">
+	<div class="kast<?if(empty($participants)):?> hidden <?endif?> " id="tournament_type">
 		<div class="number">3</div>
 		<div class="titlebar"><h3>
 				Mängu tüüp
@@ -491,17 +500,13 @@
 <div id="tabs-4"></div>
 <div id="tabs-5"></div>
 <div style="clear: both; padding: 15px 0">
-	<a tabindex="9" class="btn btn-large btn-inverse" href="/tournament/tournaments">Loobu</a>
+
 	<input type="hidden" id="participants" name="participants" value="">
 	<input type="hidden" id="games" name="games" value="">
-	<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>
+
 </div>
 
-
-<script>
-
-
-</script>
-
-
 </form>
+
+<a class="btn btn-large btn-inverse" href="/tournament/tournaments">Tagasi</a>
+<button tabindex="10" class="btn btn-large btn-primary" type="button" onclick="submit1()">Salvesta</button>

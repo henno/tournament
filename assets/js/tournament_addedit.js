@@ -10,6 +10,8 @@ var max_groups_field;
 var current_group_number = -1;
 var row_scores = [];
 var final_scores = {};
+var games_array;
+var tournament_type = -1;
 
 function get_group_member_count(pool_name) {
 	var counter = 0;
@@ -142,7 +144,7 @@ function add_group() {
 				'<th width="120px" height="25px">' + participant_name + '</th>' + group_table +
 				'</tr>');
 	});
-	console.debug(row_scores);
+
 	black_background();
 }
 function black_background() {
@@ -169,20 +171,18 @@ function prepare_game_array() {
 				if (c > row_scores[grp][a_participant].length) {
 
 					cell_id = row_scores[grp][a_participant][cell];
-					//console.debug(cell_id);
-					for (var j = 0; j < cell_id.length; j++) {
 
-						var check = checkscore(cell_id);
-						if (check != false) {
-							final_scores[cell_id[j]] = {};
-							final_scores[cell_id[j]]['game_id'] = cell_id[j];
-							final_scores[cell_id[j]]['tournament_id'] = getid(cell_id[j], 1);
-							final_scores[cell_id[j]]['participant_a_id'] = getid(cell_id[j], 2);
-							final_scores[cell_id[j]]['participant_b_id'] = getid(cell_id[j], 3);
-							final_scores[cell_id[j]]['participant_a_score'] = getscore(cell_id, 0);
-							final_scores[cell_id[j]]['participant_b_score'] = getscore(cell_id, 1);
-						}
+					var check = checkscore(cell_id);
+					if (check != false) {
+						final_scores[cell_id[0]] = {};
+						final_scores[cell_id[0]]['game_id'] = cell_id[0];
+						final_scores[cell_id[0]]['tournament_id'] = getid(cell_id[0], 1);
+						final_scores[cell_id[0]]['participant_a_id'] = getid(cell_id[0], 2);
+						final_scores[cell_id[0]]['participant_b_id'] = getid(cell_id[0], 3);
+						final_scores[cell_id[0]]['participant_a_score'] = getscore(cell_id, 0);
+						final_scores[cell_id[0]]['participant_b_score'] = getscore(cell_id, 1);
 					}
+
 
 				}
 			}
@@ -388,8 +388,7 @@ function set_participant_type() {
 	$('.tournament_participant').html(document.getElementById('tournament_participant').value);
 }
 function get_scores(a, b) {
-	console.debug(a);
-	console.debug(b);
+
 	if (typeof a == 'undefined' || typeof b == 'undefined' || a.substr(0, 3) == 'new') {
 		return 'andmed puuduvad';
 	}
@@ -538,7 +537,7 @@ function verify_participant_names() {
  * Reorganizes groups based on max_group field value.
  */
 function reinit_groups() {
-	console.debug('tekst');
+
 	// Reset table
 	participants_table_body.find('tr').each(function () {
 
@@ -613,13 +612,15 @@ function submit1() {
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 
+	if (tournament_type == 0 || tournament_type == 1) {
+		//create nice array of game results
+		prepare_game_array();
+		// JSONize game array
+		json_text = JSON.stringify(final_scores, null);
+		//Assign JSONized array to hidden input field
+		$('#games').val(json_text);
+	}
 
-	//create nice array of game results
-	prepare_game_array();
-	// JSONize game array
-	json_text = JSON.stringify(final_scores, null);
-	//Assign JSONized array to hidden input field
-	$('#games').val(json_text);
 
 
 	// Check whether the tournament start is set and is earlier than tournament end
@@ -690,6 +691,23 @@ function createmultidimArray(length) {
 	}
 
 	return arr;
+}
+
+function init_scores() {
+	for (var i = 0; i < games_array.length; i++) {
+		var score_a = $('#' + games_array[i]['game_id'] + '');
+		score_a.val(games_array[i]['participant_a_score']);
+		changescore.call(score_a);
+
+		var neighbour_id = score_a.attr('neighbourid');
+		var score_b = $('#' + neighbour_id + '');
+		score_b.val(games_array[i]['participant_b_score']);
+		changescore.call(score_b);
+
+		//var	reverse_id = $('#' + games_array[i]['game_id'] + '').attr('reverseid');
+		//$('#' + reverse_id + '').val(games_array[i]['participant_a_score']);
+
+	}
 }
 
 $(function () {
@@ -782,6 +800,11 @@ $(function () {
 	update_participant_count();
 	validate(event);
 	reinit_groups();
+
+	//if we need to display groups, initialize the values
+	if (tournament_type == 0 || tournament_type == 1) {
+		init_scores();
+	}
 
 
 })

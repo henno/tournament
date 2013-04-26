@@ -46,7 +46,7 @@ class tournaments
 			'tournament_field'          => '1',
 			'tournament_group'          => '1',
 			'tournament_win'            => '1',
-			'tournament_type'           => '1',
+			'tournament_type'           => '-1',
 			'tournament_game_win'       => '3',
 			'tournament_game_tie'       => '2',
 			'tournament_game_loss'      => '1'
@@ -124,7 +124,7 @@ class tournaments
 				require 'modules/tournament.php';
 				$tournament_model = new tournament;
 				$tournament_model->edit($tournament_id,$tournament,$participants,$games);
-				$_request->redirect('tournaments');
+				$_request->redirect('tournaments/view/'.$tournament_id);
 			}
 
 			$id = $tournament['tournament_id'];
@@ -157,6 +157,8 @@ class tournaments
 		$place_id = $tournament['place_id'];
 		$place_name = get_one("SELECT place_name FROM place WHERE place_id = $place_id ");
 		$tournament_id = $tournament['tournament_id'];
+		$games = get_all("SELECT * FROM game WHERE deleted=0 AND tournament_id='$tournament_id'");
+		$games = json_encode($games);
 		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
 		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
 

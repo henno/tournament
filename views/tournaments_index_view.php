@@ -30,8 +30,7 @@
 			<?=$tournament['place_name']?>
 		</td>
 		<td>
-			<?="Vaata"?>
-			<a href="<?=BASE_URL?>tournaments/view/<?=$tournament['tournament_id']?>"><i
+			<a href="<?=BASE_URL?>tournaments/view/<?=$tournament['tournament_id']?>">Vaata<i
 					class="icon-pencil"></i></a>
 			<a href="<?= BASE_URL ?>tournaments/remove/<?=$tournament['tournament_id']?>"
 			   onclick="if (!confirm('Oled kindel?'))return false; remove_tournament_ajax
