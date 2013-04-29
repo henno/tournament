@@ -13,6 +13,7 @@ var final_scores = {};
 var games_array;
 var tournament_type = -1;
 var playoff_array = [];
+var playernumber = 0;
 
 function get_group_member_count(pool_name) {
 	var counter = 0;
@@ -41,64 +42,276 @@ function calculatematchups(number) {
 	var result = Math.pow(2, r) - number;
 	var y = flp2(number);
 	result = number - ((number - y) * 2);
-	console.debug(result);
+	if(result==number){
+		result=0;
+	}
 	return(result);
 
 }
 
 function add_playoff() {
-	var levelnr = 0;
-	var playernumber = 7;
-	var proper_matches = 0;
-	var bye_spacing = 0;
 
+	var maxlevel = 5;
+
+	var matchups = playernumber;
+	var level_array = [];
+	var temp_array = [];
 
 	$('#tabs-4').empty();
-	var playoff_table = "";
-//$('#tabs-4').append('<h3>Alagrupp ' + groups[i] + '</h3>');
-	var playoff_table_header = '<th width="120px" height="25px">' + "Level " + levelnr + '</th>';
-	$('#tabs-4').append('<table id="playoff-table" class="table table-bordered playoff-table"><tbody><tr>' + playoff_table_header + '</tr></tbody></table>');
-	var byes = calculatematchups(playernumber);
-	if (byes > 0) {
-		//get number of proper matches (no byes)
-		proper_matches = (playernumber - byes) / 2;
-		//get number of byes grouped with a proper match in the next level
-		//always select the smaller of byes and proper matches
-		byes_with_propers  = byes>proper_matches?proper_matches:byes;
-		//get number of byes playing each other in the next level
-		bye_pairs = (byes-byes_with_propers)/2;
+	for (var level_count = 0; level_count < maxlevel; level_count++) {
+		buildlevel(level_count, level_array, temp_array);
+		console.debug(level_array);
+		temp_array = level_array;
+		level_array = [];
+
 	}
 
-	var i = 0;
-	for (var index in playoff_array) {
-		for (var index2 in playoff_array[index]) {
-			//don't leave a space between headers and first row
-			if (i == 0) {
-				$('#playoff-table').append('<tr>' + playoff_table + '</tr>');
-			}
-			else {
-				$('#playoff-table').append('<tr>' + playoff_table + '</tr><tr><td></td></tr>');
-			}
-			i++;
 
-			//distribute byes
-			if (byes_with_propers > 0 && bye_spacing ==0 && byes>0) {
-				playoff_table = '<td><div >' +playoff_array[index][index2][0] +" bye_with_proper" + '</div></td>';
-				byes_with_propers--;
-				//build the proper group before adding another bye
-				bye_spacing=2;
+	function buildlevel(current_level, level_array, temp_array) {
+		var playoff_table = "";
+		var playoff_table_id = "playoff-table" + level_count;
+		var playoff_table_header = '<th width="120px" height="25px">' + "Level " + level_count + '</th>';
+		$('#tabs-4').append('<table id="' + playoff_table_id + '" class="table table-bordered playoff-table"><tbody><tr>' + playoff_table_header + '</tr></tbody></table>');
+		var players;
+		if (current_level == 0) {
+			players = playernumber;
+		}
+		else {
+			players = ((playernumber - calculatematchups(playernumber)) / 2 + calculatematchups(playernumber));
+			if (current_level > 1) {
+				players /= Math.pow(2, current_level - 1);
 			}
-			else {
-				playoff_table = '<td><div >' + playoff_array[index][index2][0] + '</div></td>';
-				bye_spacing --;
-			}
+			console.debug(players);
+		}
+		var byes = calculatematchups(players);
+		if (current_level == 0) {
+			//get number of proper matches (no byes)
+			proper_matches = (players - byes) / 2;
+			matchups -= proper_matches;
+			//console.debug(proper_matches);
+			//get number of byes grouped with a proper match in the next level
+			//always select the smaller of byes and proper matches
+			byes_with_propers = byes > proper_matches ? proper_matches : byes;
+			//get number of byes playing each other in the next level
+			byes_paired = (byes - byes_with_propers);
+		} else {
+			proper_matches = players / 2;
+			byes = 0;
+		}
 
 
+		var i = 0;
+		var proper_count = 0;
+		var building_propers = false;
+		var building_pairs = false;
+		var empty_row = false;
+		var current_array = [];
+		var proper_top = true;
+		if (current_level == 0) {
+			current_array = playoff_array;
+		}
+		else {
+			current_array = temp_array;
+		}
+
+
+		for (var index in current_array) {
+			level_array[index] = [];
+
+			for (var index2 in current_array[index]) {
+
+				if (byes == 0) {
+					building_propers = true;
+				}
+				if (current_array[index][index2][2] == "empty"||current_array[index][index2][2] == "deleted") {
+					empty_row = true;
+				}
+
+
+
+				var input_id = current_level + "_" + current_array[index][index2][1];
+				var matchup_id = "";
+				var scoreinput = '<input style="border-radius: 0;margin-bottom:0px;" id="' + input_id + '" matchupid="' + matchup_id + '"type="number" value="0" class="score-input">';
+
+
+				if (proper_count == 2) {
+					proper_count = 0;
+					proper_matches--;
+					building_propers = false;
+					building_pairs = true;
+					pair_top = true;
+					proper_top = true;
+				}
+
+				//build a pair of byes
+				if (building_pairs && !empty_row) {
+					if (byes_paired > 0) {
+						playoff_table =  ('<tr><td><div class="bracket-empty"></div></td></tr>');
+						byes_paired--;
+						//push the winner/bye to next level
+						level_array[index][i] = [];
+						level_array[index][i].push(current_array[index][index2][0]);
+						level_array[index][i].push(current_array[index][index2][1]);
+						if (pair_top) {
+							level_array[index][i].push("bye_pair");
+							level_array[index][i].push(i * 50);
+							pair_top = false;
+						}
+						else {
+							level_array[index][i].push("bye_pair");
+							level_array[index][i].push(i * 50);
+							pair_top = true;
+						}
+						i++;
+					}
+					else {
+						building_pairs = false;
+						if (byes_with_propers <= 0) {
+							building_propers = true;
+						}
+					}
+				}
+
+				//build a pair of proper matches if possible
+				if (building_propers && !empty_row) {
+					if (proper_matches > 0) {
+						if (i + 1 < playernumber && (current_array[index][i][2]) == "proper") {
+
+							var next_not_empty = current_array[index][i+1][3];
+							if (current_level > 0) {
+								for (var z = i + 1; z < playernumber; z++) {
+									if (current_array[index][z][2] != "deleted") {
+										next_not_empty = current_array[index][z][3];
+										break;
+									}
+								}
+							}
+							var this_offset=current_array[index][i][3]-(current_array[index][i][3]-((i)*50))*2-i;
+							var topoffset = (next_not_empty - this_offset) / 2;
+						}
+						else {
+							var topoffset = 0;
+						}
+						console.debug(i);
+						console.debug(current_array[index][i][0]);
+						console.debug(next_not_empty);
+
+						console.debug(this_offset);
+						console.debug(topoffset);
+						//console.debug(proper_matches);
+
+						if (proper_count == 0) {
+							playoff_table = '<td><div style="top:' + topoffset + 'px" class="bracket-top">' + scoreinput + current_array[index][index2][0] + '</div></td>';
+							//TODO select by score
+							//push the winner/bye to next level
+							level_array[index][i] = [];
+							level_array[index][i].push(current_array[index][index2][0]);
+							level_array[index][i].push(current_array[index][index2][1]);
+
+
+							if (proper_top) {
+								level_array[index][i].push("proper");
+
+								if (current_level == 0 && topoffset == 0) {
+									level_array[index][i].push(i * 50);
+								}
+								else {
+									level_array[index][i].push(i*50+topoffset);
+								}
+
+
+								proper_top = false;
+							} else {
+								level_array[index][i].push("proper");
+
+								if (current_level == 0 && topoffset == 0) {
+									level_array[index][i].push(i * 50);
+								}
+								else {
+									level_array[index][i].push(i*50+topoffset);
+								}
+								proper_top = true;
+							}
+
+							i++;
+						}
+						else {
+							//push the winner/bye to next level
+							level_array[index][i] = [];
+							level_array[index][i].push(current_array[index][index2][0]);
+							level_array[index][i].push(current_array[index][index2][1]);
+							level_array[index][i].push("empty");
+
+
+
+							if (current_level == 0 && topoffset == 0) {
+								level_array[index][i].push(i * 50);
+							}
+							else {
+								level_array[index][i].push(i*50+topoffset);
+							}
+
+							i++;
+
+							playoff_table = '<td><div style="top:' + topoffset + 'px" class="bracket-low">' + scoreinput + current_array[index][index2][0] + '</div></td>';
+						}
+
+						proper_count++;
+					}
+					else {
+						building_propers = false;
+					}
+				}
+				//build a byes_with_propers_group if possible
+				if (byes_with_propers > 0 && !building_propers && !building_pairs && !empty_row) {
+					playoff_table = ('<tr><td><div class="bracket-empty"></div></td></tr>');
+					byes_with_propers--;
+					building_propers = true;
+					proper_top = false;
+					//push the winner/bye to next level
+					level_array[index][i] = [];
+					level_array[index][i].push(current_array[index][index2][0]);
+					level_array[index][i].push(current_array[index][index2][1]);
+					level_array[index][i].push("bye_proper");
+					level_array[index][i].push(i * 50);
+					i++;
+				}
+
+
+				if (!empty_row) {
+					$('#' + playoff_table_id).append('<tr>' + playoff_table + '</tr>');
+				}
+				else {
+					$('#' + playoff_table_id).append('<tr><td><div class="bracket-empty"></div></td></tr>');
+
+					level_array[index][i] = [];
+					level_array[index][i].push(current_array[index][index2][0]);
+					level_array[index][i].push(current_array[index][index2][1]);
+					level_array[index][i].push("deleted");
+
+					if (i + 1 < playernumber && ((current_array[index][i][2]) == "empty"||(current_array[index][i][2])=="deleted")) {
+						var topoffset = ((current_array[index][i + 1][3]) - (current_array[index][i][3])) / 2;
+					}
+					else {
+						var topoffset = i * 50;
+					}
+
+					if (current_level == 0) {
+						level_array[index][i].push(i * 50);
+					}
+					else {
+						level_array[index][i].push(i * 50 + topoffset);
+					}
+
+					i++;
+
+					empty_row = false;
+				}
+
+
+			}
 		}
 	}
-	// Generate body
-
-
 }
 
 
@@ -107,7 +320,7 @@ function add_group() {
 	var participants_row = new Array();
 	var participants_cell = new Array();
 
-
+	playernumber = 0;
 	// Iterate sub-group tables
 	for (var i = 0; i < $('#max_groups').val(); i++) {
 		var j = 0;
@@ -117,6 +330,8 @@ function add_group() {
 				var this_group_name = $(this).find('td:nth-child(4)').html().trim();
 				var participant_name = $(this).find('td:nth-child(2) input').val();
 				var participant_id = $(this).attr('id');
+				//increase player number
+				playernumber++;
 				if (typeof participants_cell[this_group_name] == 'undefined') {
 					participants_cell[this_group_name] = new Array();
 					row_scores[this_group_name] = [];
@@ -749,8 +964,8 @@ function remove_participant(id) {
 	reset_numbers();
 	add_group();
 
-	if(id.substring(0,3)!="new"){
-		window.location.href = '../remove_participant/'+id.substr(20,id.length);
+	if (id.substring(0, 3) != "new") {
+		window.location.href = '../remove_participant/' + id.substr(20, id.length);
 	}
 
 }

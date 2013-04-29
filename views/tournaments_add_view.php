@@ -1,216 +1,262 @@
 <style type="text/css">
-	.blackbackground {
-		background: #bbb;
-	}
+.blackbackground {
+	background: #bbb;
+}
 
+.kast {
+	width: 450px;
+	float: left;
+	border: 1px solid black;
+	padding: 90px 30px 10px 30px;
+	border-color: #bbb;
+	margin-right: 20px;
+	margin-top: 10px;
+	position: relative !important;
+	background: #eeeeee;
+}
+
+.titlebar {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 50px;
+	border-bottom: 1px solid lightgrey;
+	padding-bottom: 10px;
+	background: #ddd;
+}
+
+.number {
+	display: inline-block;
+	position: absolute;
+	right: 13px;
+	top: 17px;
+	font-size: 2.5em;
+	font-weight: bold;
+	color: lightgrey;
+	z-index: 20;
+}
+
+	/* css for timepicker */
+.ui-timepicker-div dl {
+	text-align: left;
+}
+
+.ui-timepicker-div dl dt {
+	height: 25px;
+	margin-bottom: -25px;
+}
+
+.ui-timepicker-div dl dd {
+	margin: 0 10px 10px 65px;
+}
+
+.ui-timepicker-div td {
+	font-size: 90%;
+}
+
+.ui-timepicker-rtl dl {
+	text-align: right;
+}
+
+.ui-timepicker-rtl dl dd {
+	margin: 0 65px 10px 10px;
+}
+
+.esContainer {
+	width: 500px;
+	word-break: break-all;
+	background: white;
+	padding: 5px;
+	border: 1px solid #5CB3FF;
+	border-radius: 10px;
+}
+
+.esItem {
+	width: auto;
+	background: white;
+}
+
+.makeEditable {
+	width: 100px;
+}
+
+.esItemHover {
+	background: #E3E4FA;
+}
+
+.esTextBox {
+	background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
+}
+
+.spinner {
+	width: 40px;
+}
+
+.viga {
+	background-color: #f2dede !important;
+}
+
+#tournament-attributes-table td:last-child {
+	vertical-align: middle !important;
+	text-align: right;
+}
+
+#tournament-attributes-table input {
+	margin-bottom: 0 !important;
+}
+
+#tournament-attributes-table select {
+	margin-bottom: 0 !important;
+}
+
+#tournament-attributes-table th {
+	text-align: left;
+	vertical-align: middle;
+	padding: 5px;
+}
+
+#tournament-attributes-table td {
+	padding: 5px;
+
+}
+
+#participants-table td {
+	word-break: break-all;
+}
+
+#participants-table {
+	margin-bottom: 10px;
+}
+
+.datetimepicker {
+	background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
+}
+
+.score-input {
+	width: 45px;
+	font-weight: 600;
+	text-align: center;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.score_cell {
+	text-align: center;
+}
+
+.bracket-top {
+	margin: 0;
+	border-style: solid;
+	border-width: 1px;
+	background-size: cover;
+	height: 50px;
+	width: 250px;
+	position: relative;
+	text-align: center;
+
+
+	-webkit-border-top-right-radius: 25px;
+	-moz-border-radius-topright: 25px;
+	border-top-right-radius: 25px;
+}
+
+.bracket-low {
+	margin: 0;
+	border-style: solid;
+	border-width: 1px;
+	background-size: cover;
+	height: 50px;
+	width: 250px;
+	position: relative;
+
+	text-align: center;
+
+
+	-webkit-border-bottom-right-radius: 25px;
+	-moz-border-radius-bottomright: 25px;
+	border-bottom-right-radius: 25px;
+}
+
+.bracket-mid {
+	margin: 0;
+	background-size: cover;
+	height: 50px;
+	width: 250px;
+	position: relative;
+}
+
+.bracket-none {
+	margin: 0;
+	border-style: solid;
+	border-width: 1px;
+	background: url(<?= ASSETS_URL ?>img/brackets/non.gif);
+	background-size: contain;
+	position: relative;
+
+	background-position: center center;
+	height: 50px;
+	width: 250px;
+}
+
+.bracket-empty {
+	margin: 0;
+	height: 52px;
+	width: 250px;
+
+	position: relative;
+}
+
+.playoff-table {
+	margin: 0;
+	float: left;
+	width: 250px;
+	height: 50px;
+
+}
+
+.playoff-table td{
+	padding: 0;
+	margin-bottom:0px;
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+
+	-webkit-opacity: 0.5;
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+
+}
+
+#tabs ul {
+	background: none;
+	border: none;
+	margin-top: -45px;
+}
+
+#tabs {
+	margin-top: 50px;
+	zoom: 1;
+	float: left;
+	padding-bottom: 15px;
+	box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
+	border-radius: 5px;
+}
+
+@media screen and (max-width:1200px) {
 	.kast {
-		width: 450px;
-		float: left;
-		border: 1px solid black;
-		padding: 90px 30px 10px 30px;
-		border-color: #bbb;
-		margin-right: 20px;
-		margin-top: 10px;
-		position: relative !important;
-		background: #eeeeee;
+		float: none
 	}
+}
 
-	.titlebar {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 50px;
-		border-bottom: 1px solid lightgrey;
-		padding-bottom: 10px;
-		background: #ddd;
+@media screen and (max-width:1200px) {
+	.kast {
+		float: none
 	}
-
-	.number {
-		display: inline-block;
-		position: absolute;
-		right: 13px;
-		top: 17px;
-		font-size: 2.5em;
-		font-weight: bold;
-		color: lightgrey;
-		z-index: 20;
-	}
-
-		/* css for timepicker */
-	.ui-timepicker-div dl {
-		text-align: left;
-	}
-
-	.ui-timepicker-div dl dt {
-		height: 25px;
-		margin-bottom: -25px;
-	}
-
-	.ui-timepicker-div dl dd {
-		margin: 0 10px 10px 65px;
-	}
-
-	.ui-timepicker-div td {
-		font-size: 90%;
-	}
-
-	.ui-timepicker-rtl dl {
-		text-align: right;
-	}
-
-	.ui-timepicker-rtl dl dd {
-		margin: 0 65px 10px 10px;
-	}
-
-	.esContainer {
-		width: 500px;
-		word-break: break-all;
-		background: white;
-		padding: 5px;
-		border: 1px solid #5CB3FF;
-		border-radius: 10px;
-	}
-
-	.esItem {
-		width: auto;
-		background: white;
-	}
-
-	.makeEditable {
-		width: 100px;
-	}
-
-	.esItemHover {
-		background: #E3E4FA;
-	}
-
-	.esTextBox {
-		background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
-	}
-
-	.spinner {
-		width: 40px;
-	}
-
-	.viga {
-		background-color: #f2dede !important;
-	}
-
-	#tournament-attributes-table td:last-child {
-		vertical-align: middle !important;
-		text-align: right;
-	}
-
-	#tournament-attributes-table input {
-		margin-bottom: 0 !important;
-	}
-
-	#tournament-attributes-table select {
-		margin-bottom: 0 !important;
-	}
-
-	#tournament-attributes-table th {
-		text-align: left;
-		vertical-align: middle;
-		padding: 5px;
-	}
-
-	#tournament-attributes-table td {
-		padding: 5px;
-
-	}
-
-	#participants-table td {
-		word-break: break-all;
-	}
-
-	#participants-table {
-		margin-bottom: 10px;
-	}
-
-	.datetimepicker {
-		background: url(<?= ASSETS_URL?>ico/arrowdown.png) 98% 50% no-repeat;
-	}
-
-	.score-input {
-		width: 45px;
-		font-weight: 600;
-		text-align: center;
-		-webkit-border-radius: 0px;
-		-moz-border-radius: 0px;
-		border-radius: 0px;
-	}
-
-	.score_cell {
-		text-align: center;
-	}
-
-	.bracket-top {
-		background: url(<?= ASSETS_URL ?>img/brackets/top.gif);
-		background-size: cover;
-		height: 52px;
-		width: 116px;
-	}
-
-	.bracket-low {
-		background: url(<?= ASSETS_URL ?>img/brackets/low.gif);
-		background-size: cover;
-		height: 52px;
-		width: 116px;
-	}
-
-	.bracket-mid {
-		background: url(<?= ASSETS_URL ?>img/brackets/mid.gif);
-		background-size: cover;
-		height: 52px;
-		width: 116px;
-	}
-
-	.bracket-none {
-		background: url(<?= ASSETS_URL ?>img/brackets/non.gif);
-		background-size: cover;
-		height: 52px;
-		width: 116px;
-	}
-
-
-
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-
-		-webkit-opacity: 0.5;
-		-moz-opacity: 0.5;
-		opacity: 0.5;
-
-	}
-
-	#tabs ul {
-		background: none;
-		border: none;
-		margin-top: -45px;
-	}
-
-	#tabs {
-		margin-top: 50px;
-		zoom: 1;
-		float: left;
-		padding-bottom: 15px;
-		box-shadow: 1px 1px 5px 0 #181818, -1px -1px 5px 0 #181818;
-		border-radius: 5px;
-	}
-
-	@media screen and (max-width:1200px) {
-		.kast {
-			float: none
-		}
-	}
-
-	@media screen and (max-width:1200px) {
-		.kast {
-			float: none
-		}
-	}
+}
 
 </style>
 <script>
