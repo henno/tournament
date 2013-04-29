@@ -1,6 +1,6 @@
 <?
 ob_end_clean();
-echo $result?'OK':'FAIL';
+echo json_encode($result?'OK':'FAIL');
 die();
 
 ?>

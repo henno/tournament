@@ -26,8 +26,7 @@ function get_group_member_count(pool_name) {
 };
 
 //???!!!??
-function flp2(x)
-{
+function flp2(x) {
 	x = x | (x >> 1);
 	x = x | (x >> 2);
 	x = x | (x >> 4);
@@ -36,30 +35,64 @@ function flp2(x)
 	return x - (x >> 1);
 }
 
-function calculatematchups(number){
+function calculatematchups(number) {
 
-var r = Math.log(number)/ Math.LN2;
-var result =Math.pow(2,r)-number;
-var	y = flp2(number);
-	result=number-((number-y)*2);
-console.debug(result);
+	var r = Math.log(number) / Math.LN2;
+	var result = Math.pow(2, r) - number;
+	var y = flp2(number);
+	result = number - ((number - y) * 2);
+	console.debug(result);
+	return(result);
 
 }
 
 function add_playoff() {
 	var levelnr = 0;
-	calculatematchups(12);
-	calculatematchups(7);
+	var playernumber = 7;
+	var proper_matches = 0;
+	var bye_spacing = 0;
+
+
 	$('#tabs-4').empty();
 	var playoff_table = "";
 //$('#tabs-4').append('<h3>Alagrupp ' + groups[i] + '</h3>');
-	var playoff_table_header = '<th width="120px" height="25px">' + "Level "+ levelnr + '</th>';
+	var playoff_table_header = '<th width="120px" height="25px">' + "Level " + levelnr + '</th>';
 	$('#tabs-4').append('<table id="playoff-table" class="table table-bordered playoff-table"><tbody><tr>' + playoff_table_header + '</tr></tbody></table>');
+	var byes = calculatematchups(playernumber);
+	if (byes > 0) {
+		//get number of proper matches (no byes)
+		proper_matches = (playernumber - byes) / 2;
+		//get number of byes grouped with a proper match in the next level
+		//always select the smaller of byes and proper matches
+		byes_with_propers  = byes>proper_matches?proper_matches:byes;
+		//get number of byes playing each other in the next level
+		bye_pairs = (byes-byes_with_propers)/2;
+	}
 
+	var i = 0;
 	for (var index in playoff_array) {
 		for (var index2 in playoff_array[index]) {
-			$('#playoff-table').append('<tr>' + playoff_table + '</tr><tr><td></td></tr>');
-			playoff_table = '<td><div >' + playoff_array[index][index2][0] + '</div></td>';
+			//don't leave a space between headers and first row
+			if (i == 0) {
+				$('#playoff-table').append('<tr>' + playoff_table + '</tr>');
+			}
+			else {
+				$('#playoff-table').append('<tr>' + playoff_table + '</tr><tr><td></td></tr>');
+			}
+			i++;
+
+			//distribute byes
+			if (byes_with_propers > 0 && bye_spacing ==0 && byes>0) {
+				playoff_table = '<td><div >' +playoff_array[index][index2][0] +" bye_with_proper" + '</div></td>';
+				byes_with_propers--;
+				//build the proper group before adding another bye
+				bye_spacing=2;
+			}
+			else {
+				playoff_table = '<td><div >' + playoff_array[index][index2][0] + '</div></td>';
+				bye_spacing --;
+			}
+
 
 		}
 	}
@@ -715,6 +748,11 @@ function remove_participant(id) {
 	// Reset numbers
 	reset_numbers();
 	add_group();
+
+	if(id.substring(0,3)!="new"){
+		window.location.href = '../remove_participant/'+id.substr(20,id.length);
+	}
+
 }
 
 function validate(evt) {
