@@ -42,8 +42,8 @@ function calculatematchups(number) {
 	var result = Math.pow(2, r) - number;
 	var y = flp2(number);
 	result = number - ((number - y) * 2);
-	if(result==number){
-		result=0;
+	if (result == number) {
+		result = 0;
 	}
 	return(result);
 
@@ -123,10 +123,9 @@ function add_playoff() {
 				if (byes == 0) {
 					building_propers = true;
 				}
-				if (current_array[index][index2][2] == "empty"||current_array[index][index2][2] == "deleted") {
+				if (current_array[index][index2][2] == "empty" || current_array[index][index2][2] == "deleted") {
 					empty_row = true;
 				}
-
 
 
 				var input_id = current_level + "_" + current_array[index][index2][1];
@@ -146,7 +145,7 @@ function add_playoff() {
 				//build a pair of byes
 				if (building_pairs && !empty_row) {
 					if (byes_paired > 0) {
-						playoff_table =  ('<tr><td><div class="bracket-empty"></div></td></tr>');
+						playoff_table = ('<tr><td><div class="bracket-empty"></div></td></tr>');
 						byes_paired--;
 						//push the winner/bye to next level
 						level_array[index][i] = [];
@@ -177,7 +176,7 @@ function add_playoff() {
 					if (proper_matches > 0) {
 						if (i + 1 < playernumber && (current_array[index][i][2]) == "proper") {
 
-							var next_not_empty = current_array[index][i+1][3];
+							var next_not_empty = current_array[index][i + 1][3];
 							if (current_level > 0) {
 								for (var z = i + 1; z < playernumber; z++) {
 									if (current_array[index][z][2] != "deleted") {
@@ -186,7 +185,7 @@ function add_playoff() {
 									}
 								}
 							}
-							var this_offset=current_array[index][i][3]-(current_array[index][i][3]-((i)*50))*2-i;
+							var this_offset = current_array[index][i][3] - (current_array[index][i][3] - ((i) * 50)) * 2 - i;
 							var topoffset = (next_not_empty - this_offset) / 2;
 						}
 						else {
@@ -216,7 +215,7 @@ function add_playoff() {
 									level_array[index][i].push(i * 50);
 								}
 								else {
-									level_array[index][i].push(i*50+topoffset);
+									level_array[index][i].push(i * 50 + topoffset);
 								}
 
 
@@ -228,7 +227,7 @@ function add_playoff() {
 									level_array[index][i].push(i * 50);
 								}
 								else {
-									level_array[index][i].push(i*50+topoffset);
+									level_array[index][i].push(i * 50 + topoffset);
 								}
 								proper_top = true;
 							}
@@ -243,12 +242,11 @@ function add_playoff() {
 							level_array[index][i].push("empty");
 
 
-
 							if (current_level == 0 && topoffset == 0) {
 								level_array[index][i].push(i * 50);
 							}
 							else {
-								level_array[index][i].push(i*50+topoffset);
+								level_array[index][i].push(i * 50 + topoffset);
 							}
 
 							i++;
@@ -289,7 +287,7 @@ function add_playoff() {
 					level_array[index][i].push(current_array[index][index2][1]);
 					level_array[index][i].push("deleted");
 
-					if (i + 1 < playernumber && ((current_array[index][i][2]) == "empty"||(current_array[index][i][2])=="deleted")) {
+					if (i + 1 < playernumber && ((current_array[index][i][2]) == "empty" || (current_array[index][i][2]) == "deleted")) {
 						var topoffset = ((current_array[index][i + 1][3]) - (current_array[index][i][3])) / 2;
 					}
 					else {
@@ -957,15 +955,31 @@ function submit1() {
 }
 function remove_participant(id) {
 
-	// Remove specified row from participant table
-	$('table#participants-table>tbody>tr#' + id).remove();
-
-	// Reset numbers
-	reset_numbers();
-	add_group();
 
 	if (id.substring(0, 3) != "new") {
-		window.location.href = '../remove_participant/' + id.substr(20, id.length);
+
+		$.post(BASE_URL + "tournaments/remove_participant/" + id.substr(20, id.length))
+			.done(function (data) {
+				if (data == 'OK') {
+					// Remove specified row from participant table
+					$('table#participants-table>tbody>tr#' + id).remove();
+
+					// Reset numbers
+					reset_numbers();
+					add_group();
+				}
+				else
+					alert("Viga\n\nServer vastas: '" + data + "'.\n\nKontakteeru arendajaga.");
+			}
+		);
+
+	} else {
+		// Remove specified row from participant table
+		$('table#participants-table>tbody>tr#' + id).remove();
+
+		// Reset numbers
+		reset_numbers();
+		add_group();
 	}
 
 }
