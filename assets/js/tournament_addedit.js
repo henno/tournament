@@ -22,10 +22,11 @@ var losers_db_array;
 var make_loser_bracket;
 var loser_array = [];
 var loser_score_array = {};
+var leaderb_input;
 
 function get_player_names() {
 	var myarray = [];
-	var leaderb_input = eval($('#leaderb_input').val());
+
 	if (leaderb_input.length > 0) {
 		for (var i = 0; i < leaderb_input.length; i++) {
 			var new_names = {};
@@ -60,6 +61,7 @@ function get_player_names() {
 
 
 function redo_leaderboard() {
+
 	var names = get_player_names();
 	var i = 0;
 	var table_body = $('table#leaderboard > tbody:last');
@@ -151,59 +153,59 @@ function savevalue() {
 
 function saveloser() {
 	var value = parseInt($(this).val());
-	loser_score_array[$(this).attr("id")]= value;
+	loser_score_array[$(this).attr("id")] = value;
 	console.debug(loser_score_array);
 	add_playoff();
 }
 
-function build_loser_bracket(winner,second){
+function build_loser_bracket(winner, second) {
 	var loser_table = "";
 	var loser_table_id = "loser-table";
-	var loser_table_header='<th width="120px" height="25px">' + "Koht " + 1 + '</th><th width="120px" height="25px">' + "Koht " + 2 + '</th>';
+	var loser_table_header = '<th width="120px" height="25px">' + "Koht " + 1 + '</th><th width="120px" height="25px">' + "Koht " + 2 + '</th>';
 
-	for(var i=0;i<loser_array.length;i++){
-		var loser2_input_value=0;
-		if(i+1<loser_array.length){
-			var loser2 =loser_array[i+1];
-			var loser2_input_id =tournament_id+"_loser_"+loser2;
-			loser2_input_value= loser_score_array[loser2_input_id];
+	for (var i = 0; i < loser_array.length; i++) {
+		var loser2_input_value = 0;
+		if (i + 1 < loser_array.length) {
+			var loser2 = loser_array[i + 1];
+			var loser2_input_id = tournament_id + "_loser_" + loser2;
+			loser2_input_value = loser_score_array[loser2_input_id];
 
-			for(var element in losers_db_array){
-				if(losers_db_array[element]["id"]==loser2_input_id){
-					loser2_input_value= parseInt(losers_db_array[element]["score"]);
-					loser_score_array[loser2_input_id]=loser2_input_value;
-					losers_db_array[element]["id"]="";
+			for (var element in losers_db_array) {
+				if (losers_db_array[element]["id"] == loser2_input_id) {
+					loser2_input_value = parseInt(losers_db_array[element]["score"]);
+					loser_score_array[loser2_input_id] = loser2_input_value;
+					losers_db_array[element]["id"] = "";
 					break;
 				}
 			}
 
 		}
-		var loser =loser_array[i];
+		var loser = loser_array[i];
 		//console.debug(playoff_array);
-		var loser_input_id =tournament_id+"_loser_"+loser;
-		var loser_input_value= loser_score_array[loser_input_id];
+		var loser_input_id = tournament_id + "_loser_" + loser;
+		var loser_input_value = loser_score_array[loser_input_id];
 
-		for(var element in losers_db_array){
-			if(losers_db_array[element]["id"]==loser_input_id){
-				loser_input_value= parseInt(losers_db_array[element]["score"]);
-				loser_score_array[loser_input_id]=loser_input_value;
-				losers_db_array[element]["id"]="";
+		for (var element in losers_db_array) {
+			if (losers_db_array[element]["id"] == loser_input_id) {
+				loser_input_value = parseInt(losers_db_array[element]["score"]);
+				loser_score_array[loser_input_id] = loser_input_value;
+				losers_db_array[element]["id"] = "";
 				break;
 			}
 		}
 
-		if(loser2_input_value>loser_input_value){
+		if (loser2_input_value > loser_input_value) {
 
 			var tmp = loser_array[i];
-			loser_array[i]=loser_array[i+1];
-			loser_array[i+1]=tmp;
-			build_loser_bracket(winner,second);
+			loser_array[i] = loser_array[i + 1];
+			loser_array[i + 1] = tmp;
+			build_loser_bracket(winner, second);
 			return;
 		}
 	}
 
-	for(var i=0;i<loser_array.length;i++){
-		var place=i+3;
+	for (var i = 0; i < loser_array.length; i++) {
+		var place = i + 3;
 		loser_table_header += '<th width="120px" height="25px">' + "Koht " + place + '</th>';
 	}
 	$('#tabs-4').append('<table id="' + loser_table_id + '" class="table table-bordered loser-table"><tbody><tr>' + loser_table_header + '</tr></tbody></table>');
@@ -212,28 +214,27 @@ function build_loser_bracket(winner,second){
 	loser_table = '<td style="height:64px;"><div class="bracket-place">' + winner + '</div></td>';
 	loser_table += '<td style="height:64px;"><div class="bracket-place">' + second + '</div></td>';
 
-	for(var i=0;i<loser_array.length;i++){
-		var loser =loser_array[i];
+	for (var i = 0; i < loser_array.length; i++) {
+		var loser = loser_array[i];
 		//console.debug(playoff_array);
-		var loser_input_id =tournament_id+"_loser_"+loser;
+		var loser_input_id = tournament_id + "_loser_" + loser;
 		var loser_input_value = loser_score_array[loser_input_id];
 
-		for(var element in losers_db_array){
-			if(losers_db_array[element]["id"]==loser_input_id){
-				loser_input_value= losers_db_array[element]["score"];
-				losers_db_array[element]["id"]="";
+		for (var element in losers_db_array) {
+			if (losers_db_array[element]["id"] == loser_input_id) {
+				loser_input_value = losers_db_array[element]["score"];
+				losers_db_array[element]["id"] = "";
 				break;
 			}
 		}
 		var loser_input = '<input style="border-radius: 0;margin-bottom:0px;" id="' + loser_input_id + '" value="' + loser_input_value + '"type="number" class="score-input" onchange="saveloser.call(this)" >';
 
-		loser_table += '<td style="height:64px;"><div class="bracket-place">' +loser_input+ loser + '</div></td>';
+		loser_table += '<td style="height:64px;"><div class="bracket-place">' + loser_input + loser + '</div></td>';
 	}
 
 	$('#' + loser_table_id).append('<tr>' + loser_table + '</tr>');
 
 }
-
 
 
 function add_playoff() {
@@ -248,15 +249,15 @@ function add_playoff() {
 	var second;
 
 	var matchups = playernumber;
-	loser_array=[];
+	loser_array = [];
 
 	for (var level_count = 0; level_count < maxlevel; level_count++) {
 		buildlevel(level_count, level_array, temp_array);
 		temp_array = level_array;
 		level_array = [];
 	}
-	if(make_loser_bracket){
-		build_loser_bracket(winner,second);
+	if (make_loser_bracket) {
+		build_loser_bracket(winner, second);
 	}
 
 	// JSONize score array
@@ -483,10 +484,10 @@ function add_playoff() {
 
 						}
 
-						if(bottomwins&&store_losers){
+						if (bottomwins && store_losers) {
 							loser_array.push(current_array[index][index2][0]);
 						}
-						if(!bottomwins&&store_losers&&playoff_score_array[matched_element][0] < playoff_score_array[prev_id][0]){
+						if (!bottomwins && store_losers && playoff_score_array[matched_element][0] < playoff_score_array[prev_id][0]) {
 							loser_array.push(current_array[index][z][0]);
 						}
 
@@ -1257,10 +1258,10 @@ function submit1() {
 		$('#games').val(json_text);
 	}
 
-	if(make_loser_bracket){
-	json_text = JSON.stringify(loser_score_array, null);
-	//Assign JSONized array to hidden input field
-	$('#losers').val(json_text);
+	if (make_loser_bracket) {
+		json_text = JSON.stringify(loser_score_array, null);
+		//Assign JSONized array to hidden input field
+		$('#losers').val(json_text);
 	}
 
 	if (tournament_type == 3) {
@@ -1379,10 +1380,24 @@ function init_scores() {
 
 	}
 }
+var message;
+function change_type_warning() {
+	$('#helptext').html("Turniiri andmed on muutunud! Vajuta \"Salvesta\"");
+	$('#helptext').css({ 'color': 'red'});
+
+	if(message==undefined){
+		message = new Messi("Turniiri andmed on muutunud! Vajuta \"Salvesta\"", {closeButton:false,center: false, viewport: {left:$(window).width()/2-250,top: '60px'}});
+	}
+
+	$('[name=playoff]').hide();
+	$('[name=alagrupp]').hide();
+	$('[name=leaderboard]').hide();
+}
 
 $(function () {
 
 
+	$('#helptext').html("Turniiri tüübi muutmiseks lisa mängijad ja vajuta \"Salvesta\"");
 
 	// Write participant table captions
 	set_participant_type();
@@ -1406,6 +1421,7 @@ $(function () {
 			current_group_number = -1;
 			reinit_groups();
 			update_participant_count();
+			change_type_warning();
 		}
 	});
 
@@ -1485,6 +1501,11 @@ $(function () {
 			load_playoff();
 		}
 	}
+	//if we need to display groups, initialize the values
+	if (tournament_type == 3 ) {
+		redo_leaderboard();
+	}
+
 
 
 

@@ -8,7 +8,9 @@
 	<meta name="author" content="KHK">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+	<script src="<?= ASSETS_URL ?>/js/messi.min.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
+	<link rel="stylesheet" href="<?= ASSETS_URL ?>/css/messi.min.css" />
 	<style>
 		body {
 			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */

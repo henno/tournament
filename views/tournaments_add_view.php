@@ -154,11 +154,11 @@
 	height: 64px;
 	width: 250px;
 	position: relative;
-	padding-left:10px;
+	padding-left: 10px;
 	text-align: center;
 
-	vertical-align:middle;
-	display:table-cell;
+	vertical-align: middle;
+	display: table-cell;
 
 	-webkit-border-top-right-radius: 25px;
 	-moz-border-radius-topright: 25px;
@@ -178,11 +178,11 @@
 	height: 64px;
 	width: 250px;
 	position: relative;
-	padding-left:10px;
+	padding-left: 10px;
 	text-align: center;
 
-	vertical-align:middle;
-	display:table-cell;
+	vertical-align: middle;
+	display: table-cell;
 
 	-webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
 	box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
@@ -198,12 +198,11 @@
 	height: 64px;
 	width: 250px;
 	position: relative;
-	vertical-align:middle;
-	padding-left:10px;
+	vertical-align: middle;
+	padding-left: 10px;
 	text-align: center;
 
-
-	display:table-cell;
+	display: table-cell;
 
 	-webkit-border-bottom-right-radius: 25px;
 	-moz-border-radius-bottomright: 25px;
@@ -224,12 +223,11 @@
 	height: 64px;
 	width: 250px;
 	position: relative;
-	vertical-align:middle;
-	padding-left:10px;
+	vertical-align: middle;
+	padding-left: 10px;
 	text-align: center;
 
-
-	display:table-cell;
+	display: table-cell;
 
 	-webkit-border-top-right-radius: 25px;
 	-webkit-border-bottom-right-radius: 25px;
@@ -241,13 +239,12 @@
 	-webkit-box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.2);
 	box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.2);
 
-
 }
 
 .bracket-none {
 	margin: 0;
 	position: relative;
-	vertical-align:middle;
+	vertical-align: middle;
 
 	border-style: solid;
 	border-width: 1px;
@@ -261,8 +258,8 @@
 	margin: 0;
 	height: 66px;
 	width: 250px;
-	vertical-align:middle;
-	display:table-cell;
+	vertical-align: middle;
+	display: table-cell;
 	position: relative;
 }
 
@@ -275,9 +272,9 @@
 
 }
 
-.playoff-table td{
+.playoff-table td {
 	padding: 0;
-	margin-bottom:0px;
+	margin-bottom: 0px;
 	border-top: none;
 
 }
@@ -341,7 +338,7 @@ input::-webkit-inner-spin-button {
 		losers_db_array = eval('(<?=$losers?>)');
 		<?break; case 3:?>
 		$('[name=leaderboard]').show();
-		$('#leaderb_input').val("<?= $leaderboard ?>");
+		leaderb_input = eval('(<?=$leaderboard?>)');;
 		<?break; case -1:?>
 		<?break;}?>
 
@@ -351,6 +348,7 @@ input::-webkit-inner-spin-button {
 </script>
 <script src="<?= ASSETS_URL ?>js/jquery.combobox.js"></script>
 <script src="<?= ASSETS_URL ?>js/jquery-ui-timepicker-addon.js"></script>
+
 <form method="post" id="tournament-add-form">
 <div class="mywell"><h1>Turniiri lisamine</h1></div>
 <input type="hidden" id="tournament_id" value="<?= $tournament['tournament_id'] ?>" name="tournament[tournament_id]">
@@ -365,7 +363,7 @@ input::-webkit-inner-spin-button {
 	<li><a href="#tabs-2">Mängijate lisamine</a></li>
 	<li style="display: none" name="alagrupp"><a href="#tabs-3">Alagrupp</a></li>
 	<li style="display: none" name="playoff"><a href="#tabs-4">Playoff</a></li>
-	<li style="display: none" name="leaderboard"><a href="#tabs-5" onclick="redo_leaderboard()">Paremusjärjestus</a></li>
+	<li style="display: none" name="leaderboard"><a href="#tabs-5" >Paremusjärjestus</a></li>
 </ul>
 
 <div id="tabs-1">
@@ -377,14 +375,16 @@ input::-webkit-inner-spin-button {
 			<tbody>
 			<tr>
 				<th>Turniiri nimi:</th>
-				<td><input id="tournament-name" onfocus="$(this).removeClass('viga')" type="text"
+				<td><input id="tournament-name" onchange="change_type_warning();" onfocus="$(this).removeClass('viga')"
+				           type="text"
 				           name="tournament[tournament_name]" autocomplete="off"
 				           value="<?= $tournament['tournament_name'] ?>"></td>
 			</tr>
 			<tr>
 				<th>Koht:</th>
 				<td>
-					<select id="tournament[place_name]" class="makeEditable" style="height: 20px; width: 207px"
+					<select id="tournament[place_name]" class="makeEditable" onchange="change_type_warning();" style="height:
+					20px; width: 207px"
 					        placeholder="Koht">
 						<option value=""><?= ! empty($place_name) ? $place_name : '&nbsp;' ?></option>
 						<? foreach ($places as $place) : ?>
@@ -397,7 +397,8 @@ input::-webkit-inner-spin-button {
 			<tr>
 				<th>Turniiri algus:</th>
 
-				<td><input type="text" id="tournament_start" class="datetimepicker" name="tournament[tournament_start]"
+				<td><input type="text" id="tournament_start" onchange="change_type_warning();" class="datetimepicker"
+				           name="tournament[tournament_start]"
 				           placeholder="pp.kk.aaaa hh:mm" autocomplete="off" onfocus="$(this).removeClass('viga')"
 				           value="<?= $tournament['tournament_start'] ?>"></td>
 
@@ -406,14 +407,15 @@ input::-webkit-inner-spin-button {
 				<th>Turniiri lõpp:</th>
 				<td>
 					<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
-					       autocomplete="off" onfocus="$(this).removeClass('viga')" placeholder="pp.kk.aaaa hh:mm"
+					       autocomplete="off" onfocus="$(this).removeClass('viga')"  onchange="change_type_warning();"
+					       placeholder="pp.kk.aaaa hh:mm"
 					       value="<?= $tournament['tournament_end'] ?>"></td>
 			</tr>
 			<tr>
 				<th>Osaleja tüüp:</th>
 				<td><input id="tournament_participant" onfocus="$(this).removeClass('viga')"
 				           onblur="set_participant_type();" type="text"
-				           name="tournament[tournament_participant]" autocomplete="off"
+				           name="tournament[tournament_participant]" onchange="change_type_warning();" autocomplete="off"
 				           value="<?= $tournament['tournament_participant'] ?>"></td>
 				</td>
 			</tr>
@@ -421,12 +423,13 @@ input::-webkit-inner-spin-button {
 				<th>Asutus:</th>
 				<td><input id="tournament_classification" onfocus="$(this).removeClass('viga')"
 				           onblur="set_unit_type();" type="text"
-				           name="tournament[tournament_classification]" autocomplete="off"
+				           name="tournament[tournament_classification]" onchange="change_type_warning();" autocomplete="off"
 				           value="<?= $tournament['tournament_classification'] ?>"></td>
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
-				<td><input id="loser-bracket" name="tournament[tournament_loser_bracket]" type="checkbox" value="1"
+				<td><input id="loser-bracket" name="tournament[tournament_loser_bracket]" onchange="change_type_warning();"
+				           type="checkbox" value="1"
 						<?= $tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="yes"' : 'value="no"'
 						?>></td>
 			</tr>
@@ -434,37 +437,44 @@ input::-webkit-inner-spin-button {
 				<th>Mängu kestvus:</th>
 				<td><input id="game-length" class="spinner" min="1" maxlength="2"
 				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
-				           onfocus="$(this).removeClass('viga')" value="<?= $tournament['tournament_game_time'] ?>"></td>
+				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_game_time'] ?>"></td>
 			</tr>
 			<tr>
 				<th>Paus:</th>
 				<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_pause]"
-				           onkeypress="validate(event)" value="<?= $tournament['tournament_game_pause'] ?>"></td>
+				           onkeypress="validate(event)" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_game_pause'] ?>"></td>
 			</tr>
 			<tr>
 				<th>Platside arv:</th>
 				<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_field]"
-				           onkeypress="validate(event)" value="<?= $tournament['tournament_field'] ?>"/></td>
+				           onkeypress="validate(event)" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_field'] ?>"/></td>
 			</tr>
 			<tr>
 				<th>Edasipääsejaid:</th>
 				<td><input class="spinner" min="1" maxlength="2" name="tournament[tournament_win]"
-				           onkeypress="validate(event)" value="<?= $tournament['tournament_win'] ?>"/></td>
+				           onkeypress="validate(event)" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_win'] ?>"/></td>
 			</tr>
 			<tr>
 				<th>Võit:</th>
 				<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_win]"
-				           onkeypress="validate(event)" value="<?= $tournament['tournament_game_win'] ?>"/></td>
+				           onkeypress="validate(event)" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_game_win'] ?>"/></td>
 			</tr>
 			<tr>
 				<th>Viik:</th>
 				<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_tie]"
-				           onkeypress="validate(event)" value="<?= $tournament['tournament_game_tie'] ?>"/></td>
+				           onkeypress="validate(event)" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_game_tie'] ?>"/></td>
 			</tr>
 			<tr>
 				<th>Kaotus:</th>
 				<td><input class="spinner" min="0" maxlength="2" name="tournament[tournament_game_loss]"
-				           onkeypress="validate(event)" value="<?= $tournament['tournament_game_loss'] ?>"/></td>
+				           onkeypress="validate(event)" onchange="change_type_warning();" value="<?=
+					$tournament['tournament_game_loss'] ?>"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -483,13 +493,13 @@ input::-webkit-inner-spin-button {
 				<input tabindex="1" class="spinner" min="1" value="<?= $tournament['tournament_group'] ?>" maxlength="2"
 				       name="tournament[tournament_group]"
 				       id="max_groups"
-				       onkeyup="validate(event); reinit_groups();" onclick="update_participant_count()"
+				       onkeyup="validate(event); reinit_groups();" onchange="update_participant_count();"
 				       value="<?= $tournament['tournament_group'] ?>"/></p>
 
 			<p>Võistlejaid alagrupis: <span id="participant-count"></span></p>
 		</div>
 		<div style="width: 200px; float:left">
-			<span class="help-block">Turniiri tüübi muutmiseks lisa mängijad ja vajuta "Salvesta"</span>
+			<span class="help-block" id="helptext"></span>
 		</div>
 		<div style="clear: both">
 			<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
@@ -508,7 +518,8 @@ input::-webkit-inner-spin-button {
 								<option value="<?= $institute['institute_name'] ?>"><?= $institute['institute_name'] ?></option>
 							<? endforeach ?>
 						</select>
-						<button tabindex="4" type="button" class="btn btn-large" onclick="add_participant_wrapper()"
+						<button tabindex="4" type="button" class="btn btn-large" onclick="add_participant_wrapper();
+						change_type_warning();"
 						        style="margin-left:5px; float: right ">
 							Lisa mängija
 						</button>
@@ -563,14 +574,14 @@ input::-webkit-inner-spin-button {
 							</td>
 							<td>
 
-								<input type="checkbox" id="favorite" <?if ($participant['participant_favorite'] == 1) {
+								<input type="checkbox" id="favorite" onclick="change_type_warning();" <?if ($participant['participant_favorite'] == 1) {
 									echo "checked";
 								}?> >
 							</td>
 							<td>
 								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
 								   onclick="if (!confirm('Oled kindel?'))return false; remove_participant
-									   ('existing_participant<?= $participant['participant_id'] ?>'); return false;
+									   ('existing_participant<?= $participant['participant_id'] ?>'); change_type_warning(); return false;
 									   "><i
 										class="icon-trash">
 							</td>
@@ -590,40 +601,28 @@ input::-webkit-inner-spin-button {
 		<label class="checkbox">
 			<input tabindex="5" id="alagrupp_playoff" type="radio" <?if ($tournament['tournament_type'] == 0) {
 				echo "checked";
-			}?> name="tournament[tournament_type]" value="0" onclick="$
-			('[name=playoff]').show();$
-			('[name=alagrupp]').show()
-			;$('[name=leaderboard]').hide();">
+			}?> name="tournament[tournament_type]" value="0" onclick="
+			change_type_warning();">
 			Alagrupid + playoff
 		</label>
 		<label class="checkbox">
 			<input tabindex="6" id="alagrupp" type="radio" <?if ($tournament['tournament_type'] == 1) {
 				echo "checked";
-			}?> name="tournament[tournament_type]" value="1" onclick="$
-			('[name=alagrupp]').show
-			();$
-			('[name=playoff]').hide
-			();$
-			('[name=leaderboard]').hide
-			();$('#alagrupid_add_group').show()"> Alagrupid
+			}?> name="tournament[tournament_type]" value="1" onclick="
+			change_type_warning();"> Alagrupid
 		</label>
 		<label class="checkbox">
 			<input tabindex="7" id="playoff" type="radio" <?if ($tournament['tournament_type'] == 2) {
 				echo "checked";
-			}?> name="tournament[tournament_type]" value="2" onclick="$('[name=playoff]').show();$
-			('[name=alagrupp]').hide
-			();$
-			('[name=leaderboard]').hide
-			();"> Playoff
+			}?> name="tournament[tournament_type]" value="2" onclick="
+			change_type_warning();"> Playoff
 		</label>
 
 		<label class="checkbox">
 			<input tabindex="8" id="leaderboard" type="radio" <?if ($tournament['tournament_type'] == 3) {
 				echo "checked";
-			}?> name="tournament[tournament_type]" value="3" onclick="$
-			('[name=alagrupp]').hide();
-			$('[name=playoff]').hide()
-			;$('[name=leaderboard]').show();">
+			}?> name="tournament[tournament_type]" value="3" onclick="
+			change_type_warning();">
 			Paremusjärjestus
 		</label>
 
@@ -657,8 +656,7 @@ input::-webkit-inner-spin-button {
 	<input type="hidden" id="playoffs" name="playoffs" value="">
 	<input type="hidden" id="participants" name="participants" value="">
 	<input type="hidden" id="losers" name="losers" value="">
-	<input type="text" id="leaderb_input" name ="leaderboard" value="">
-
+	<input type="hidden" id="leaderb_input" name="leaderboard" value="">
 
 </div>
 
