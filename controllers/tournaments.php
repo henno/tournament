@@ -122,12 +122,16 @@ class tournaments
 				save('leaderboard', array('time' => $leader['time'], 'participant_id' => $leader['id'],
 				                          'tournament_id'=>$tournament_id));
 			}
+			$playoffs = $_POST['playoffs'];
+			$losers = $_POST['losers'];
 
 			// If submit1
 			if (isset($_POST['participants'])) {
 				require 'modules/tournament.php';
 				$tournament_model = new tournament;
-				$tournament_model->edit($tournament_id, $tournament, $participants, $games);
+				//we edit the tournament here
+
+				$tournament_model->edit($tournament_id,$tournament,$participants,$games,$playoffs,$losers);
 				$_request->redirect('tournaments/view/'.$tournament_id);
 			}
 
@@ -173,6 +177,13 @@ WHERE leaderboard.tournament_id='$tournament_id'"
 		);
 		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
 		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
+		$playoffs = get_all("SELECT * FROM playoff WHERE deleted=0 AND tournament_id='$tournament_id'");
+		$playoffs = json_encode($playoffs);
+		$losers = get_all("SELECT * FROM loser WHERE deleted=0 AND tournament_id='$tournament_id'");
+		$losers = json_encode($losers);
+
+
+
 
 		require 'views/master_view.php';
 

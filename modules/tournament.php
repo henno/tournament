@@ -45,18 +45,11 @@ class tournament
 		}
 	}
 
-	/**
-	 * modifies tournament
-	 *
-	 * @param $tournament_id int
-	 * @param $tournament array
-	 * @param $participants array
-	 */
-	function edit($tournament_id, $tournament, $participants, $games)
+	function edit($tournament_id, $tournament, $participants, $games, $playoffs,$losers)
 	{
 
 
-		if (isset($tournament_id, $tournament, $participants, $games)) {
+		if (isset($tournament_id, $tournament, $participants)) {
 
 			// Convert dates
 			$tournament['tournament_start'] = $this->convert_date($tournament['tournament_start']);
@@ -65,6 +58,12 @@ class tournament
 			// Add  places
 			$tournament['place_id'] = $this->get_place_id($tournament['place_name']);
 			unset($tournament['place_name']);
+
+			if(!isset($tournament['tournament_loser_bracket'])){
+			$tournament['tournament_loser_bracket'] = 0;
+			}
+
+			//$tournament['place_id'] = $this->get_place_id($tournament['place_name']);
 
 			// UPDATE tournament
 			$affected_rows = update('tournament', $tournament, "tournament_id={$tournament_id}");
@@ -86,14 +85,48 @@ class tournament
 					}
 				}
 			}
+			if (isset($games)) {
+				//add games to tournament
+				$games = json_decode($games, TRUE);
 
-			//add games to tournament
-			$games = json_decode($games, TRUE);
+				if (! empty ($games)) {
+					foreach ($games as $key => $game) {
+						//update('game', $game, "game_id="."'".$game['game_id']."'"."");
+						save('game', $game);
+					}
+				}
+			}
 
-			if (! empty ($games)) {
-				foreach ($games as $key => $game) {
-					//update('game', $game, "game_id="."'".$game['game_id']."'"."");
-					save('game', $game);
+
+			if (isset($playoffs)) {
+
+				$playoffs = json_decode($playoffs, TRUE);
+				if (! empty ($playoffs)) {
+					foreach ($playoffs as $key => $playoff) {
+
+						$playoff['tournament_id'] = $tournament_id;
+						$playoff['id'] = $key;
+						$playoff['score'] = $playoff[0];
+						unset($playoff["0"]);
+
+						save('playoff', $playoff);
+					}
+				}
+			}
+
+			if (isset($losers)) {
+
+				$losers = json_decode($losers, TRUE);
+				if (! empty ($losers)) {
+					foreach ($losers as $key => $loser) {
+
+						$loser_a = [];
+						$loser_a['tournament_id'] = $tournament_id;
+						$loser_a['id'] = $key;
+						$loser_a['score'] = $loser;
+						//die(var_dump($loser_a));
+						save('loser', $loser_a);
+					}
 				}
 			}
 

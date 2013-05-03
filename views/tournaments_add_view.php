@@ -140,6 +140,7 @@
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
+	float:left;
 }
 
 .score_cell {
@@ -151,14 +152,40 @@
 	border-style: solid;
 	border-width: 1px;
 	background-size: cover;
-	height: 50px;
+	height: 64px;
 	width: 250px;
 	position: relative;
+	padding-left:10px;
 	text-align: center;
 
 	-webkit-border-top-right-radius: 25px;
 	-moz-border-radius-topright: 25px;
 	border-top-right-radius: 25px;
+
+	-webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+	background-color: rgba(1, 0, 227, 0.13);
+}
+
+.bracket-place {
+	margin: 0;
+	border-style: solid;
+	border-width: 1px;
+	background-size: cover;
+	height: 64px;
+	width: 250px;
+	position: relative;
+	padding-left:10px;
+	text-align: center;
+
+	vertical-align:middle;
+	display:table-cell;
+
+	-webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+	background-color: rgba(1, 0, 227, 0.13);
 }
 
 .bracket-low {
@@ -166,43 +193,72 @@
 	border-style: solid;
 	border-width: 1px;
 	background-size: cover;
-	height: 50px;
+	height: 64px;
 	width: 250px;
 	position: relative;
-
+	vertical-align:middle;
+	padding-left:10px;
 	text-align: center;
+
 
 	-webkit-border-bottom-right-radius: 25px;
 	-moz-border-radius-bottomright: 25px;
 	border-bottom-right-radius: 25px;
+
+	-webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+	background-color: rgba(1, 0, 227, 0.13);
 }
 
 .bracket-mid {
+
 	margin: 0;
+	border-style: solid;
+	border-width: 1px;
 	background-size: cover;
-	height: 50px;
+	height: 64px;
 	width: 250px;
 	position: relative;
+	vertical-align:middle;
+	padding-left:10px;
+	text-align: center;
+
+
+	display:table-cell;
+
+	-webkit-border-top-right-radius: 25px;
+	-webkit-border-bottom-right-radius: 25px;
+	-moz-border-radius-topright: 25px;
+	-moz-border-radius-bottomright: 25px;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
+
+	-webkit-box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.2);
+
+
 }
 
 .bracket-none {
 	margin: 0;
+	position: relative;
+	vertical-align:middle;
+
 	border-style: solid;
 	border-width: 1px;
-	background: url(<?= ASSETS_URL ?>img/brackets/non.gif);
-	background-size: contain;
-	position: relative;
 
 	background-position: center center;
-	height: 50px;
+	height: 64px;
 	width: 250px;
 }
 
 .bracket-empty {
 	margin: 0;
-	height: 52px;
+	height: 66px;
 	width: 250px;
-
+	vertical-align:middle;
+	display:table-cell;
 	position: relative;
 }
 
@@ -210,7 +266,8 @@
 	margin: 0;
 	float: left;
 	width: 250px;
-	height: 50px;
+	height: 64px;
+	border-style: none;
 
 }
 
@@ -268,11 +325,15 @@ input::-webkit-inner-spin-button {
 		$('[name=playoff]').show();
 		$('[name=alagrupp]').show();
 		games_array = eval('(<?=$games?>)');
+		playoffs_db_array = eval('(<?=$playoffs?>)');
+		losers_db_array = eval('(<?=$losers?>)');
 		<?break; case 1:?>
 		$('[name=alagrupp]').show();
 		games_array = eval('(<?=$games?>)');
 		<?break; case 2:?>
 		$('[name=playoff]').show();
+		playoffs_db_array = eval('(<?=$playoffs?>)');
+		losers_db_array = eval('(<?=$losers?>)');
 		<?break; case 3:?>
 		$('[name=leaderboard]').show();
 		<?break; case -1:?>
@@ -359,8 +420,9 @@ input::-webkit-inner-spin-button {
 			</tr>
 			<tr>
 				<th>Kaotajate ring:</th>
-				<td><input name="tournament[tournament_loser_bracket]" type="checkbox"
-						<?= $tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="1"' : 'value="0"' ?>></td>
+				<td><input id="loser-bracket" name="tournament[tournament_loser_bracket]" type="checkbox" value="1"
+						<?= $tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="yes"' : 'value="no"'
+						?>></td>
 			</tr>
 			<tr>
 				<th>Mängu kestvus:</th>
@@ -562,10 +624,10 @@ input::-webkit-inner-spin-button {
 	</div>
 </div>
 <div id="tabs-3">
-	<input type="hidden" id="games" name="games" value="">
+
 </div>
 <div id="tabs-4">
-	<input type="hidden" id="playoffs" name="playoffs" value="">
+
 </div>
 <div id="tabs-5">
 	<table class="table" id="leaderboard">
@@ -585,9 +647,11 @@ input::-webkit-inner-spin-button {
 
 </div>
 <div style="clear: both; padding: 15px 0">
-
-	<input type="hidden" id="participants" name="participants" value="">
 	<input type="hidden" id="games" name="games" value="">
+	<input type="hidden" id="playoffs" name="playoffs" value="">
+	<input type="hidden" id="participants" name="participants" value="">
+	<input type="text" id="losers" name="losers" value="">
+
 
 </div>
 
