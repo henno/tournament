@@ -26,7 +26,6 @@ var loser_score_array = {};
 function get_player_names() {
 	var myarray = [];
 	var leaderb_input = eval($('#leaderb_input').val());
-
 	if (leaderb_input.length > 0) {
 		for (var i = 0; i < leaderb_input.length; i++) {
 			var new_names = {};
@@ -1197,8 +1196,6 @@ function reset_numbers() {
 
 function submit1() {
 
-	//Update leaderboard
-	redo_leaderboard();
 
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
@@ -1266,6 +1263,10 @@ function submit1() {
 	$('#losers').val(json_text);
 	}
 
+	if (tournament_type == 3) {
+		//Update leaderboard
+		redo_leaderboard();
+	}
 
 	// Check whether the tournament start is set and is earlier than tournament end
 	$(".datepicker").datetimepicker();

@@ -341,6 +341,7 @@ input::-webkit-inner-spin-button {
 		losers_db_array = eval('(<?=$losers?>)');
 		<?break; case 3:?>
 		$('[name=leaderboard]').show();
+		$('#leaderb_input').val("<?= $leaderboard ?>");
 		<?break; case -1:?>
 		<?break;}?>
 
@@ -648,14 +649,15 @@ input::-webkit-inner-spin-button {
 		</tbody>
 
 	</table>
-<input type="hidden" id="leaderb_input" name ="leaderboard" value='<?= $leaderboard ?>'>
+
 
 </div>
 <div style="clear: both; padding: 15px 0">
 	<input type="hidden" id="games" name="games" value="">
 	<input type="hidden" id="playoffs" name="playoffs" value="">
 	<input type="hidden" id="participants" name="participants" value="">
-	<input type="text" id="losers" name="losers" value="">
+	<input type="hidden" id="losers" name="losers" value="">
+	<input type="text" id="leaderb_input" name ="leaderboard" value="">
 
 
 </div>
