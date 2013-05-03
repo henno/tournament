@@ -3,10 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Loomise aeg: Mai 03, 2013 kell 01:43 PM
+-- Loomise aeg: Mai 03, 2013 kell 05:10 PM
 -- Serveri versioon: 5.5.27
 -- PHP versioon: 5.4.7
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -56,11 +57,15 @@ INSERT INTO `game` (`game_id`, `tournament_id`, `participant_a_id`, `participant
 ('21_113_21_28', 113, 21, 28, 31, -1, 0),
 ('21_113_21_30', 113, 21, 30, 2, 3, 0),
 ('21_113_21_39', 113, 21, 39, 2, -2, 0),
+('21_113_21_64', 113, 21, 64, 0, 0, 0),
 ('22_113_22_29', 113, 22, 29, 1, 0, 0),
 ('22_113_22_31', 113, 22, 31, 0, 0, 0),
+('22_113_22_65', 113, 22, 65, 0, 0, 0),
 ('28_113_28_30', 113, 28, 30, -1, 0, 0),
 ('28_113_28_39', 113, 28, 39, -30, 0, 0),
+('28_113_28_64', 113, 28, 64, 0, 0, 0),
 ('29_113_29_31', 113, 29, 31, 0, 0, 0),
+('29_113_29_65', 113, 29, 65, 0, 0, 0),
 ('2_1_2_3', 1, 2, 3, 0, 0, 0),
 ('2_1_2_4', 1, 2, 4, 0, 0, 0),
 ('2_1_2_5', 1, 2, 5, 0, 0, 0),
@@ -68,6 +73,8 @@ INSERT INTO `game` (`game_id`, `tournament_id`, `participant_a_id`, `participant
 ('2_1_2_62', 1, 2, 62, 0, 0, 0),
 ('2_1_2_9', 1, 2, 9, 0, 0, 0),
 ('30_113_30_39', 113, 30, 39, 16, 0, 0),
+('30_113_30_64', 113, 30, 64, 0, 0, 0),
+('31_113_31_65', 113, 31, 65, 0, 0, 0),
 ('3_1_3_4', 1, 3, 4, 0, 0, 0),
 ('3_1_3_5', 1, 3, 5, 0, 0, 0),
 ('3_1_3_6', 1, 3, 6, 0, 0, 0),
@@ -87,7 +94,17 @@ INSERT INTO `game` (`game_id`, `tournament_id`, `participant_a_id`, `participant
 ('67_2_67_68', 2, 67, 68, 0, 0, 0),
 ('67_2_67_69', 2, 67, 69, 0, 0, 0),
 ('68_2_68_69', 2, 68, 69, 0, 0, 0),
-('6_1_6_9', 1, 6, 9, 0, 0, 0);
+('6_1_6_9', 1, 6, 9, 0, 0, 0),
+('83_146_83_84', 146, 83, 84, 2, 0, 0),
+('83_146_83_85', 146, 83, 85, 0, 0, 0),
+('83_146_83_86', 146, 83, 86, 0, 0, 0),
+('83_146_83_88', 146, 83, 88, 0, 0, 0),
+('84_146_84_85', 146, 84, 85, -5, 0, 0),
+('84_146_84_86', 146, 84, 86, 0, 0, 0),
+('84_146_84_88', 146, 84, 88, 13, 0, 0),
+('85_146_85_86', 146, 85, 86, 0, 0, 0),
+('85_146_85_88', 146, 85, 88, 0, 0, 0),
+('86_146_86_88', 146, 86, 88, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -135,13 +152,42 @@ CREATE TABLE IF NOT EXISTS `leaderboard` (
 --
 
 INSERT INTO `leaderboard` (`tournament_id`, `participant_id`, `time`) VALUES
-(1, 0, '00:00:06'),
-(1, 1, '00:00:59'),
-(1, 2, '00:00:02'),
-(1, 3, '00:00:03'),
-(1, 4, '00:00:02'),
-(1, 5, '00:00:00'),
-(1, 62, '00:00:06');
+(113, 21, '00:00:00'),
+(113, 22, '00:00:00'),
+(113, 28, '00:00:00'),
+(113, 29, '00:00:00'),
+(113, 30, '00:00:00'),
+(113, 31, '00:00:00'),
+(113, 64, '00:00:00'),
+(113, 65, '00:00:00'),
+(146, 83, '08:00:00'),
+(146, 84, '16:00:00'),
+(146, 85, '00:00:00'),
+(146, 86, '00:00:00'),
+(146, 88, '00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Tabeli struktuur tabelile `loser`
+--
+
+DROP TABLE IF EXISTS `loser`;
+CREATE TABLE IF NOT EXISTS `loser` (
+  `id` varchar(50) NOT NULL,
+  `tournament_id` int(10) unsigned NOT NULL,
+  `score` int(11) NOT NULL,
+  `deleted` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Andmete tõmmistamine tabelile `loser`
+--
+
+INSERT INTO `loser` (`id`, `tournament_id`, `score`, `deleted`) VALUES
+('113_loser_eta', 113, 5, 0),
+('113_loser_theta', 113, 6, 0);
 
 -- --------------------------------------------------------
 
@@ -161,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `participant` (
   PRIMARY KEY (`participant_id`),
   KEY `institute_id` (`institute_id`),
   KEY `tournament_id` (`tournament_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=70 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=89 ;
 
 --
 -- Andmete tõmmistamine tabelile `participant`
@@ -173,32 +219,32 @@ INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`,
 (3, 'test', 1, 'A', 0, 1, 0),
 (4, 'bhgfdh', 3, 'A', 1, 1, 0),
 (5, 'test', 1, 'A', 0, 1, 0),
-(6, 'bhgfdh', 3, 'A', 1, 1, 1),
-(7, 'test', 1, '', 0, 1, 1),
-(8, 'bhgfdh', 3, '', 1, 1, 1),
-(9, 'test', 1, 'A', 0, 1, 1),
-(10, 'bhgfdh', 3, '', 1, 1, 1),
-(11, 'test', 1, '', 0, 1, 1),
-(12, 'test', 3, '', 0, 1, 1),
-(13, 'asd', 4, '', 0, 1, 1),
-(14, 'asda', 5, '', 1, 1, 1),
-(15, 'asda', 5, '', 1, 1, 1),
+(6, 'bhgfdh', 3, 'A', 1, 1, 0),
+(7, 'test', 1, 'A', 0, 1, 0),
+(8, 'bhgfdh', 3, 'A', 1, 1, 0),
+(9, 'test', 1, 'A', 0, 1, 0),
+(10, 'bhgfdh', 3, 'A', 1, 1, 0),
+(11, 'test', 1, 'A', 0, 1, 0),
+(12, 'test', 3, 'A', 0, 1, 0),
+(13, 'asd', 7, 'A', 0, 1, 0),
+(14, 'asda', 2, 'A', 1, 1, 0),
+(15, 'asda', 2, 'A', 1, 1, 0),
 (16, 'fafa', 6, '', 0, 106, 0),
 (17, 'fefe', 2, '', 0, 106, 0),
 (18, 'a', 2, 'B', 0, 113, 1),
 (19, 'b', 2, 'A', 0, 113, 1),
 (20, 'h', 2, 'A', 0, 127, 1),
 (21, 'alpha', 2, 'A', 0, 113, 0),
-(22, 'beta', 2, 'B', 1, 113, 1),
+(22, 'beta', 2, 'B', 1, 113, 0),
 (23, 'fdgdgf', 1, 'A', 0, 130, 0),
 (24, 'as', 7, 'A', 0, 130, 0),
 (25, 'g', 2, 'A', 1, 130, 0),
 (26, 'uus', 2, 'A', 0, 130, 0),
 (27, 'uus2', 2, 'A', 0, 130, 0),
-(28, 'gamma', 2, 'A', 0, 113, 1),
-(29, 'delta', 2, 'B', 0, 113, 1),
-(30, 'epsilon', 2, 'A', 0, 113, 1),
-(31, 'zeta', 2, 'B', 0, 113, 1),
+(28, 'gamma', 2, 'A', 0, 113, 0),
+(29, 'delta', 2, 'B', 0, 113, 0),
+(30, 'epsilon', 2, 'A', 0, 113, 0),
+(31, 'zeta', 2, 'B', 0, 113, 0),
 (39, 'eta', 2, 'A', 0, 113, 1),
 (40, 'a', 2, 'A', 0, 133, 0),
 (41, 'b', 2, 'A', 0, 133, 0),
@@ -222,14 +268,32 @@ INSERT INTO `participant` (`participant_id`, `participant_name`, `institute_id`,
 (59, 'asd', 2, 'A', 0, 143, 0),
 (60, 'asf', 2, 'A', 0, 143, 0),
 (61, 'a', 2, 'A', 0, 144, 0),
-(62, 'gfdhdf', 2, 'A', 0, 1, 0),
-(63, 'hgfsdgfgfd', 2, 'A', 0, 1, 1),
-(64, 'hgfdhgsjs', 2, 'A', 0, 1, 1),
-(65, 'jgsjfgfdjg', 2, 'A', 0, 1, 1),
-(66, 'bla', 2, 'A', 0, 2, 0),
-(67, 'gfdhhjgdf', 2, 'A', 0, 2, 0),
-(68, 'wut', 2, 'A', 0, 2, 0),
-(69, 'dolan', 2, 'A', 0, 2, 0);
+(62, 'asd', 2, 'A', 0, 145, 0),
+(64, 'eta', 2, 'A', 0, 113, 0),
+(65, 'theta', 2, 'B', 0, 113, 0),
+(66, 'iota', 2, 'A', 0, 113, 1),
+(67, 'kappa', 2, 'A', 0, 113, 1),
+(68, 'lambda', 2, 'A', 0, 113, 1),
+(69, 'mu', 2, 'A', 0, 113, 1),
+(70, 'kappa', 2, 'A', 0, 113, 1),
+(71, 'asd', 2, 'A', 0, 113, 1),
+(72, 'dg', 2, 'A', 0, 113, 1),
+(73, 'af', 2, 'A', 0, 113, 1),
+(74, 'kappa', 2, 'A', 0, 113, 1),
+(75, 'kappa', 2, 'A', 0, 113, 1),
+(76, 'lambda', 2, 'A', 0, 113, 1),
+(77, 'a', 2, 'A', 0, 113, 1),
+(78, 'kappa', 2, 'A', 0, 113, 1),
+(79, 'kappa', 2, 'A', 0, 113, 1),
+(80, 'lambda', 2, 'A', 0, 113, 1),
+(81, 'omega', 2, 'A', 0, 113, 1),
+(82, 'lambda', 2, 'A', 0, 113, 1),
+(83, 'a', 2, 'A', 0, 146, 0),
+(84, 'b', 2, 'A', 0, 146, 0),
+(85, 'c', 2, 'A', 0, 146, 0),
+(86, 'd', 2, 'A', 0, 146, 0),
+(87, 'e', 2, 'A', 0, 146, 1),
+(88, 'e', 2, 'A', 0, 146, 0);
 
 -- --------------------------------------------------------
 
@@ -255,6 +319,169 @@ INSERT INTO `place` (`place_id`, `place_name`, `place_deleted`) VALUES
 (3, '', 0),
 (4, 'ddfddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd', 0),
 (5, 'afs', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabeli struktuur tabelile `playoff`
+--
+
+DROP TABLE IF EXISTS `playoff`;
+CREATE TABLE IF NOT EXISTS `playoff` (
+  `id` varchar(50) NOT NULL,
+  `score` smallint(6) NOT NULL,
+  `tournament_id` int(10) unsigned NOT NULL,
+  `deleted` tinyint(4) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `tournament_id` (`tournament_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Andmete tõmmistamine tabelile `playoff`
+--
+
+INSERT INTO `playoff` (`id`, `score`, `tournament_id`, `deleted`) VALUES
+('0_existing_participant1', 0, 1, 0),
+('0_existing_participant10', 0, 1, 0),
+('0_existing_participant11', 0, 1, 0),
+('0_existing_participant12', 0, 1, 0),
+('0_existing_participant13', 0, 1, 0),
+('0_existing_participant14', 0, 1, 0),
+('0_existing_participant15', 0, 1, 0),
+('0_existing_participant2', 0, 1, 0),
+('0_existing_participant21', 3, 113, 0),
+('0_existing_participant22', 0, 113, 0),
+('0_existing_participant28', 2, 113, 0),
+('0_existing_participant29', 1, 113, 0),
+('0_existing_participant3', 0, 1, 0),
+('0_existing_participant30', 1, 113, 0),
+('0_existing_participant31', 0, 113, 0),
+('0_existing_participant4', 0, 1, 0),
+('0_existing_participant5', 0, 1, 0),
+('0_existing_participant6', 0, 1, 0),
+('0_existing_participant64', 2, 113, 0),
+('0_existing_participant65', 2, 113, 0),
+('0_existing_participant7', 0, 1, 0),
+('0_existing_participant8', 0, 1, 0),
+('0_existing_participant82', 0, 113, 0),
+('0_existing_participant83', 1, 146, 0),
+('0_existing_participant84', 3, 146, 0),
+('0_existing_participant85', 2, 146, 0),
+('0_existing_participant86', 0, 146, 0),
+('0_existing_participant88', 0, 146, 0),
+('0_existing_participant9', 0, 1, 0),
+('1_existing_participant1', 0, 1, 0),
+('1_existing_participant10', 0, 1, 0),
+('1_existing_participant11', 0, 1, 0),
+('1_existing_participant12', 0, 1, 0),
+('1_existing_participant13', 0, 1, 0),
+('1_existing_participant14', 0, 1, 0),
+('1_existing_participant15', 0, 1, 0),
+('1_existing_participant2', 0, 1, 0),
+('1_existing_participant21', 3, 113, 0),
+('1_existing_participant22', 0, 113, 0),
+('1_existing_participant28', 6, 113, 0),
+('1_existing_participant29', 2, 113, 0),
+('1_existing_participant3', 0, 1, 0),
+('1_existing_participant30', 0, 113, 0),
+('1_existing_participant31', 0, 113, 0),
+('1_existing_participant4', 0, 1, 0),
+('1_existing_participant5', 0, 1, 0),
+('1_existing_participant6', 0, 1, 0),
+('1_existing_participant64', 2, 113, 0),
+('1_existing_participant65', 1, 113, 0),
+('1_existing_participant7', 0, 1, 0),
+('1_existing_participant8', 0, 1, 0),
+('1_existing_participant82', 0, 113, 0),
+('1_existing_participant83', 4, 146, 0),
+('1_existing_participant84', 3, 146, 0),
+('1_existing_participant85', 1, 146, 0),
+('1_existing_participant86', 1, 146, 0),
+('1_existing_participant88', 2, 146, 0),
+('1_existing_participant9', 0, 1, 0),
+('2_existing_participant1', 0, 1, 0),
+('2_existing_participant10', 0, 1, 0),
+('2_existing_participant11', 0, 1, 0),
+('2_existing_participant12', 0, 1, 0),
+('2_existing_participant13', 0, 1, 0),
+('2_existing_participant14', 0, 1, 0),
+('2_existing_participant15', 0, 1, 0),
+('2_existing_participant2', 0, 1, 0),
+('2_existing_participant21', 4, 113, 0),
+('2_existing_participant22', 0, 113, 0),
+('2_existing_participant28', 6, 113, 0),
+('2_existing_participant29', 5, 113, 0),
+('2_existing_participant3', 0, 1, 0),
+('2_existing_participant30', 0, 113, 0),
+('2_existing_participant31', 5, 113, 0),
+('2_existing_participant4', 0, 1, 0),
+('2_existing_participant5', 0, 1, 0),
+('2_existing_participant6', 0, 1, 0),
+('2_existing_participant64', 13, 113, 0),
+('2_existing_participant65', 0, 113, 0),
+('2_existing_participant7', 0, 1, 0),
+('2_existing_participant8', 0, 1, 0),
+('2_existing_participant82', 1, 113, 0),
+('2_existing_participant83', 4, 146, 0),
+('2_existing_participant84', 2, 146, 0),
+('2_existing_participant85', 0, 146, 0),
+('2_existing_participant86', 3, 146, 0),
+('2_existing_participant88', 3, 146, 0),
+('2_existing_participant9', 0, 1, 0),
+('3_existing_participant1', 0, 1, 0),
+('3_existing_participant10', 0, 1, 0),
+('3_existing_participant11', 0, 1, 0),
+('3_existing_participant12', 0, 1, 0),
+('3_existing_participant13', 0, 1, 0),
+('3_existing_participant14', 0, 1, 0),
+('3_existing_participant15', 0, 1, 0),
+('3_existing_participant2', 0, 1, 0),
+('3_existing_participant21', 0, 113, 0),
+('3_existing_participant22', 2, 113, 0),
+('3_existing_participant28', 2, 113, 0),
+('3_existing_participant29', 0, 113, 0),
+('3_existing_participant3', 0, 1, 0),
+('3_existing_participant30', 0, 113, 0),
+('3_existing_participant31', 3, 113, 0),
+('3_existing_participant4', 0, 1, 0),
+('3_existing_participant5', 0, 1, 0),
+('3_existing_participant6', 0, 1, 0),
+('3_existing_participant64', 2, 113, 0),
+('3_existing_participant65', 0, 113, 0),
+('3_existing_participant7', 0, 1, 0),
+('3_existing_participant8', 0, 1, 0),
+('3_existing_participant82', 0, 113, 0),
+('3_existing_participant83', 0, 146, 0),
+('3_existing_participant84', 0, 146, 0),
+('3_existing_participant85', 0, 146, 0),
+('3_existing_participant86', 0, 146, 0),
+('3_existing_participant88', 0, 146, 0),
+('3_existing_participant9', 0, 1, 0),
+('4_existing_participant1', 0, 1, 0),
+('4_existing_participant10', 0, 1, 0),
+('4_existing_participant11', 0, 1, 0),
+('4_existing_participant12', 0, 1, 0),
+('4_existing_participant13', 0, 1, 0),
+('4_existing_participant14', 0, 1, 0),
+('4_existing_participant15', 0, 1, 0),
+('4_existing_participant2', 0, 1, 0),
+('4_existing_participant21', 0, 113, 0),
+('4_existing_participant22', 0, 113, 0),
+('4_existing_participant28', 0, 113, 0),
+('4_existing_participant29', 0, 113, 0),
+('4_existing_participant3', 0, 1, 0),
+('4_existing_participant30', 0, 113, 0),
+('4_existing_participant31', 0, 113, 0),
+('4_existing_participant4', 0, 1, 0),
+('4_existing_participant5', 0, 1, 0),
+('4_existing_participant6', 0, 1, 0),
+('4_existing_participant64', 0, 113, 0),
+('4_existing_participant65', 0, 113, 0),
+('4_existing_participant7', 0, 1, 0),
+('4_existing_participant8', 0, 1, 0),
+('4_existing_participant82', 0, 113, 0),
+('4_existing_participant9', 0, 1, 0),
+('undefined', 0, 113, 0);
 
 -- --------------------------------------------------------
 
@@ -286,24 +513,24 @@ CREATE TABLE IF NOT EXISTS `tournament` (
   `tournament_classification` varchar(50) COLLATE utf8_estonian_ci NOT NULL,
   PRIMARY KEY (`tournament_id`),
   KEY `place_id` (`place_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=145 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci AUTO_INCREMENT=147 ;
 
 --
 -- Andmete tõmmistamine tabelile `tournament`
 --
 
 INSERT INTO `tournament` (`tournament_id`, `tournament_name`, `tournament_year`, `tournament_place`, `place_id`, `deleted`, `tournament_start`, `tournament_end`, `tournament_loser_bracket`, `tournament_game_time`, `tournament_game_pause`, `tournament_field`, `tournament_group`, `tournament_win`, `tournament_type`, `tournament_game_win`, `tournament_game_tie`, `tournament_game_loss`, `tournament_participant`, `tournament_classification`) VALUES
-(1, 'Jalgpall', 2013, 'Torn', 1, 0, '2013-05-14 00:00:00', '2013-05-15 00:00:00', 0, 1, 1, 1, 1, 1, 3, 1, 1, 1, 'Võistleja', 'Firma nimi'),
-(2, 'Jalgpall', 2013, 'Spordisaal', 2, 0, '2013-05-01 00:00:00', '2013-05-24 00:00:00', 0, 1, 0, 0, 1, 0, 3, 0, 0, 0, 'Võistkond', 'Instituut'),
+(1, 'Jalgpall', 2013, 'Torn', 1, 0, '2013-05-01 00:00:00', '2013-05-29 00:00:00', 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 'Võistleja', 'Firma nimi'),
+(2, 'Jalgpall', 2013, 'Spordisaal', 2, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Võistkond', 'Instituut'),
 (106, 'tere', 0, '', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 1, 0, '', ''),
 (111, 'sdgfsgfd', 0, '', 1, 1, '2013-04-02 00:00:00', '2013-04-19 00:00:00', 0, 1, 1, 1, 3, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
-(113, 'test 3', 0, '', 2, 0, '2013-04-01 10:00:00', '2013-04-19 13:00:00', 0, 1, 1, 1, 2, 1, 1, 4, 2, 1, 'Võistkond', 'Instituut'),
+(113, 'test 3', 0, '', 3, 0, '2013-04-01 10:00:00', '2013-04-19 13:00:00', 1, 1, 1, 1, 2, 1, 2, 4, 2, 1, 'Võistkond', 'Instituut'),
 (114, 'gsgsgd', 0, '', 3, 1, '2013-04-03 15:14:00', '2013-04-19 10:09:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (115, 'sg', 0, '', 3, 1, '2013-04-03 00:00:00', '2013-04-19 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (127, 'test', 0, '', 3, 1, '2013-04-03 00:00:00', '2013-04-22 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (129, 'f', 0, '', 3, 1, '2013-04-02 00:00:00', '2013-04-22 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (130, 'turniir 2', 0, '', 3, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
-(131, 'turniir 3', 0, '', 2, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
+(131, 'turniir 3', 0, '', 2, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (132, 'aeg', 0, '', 2, 1, '2013-04-10 13:00:00', '2013-04-25 11:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (133, 'games_test', 0, '', 1, 1, '2013-04-02 00:00:00', '2013-04-24 00:00:00', 0, 1, 1, 1, 1, 1, 1, 3, 2, 1, 'Võistkond', 'Instituut'),
 (134, 'mängijate test', 0, '', 1, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
@@ -312,11 +539,13 @@ INSERT INTO `tournament` (`tournament_id`, `tournament_name`, `tournament_year`,
 (137, 'f', 0, '', 1, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (138, 'dgf', 0, '', 1, 1, '2013-04-01 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (139, 'sdf', 0, '', 3, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
-(140, 'what', 0, '', 1, 0, '2013-04-01 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
+(140, 'what', 0, '', 1, 1, '2013-04-01 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (141, 'af', 0, '', 5, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (142, 'miks', 0, '', 3, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (143, 'afd', 0, '', 3, 1, '2013-04-01 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, -1, 3, 2, 1, 'Võistkond', 'Instituut'),
-(144, 'sf', 0, '', 3, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut');
+(144, 'sf', 0, '', 3, 1, '2013-04-02 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
+(145, '1', 0, '', 1, 1, '2013-04-01 00:00:00', '2013-04-26 00:00:00', 0, 1, 1, 1, 1, 1, 1, 3, 2, 1, 'Võistkond', 'Instituut'),
+(146, 'test5', 0, '', 3, 0, '2013-05-08 00:00:00', '2013-05-23 00:00:00', 1, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut');
 
 -- --------------------------------------------------------
 
@@ -346,19 +575,18 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `deleted`) VALUES
 --
 
 --
--- Piirangud tabelile `game`
---
-ALTER TABLE `game`
-  ADD CONSTRAINT `game_ibfk_1` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`),
-  ADD CONSTRAINT `game_ibfk_2` FOREIGN KEY (`participant_a_id`) REFERENCES `participant` (`participant_id`),
-  ADD CONSTRAINT `game_ibfk_3` FOREIGN KEY (`participant_b_id`) REFERENCES `participant` (`participant_id`);
-
---
 -- Piirangud tabelile `participant`
 --
 ALTER TABLE `participant`
   ADD CONSTRAINT `participant_ibfk_1` FOREIGN KEY (`institute_id`) REFERENCES `institute` (`institute_id`),
   ADD CONSTRAINT `participant_ibfk_2` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`);
+
+--
+-- Piirangud tabelile `playoff`
+--
+ALTER TABLE `playoff`
+  ADD CONSTRAINT `playoff_ibfk_1` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`);
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -106,17 +106,20 @@ class tournaments
 	{
 		global $_request;
 
-		if (! isset($_request->params[0]) || $_request->params[0] <= 0) {
+		if(!isset($_request->params[0])||$_request->params[0]<=0){
 			echo "Turniiri id määramata!";
 			die();
-		} else {
-			$tournament_id = $_request->params[0];
+		}
+		else{
+			$tournament_id=$_request->params[0];
 		}
 
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
 			$participants = $_POST['participants'];
 			$games = $_POST['games'];
+			$playoffs = $_POST['playoffs'];
+			$losers = $_POST['losers'];
 			$leaderboard = json_decode($_POST['leaderboard'], TRUE);
 			foreach ($leaderboard as $leader) {
 				save('leaderboard', array('time' => $leader['time'], 'participant_id' => $leader['id'],

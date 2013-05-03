@@ -140,7 +140,6 @@
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
-	float:left;
 }
 
 .score_cell {
@@ -157,6 +156,9 @@
 	position: relative;
 	padding-left:10px;
 	text-align: center;
+
+	vertical-align:middle;
+	display:table-cell;
 
 	-webkit-border-top-right-radius: 25px;
 	-moz-border-radius-topright: 25px;
@@ -200,6 +202,8 @@
 	padding-left:10px;
 	text-align: center;
 
+
+	display:table-cell;
 
 	-webkit-border-bottom-right-radius: 25px;
 	-moz-border-radius-bottomright: 25px;
@@ -271,9 +275,10 @@
 
 }
 
-.playoff-table td {
+.playoff-table td{
 	padding: 0;
-	margin-bottom: 0px;
+	margin-bottom:0px;
+	border-top: none;
 
 }
 

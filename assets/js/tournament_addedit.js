@@ -137,8 +137,8 @@ function calculatematchups(number) {
 	var result = Math.pow(2, r) - number;
 	var y = flp2(number);
 	result = number - ((number - y) * 2);
-	if(result==number){
-		result=0;
+	if (result == number) {
+		result = 0;
 	}
 	return(result);
 
@@ -167,7 +167,7 @@ function build_loser_bracket(winner,second){
 		if(i+1<loser_array.length){
 			var loser2 =loser_array[i+1];
 			var loser2_input_id =tournament_id+"_loser_"+loser2;
-
+			loser2_input_value= loser_score_array[loser2_input_id];
 
 			for(var element in losers_db_array){
 				if(losers_db_array[element]["id"]==loser2_input_id){
@@ -176,16 +176,13 @@ function build_loser_bracket(winner,second){
 					losers_db_array[element]["id"]="";
 					break;
 				}
-				else{
-					loser2_input_value= loser_score_array[loser2_input_id];
-				}
 			}
 
 		}
 		var loser =loser_array[i];
 		//console.debug(playoff_array);
 		var loser_input_id =tournament_id+"_loser_"+loser;
-		var loser_input_value;
+		var loser_input_value= loser_score_array[loser_input_id];
 
 		for(var element in losers_db_array){
 			if(losers_db_array[element]["id"]==loser_input_id){
@@ -193,9 +190,6 @@ function build_loser_bracket(winner,second){
 				loser_score_array[loser_input_id]=loser_input_value;
 				losers_db_array[element]["id"]="";
 				break;
-			}
-			else{
-				loser_input_value= loser_score_array[loser_input_id];
 			}
 		}
 
@@ -223,16 +217,13 @@ function build_loser_bracket(winner,second){
 		var loser =loser_array[i];
 		//console.debug(playoff_array);
 		var loser_input_id =tournament_id+"_loser_"+loser;
-		var loser_input_value;
+		var loser_input_value = loser_score_array[loser_input_id];
 
 		for(var element in losers_db_array){
 			if(losers_db_array[element]["id"]==loser_input_id){
 				loser_input_value= losers_db_array[element]["score"];
 				losers_db_array[element]["id"]="";
 				break;
-			}
-			else{
-				loser_input_value= loser_score_array[loser_input_id];
 			}
 		}
 		var loser_input = '<input style="border-radius: 0;margin-bottom:0px;" id="' + loser_input_id + '" value="' + loser_input_value + '"type="number" class="score-input" onchange="saveloser.call(this)" >';
@@ -248,6 +239,7 @@ function build_loser_bracket(winner,second){
 
 function add_playoff() {
 
+	var maxlevel = 5;
 
 	maxlevel = 2;
 	$('#tabs-4').empty();
@@ -334,17 +326,15 @@ function add_playoff() {
 
 		for (var index in current_array) {
 			level_array[index] = [];
-			//i=0;
 
 			for (var index2 in current_array[index]) {
 
 				if (byes == 0) {
 					building_propers = true;
 				}
-				if (current_array[index][index2][2] == "empty"||current_array[index][index2][2] == "deleted") {
+				if (current_array[index][index2][2] == "empty" || current_array[index][index2][2] == "deleted") {
 					empty_row = true;
 				}
-
 
 
 				var input_id = current_level + "_" + current_array[index][index2][1];
@@ -388,7 +378,7 @@ function add_playoff() {
 				//build a pair of byes
 				if (building_pairs && !empty_row) {
 					if (byes_paired > 0) {
-						playoff_table =  ('<tr><td><div class="bracket-empty"></div></td></tr>');
+						playoff_table = ('<tr><td style="height:64px;visibility: hidden;"><div class="bracket-empty"></div></td></tr>');
 						byes_paired--;
 						//push the winner/bye to next level
 						level_array[index][i] = [];
@@ -422,16 +412,15 @@ function add_playoff() {
 							var next_not_empty = current_array[index][i + 1][3];
 							var matched_element = current_array[index][i + 1][1];
 
-							var next_not_empty = current_array[index][i+1][3];
-							if (current_level > 0) {
-								for (var z = i + 1; z < playernumber; z++) {
-									if (current_array[index][z][2] != "deleted") {
-										next_not_empty = current_array[index][z][3];
-										break;
-									}
+							for (z = i + 1; z < current_array[index].length; z++) {
+								if (current_array[index][z][2] != "deleted") {
+									next_not_empty = current_array[index][z][3];
+									matched_element = current_array[index][z][1];
+									break;
 								}
 							}
-							var this_offset=current_array[index][i][3]-(current_array[index][i][3]-((i)*50))*2-i;
+
+							var this_offset = current_array[index][i][3] - (current_array[index][i][3] - ((i) * 64)) * 2 - i;
 							var topoffset = (next_not_empty - this_offset) / 2;
 						}
 						else {
@@ -541,7 +530,7 @@ function add_playoff() {
 									level_array[index][i].push(i * 64);
 								}
 								else {
-									level_array[index][i].push(i*50+topoffset);
+									level_array[index][i].push(i * 64 + topoffset);
 								}
 
 
@@ -553,7 +542,7 @@ function add_playoff() {
 									level_array[index][i].push(i * 64);
 								}
 								else {
-									level_array[index][i].push(i*50+topoffset);
+									level_array[index][i].push(i * 64 + topoffset);
 								}
 								proper_top = true;
 							}
@@ -575,12 +564,14 @@ function add_playoff() {
 								level_array[index][i].push(current_array[index][index2][1]);
 							}
 
+							level_array[index][i].push("empty");
+
 
 							if (current_level == 0 && topoffset == 0) {
 								level_array[index][i].push(i * 64);
 							}
 							else {
-								level_array[index][i].push(i*50+topoffset);
+								level_array[index][i].push(i * 64 + topoffset);
 							}
 
 							i++;
@@ -628,7 +619,7 @@ function add_playoff() {
 					level_array[index][i].push(current_array[index][index2][1]);
 					level_array[index][i].push("deleted");
 
-					if (i + 1 < playernumber && ((current_array[index][i][2]) == "empty"||(current_array[index][i][2])=="deleted")) {
+					if (i + 1 < current_array[index].length && ((current_array[index][i][2]) == "empty" || (current_array[index][i][2]) == "deleted")) {
 						var topoffset = ((current_array[index][i + 1][3]) - (current_array[index][i][3])) / 2;
 					}
 					else {
@@ -705,7 +696,6 @@ function add_group() {
 
 
 	}
-	console.debug(playoff_array);
 
 	// For each participant...
 	participants_table_body.find('tr').each(function () {
@@ -965,7 +955,6 @@ function changescore() {
 
 	//TODO deal with possible nonnumerical values
 	//get mirrored cell
-	//console.debug(reverse_id);
 	var reverse_id = $(this).attr('reverseid');
 	var mirrored_cell = $('#' + reverse_id + '');
 	//get current cell value
@@ -1370,7 +1359,6 @@ function createmultidimArray(length) {
 }
 
 function init_scores() {
-
 	for (var i = 0; i < games_array.length; i++) {
 		var score_a = $('#' + games_array[i]['game_id'] + '');
 		if (score_a.length != 0) {
@@ -1392,6 +1380,8 @@ function init_scores() {
 }
 
 $(function () {
+
+
 
 	// Write participant table captions
 	set_participant_type();
@@ -1486,6 +1476,15 @@ $(function () {
 	if (tournament_type == 0 || tournament_type == 1) {
 		init_scores();
 	}
+	//if we need to display playoffs, initialize the values
+	if (tournament_type == 0 || tournament_type == 2) {
+		make_loser_bracket = $('#loser-bracket').is(':checked');
+		add_playoff();
+		if (playoffs_db_array.length != 0) {
+			load_playoff();
+		}
+	}
+
 
 
 })
