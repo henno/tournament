@@ -156,7 +156,6 @@
 	position: relative;
 	text-align: center;
 
-
 	-webkit-border-top-right-radius: 25px;
 	-moz-border-radius-topright: 25px;
 	border-top-right-radius: 25px;
@@ -172,7 +171,6 @@
 	position: relative;
 
 	text-align: center;
-
 
 	-webkit-border-bottom-right-radius: 25px;
 	-moz-border-radius-bottomright: 25px;
@@ -216,9 +214,9 @@
 
 }
 
-.playoff-table td{
+.playoff-table td {
 	padding: 0;
-	margin-bottom:0px;
+	margin-bottom: 0px;
 
 }
 
@@ -300,7 +298,7 @@ input::-webkit-inner-spin-button {
 	<li><a href="#tabs-2">Mängijate lisamine</a></li>
 	<li style="display: none" name="alagrupp"><a href="#tabs-3">Alagrupp</a></li>
 	<li style="display: none" name="playoff"><a href="#tabs-4">Playoff</a></li>
-	<li style="display: none" name="leaderboard"><a href="#tabs-5">Paremusjärjestus</a></li>
+	<li style="display: none" name="leaderboard"><a href="#tabs-5" onclick="redo_leaderboard()">Paremusjärjestus</a></li>
 </ul>
 
 <div id="tabs-1">
@@ -569,7 +567,23 @@ input::-webkit-inner-spin-button {
 <div id="tabs-4">
 	<input type="hidden" id="playoffs" name="playoffs" value="">
 </div>
-<div id="tabs-5"></div>
+<div id="tabs-5">
+	<table class="table" id="leaderboard">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th>Võistleja</th>
+			<th>Aeg</th>
+		</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+
+	</table>
+<input type="hidden" id="leaderb_input" name ="leaderboard" value='<?= $leaderboard ?>'>
+
+</div>
 <div style="clear: both; padding: 15px 0">
 
 	<input type="hidden" id="participants" name="participants" value="">

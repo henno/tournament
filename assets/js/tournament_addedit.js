@@ -15,6 +15,78 @@ var tournament_type = -1;
 var playoff_array = [];
 var playernumber = 0;
 
+function get_player_names() {
+	var myarray = [];
+	var leaderb_input = eval($('#leaderb_input').val());
+
+	if (leaderb_input.length > 0) {
+		for (var i = 0; i < leaderb_input.length; i++) {
+			var new_names = {};
+
+			//add item to array
+			new_names['id'] = leaderb_input[i]['participant_id'];
+			new_names['name'] = leaderb_input[i]['participant_name'];
+			new_names['time'] = leaderb_input[i]['time'];
+			myarray[i] = {};
+			myarray[i] = new_names;
+		}
+	} else {
+		var j = 0;
+		participants_table_body.find('tr').each(function () {
+			var new_names = {};
+			var name = $(this).find('td:nth-child(2) input').val();
+			var id = $(this).attr('id').substring(20);
+			var time = '';
+
+			//add item to array
+			new_names['id'] = id;
+			new_names['name'] = name;
+			new_names['time'] = time;
+			myarray[j] = {};
+			myarray[j] = new_names;
+			j++;
+		})
+	}
+
+	return myarray;
+}
+
+
+function redo_leaderboard() {
+	var names = get_player_names();
+	var i = 0;
+	var table_body = $('table#leaderboard > tbody:last');
+
+	table_body.find('tr').each(function () {
+
+		var time = $(this).find('td:nth-child(3) input').val();
+		var id = $(this).find('td:nth-child(3) input').attr('data-id');
+		var name = $(this).find('td:nth-child(2)').html().trim();
+
+		//set new time to array
+		names[i]['id'] = id;
+		names[i]['name'] = name;
+		names[i]['time'] = time;
+		i++;
+	})
+
+
+	$('#leaderboard tbody').empty();
+
+	for (var i = 0; i < names.length; i++) {
+
+		var nr = i + 1;
+		if (typeof names[i]['time'] != 'undefined') {
+			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" data-id="' + names[i]['id'] + '" value="' + names[i]['time'] + '" placeholder="--:--:--" style="width: 90px;"></td></tr>');
+		} else {
+			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" id="" value="" placeholder="--:--:--" style="width: 90px;"></td></tr>');
+		}
+	}
+
+	var json_names = JSON.stringify(names, null);
+	$('#leaderb_input').val(json_names);
+}
+
 function get_group_member_count(pool_name) {
 	var counter = 0;
 	participants_table_body.find('tr').each(function () {
@@ -857,6 +929,9 @@ function reset_numbers() {
 
 function submit1() {
 
+	//Update leaderboard
+	redo_leaderboard();
+
 	// Check that tournament_name is given
 	if (!$('#tournament-name').val()) {
 		$('#tournament-name').addClass('viga');
@@ -1120,7 +1195,6 @@ $(function () {
 	if (tournament_type == 0 || tournament_type == 1) {
 		init_scores();
 	}
-
 
 })
 ;

@@ -106,24 +106,28 @@ class tournaments
 	{
 		global $_request;
 
-		if(!isset($_request->params[0])||$_request->params[0]<=0){
+		if (! isset($_request->params[0]) || $_request->params[0] <= 0) {
 			echo "Turniiri id määramata!";
 			die();
-		}
-		else{
-			$tournament_id=$_request->params[0];
+		} else {
+			$tournament_id = $_request->params[0];
 		}
 
 		if (isset($_POST['tournament'])) {
 			$tournament = $_POST['tournament'];
 			$participants = $_POST['participants'];
 			$games = $_POST['games'];
+			$leaderboard = json_decode($_POST['leaderboard'], TRUE);
+			foreach ($leaderboard as $leader) {
+				save('leaderboard', array('time' => $leader['time'], 'participant_id' => $leader['id'],
+				                          'tournament_id'=>$tournament_id));
+			}
 
 			// If submit1
 			if (isset($_POST['participants'])) {
 				require 'modules/tournament.php';
 				$tournament_model = new tournament;
-				$tournament_model->edit($tournament_id,$tournament,$participants,$games);
+				$tournament_model->edit($tournament_id, $tournament, $participants, $games);
 				$_request->redirect('tournaments/view/'.$tournament_id);
 			}
 
@@ -159,6 +163,14 @@ class tournaments
 		$tournament_id = $tournament['tournament_id'];
 		$games = get_all("SELECT * FROM game WHERE deleted=0 AND tournament_id='$tournament_id'");
 		$games = json_encode($games);
+		$leaderboard = json_encode(
+			get_all(
+				"SELECT leaderboard.time, leaderboard.participant_id, participant.participant_name FROM
+		leaderboard
+RIGHT JOIN participant ON leaderboard.participant_id = participant.participant_id
+WHERE leaderboard.tournament_id='$tournament_id'"
+			)
+		);
 		$tournament['tournament_start'] = $this->convert_date2($tournament['tournament_start']);
 		$tournament['tournament_end'] = $this->convert_date2($tournament['tournament_end']);
 
