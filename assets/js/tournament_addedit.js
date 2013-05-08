@@ -60,11 +60,55 @@ function get_player_names() {
 }
 
 
-function redo_leaderboard() {
+function doTimeSort(names) {
+	var tmpArray = [];
 
+	for (var i = 0; i < names.length; i++) {
+		var sorted = false;
+		var tmp;
+		tmpArray.push(names[i]);
+		var pos = tmpArray.length - 1;
+
+		while (!sorted && tmpArray.length > 1) {
+			if (tmpArray[pos]['converted_time'] < tmpArray[pos - 1]['converted_time']) {
+				tmp = tmpArray[pos];
+				tmpArray[pos] = tmpArray[pos - 1];
+				tmpArray[pos - 1] = tmp;
+
+				pos--;
+			}
+			else {
+				sorted = true;
+			}
+
+		}
+	}
+
+	return tmpArray;
+
+}
+
+
+function sort_leaderb_players(names) {
+
+	for (var i = 0; i < names.length; i++) {
+		var a = parseInt(names[i]['time'].substring(0, 2));
+		var b = parseInt(names[i]['time'].substring(3, 5));
+		var c = parseInt(names[i]['time'].substring(6, 8));
+
+		var time = a * 3600 + b * 60 + c * 1;
+
+		names[i]['converted_time'] = time;
+	}
+	return doTimeSort(names);
+}
+
+
+function redo_leaderboard() {
 	var names = get_player_names();
 	var i = 0;
 	var table_body = $('table#leaderboard > tbody:last');
+
 
 	table_body.find('tr').each(function () {
 
@@ -77,23 +121,25 @@ function redo_leaderboard() {
 		names[i]['name'] = name;
 		names[i]['time'] = time;
 		i++;
-	})
+	});
 
+	names = sort_leaderb_players(names);
+
+	var json_names = JSON.stringify(names, null);
+	console.log(names);
+	$('#leaderb_input').val(json_names);
 
 	$('#leaderboard tbody').empty();
 
-	for (var i = 0; i < names.length; i++) {
+	for (i = 0; i < names.length; i++) {
 
 		var nr = i + 1;
 		if (typeof names[i]['time'] != 'undefined') {
-			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" data-id="' + names[i]['id'] + '" value="' + names[i]['time'] + '" placeholder="--:--:--" style="width: 90px;"></td></tr>');
+			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" data-id="' + names[i]['id'] + '" value="' + names[i]['time'] + '" placeholder="--:--:--" style="width: 100px;"></td></tr>');
 		} else {
-			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" id="" value="" placeholder="--:--:--" style="width: 90px;"></td></tr>');
+			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" id="" value="" placeholder="--:--:--" style="width: 100px;"></td></tr>');
 		}
 	}
-
-	var json_names = JSON.stringify(names, null);
-	$('#leaderb_input').val(json_names);
 }
 
 function get_group_member_count(pool_name) {
@@ -1385,8 +1431,8 @@ function change_type_warning() {
 	$('#helptext').html("Turniiri andmed on muutunud! Vajuta \"Salvesta\"");
 	$('#helptext').css({ 'color': 'red'});
 
-	if(message==undefined){
-		message = new Messi("Turniiri andmed on muutunud! Vajuta \"Salvesta\"", {closeButton:false,center: false, viewport: {left:$(window).width()/2-250,top: '60px'}});
+	if (message == undefined) {
+		message = new Messi("Turniiri andmed on muutunud! Vajuta \"Salvesta\"", {closeButton: false, center: false, viewport: {left: $(window).width() / 2 - 250, top: '60px'}});
 	}
 
 	$('[name=playoff]').hide();
@@ -1502,11 +1548,9 @@ $(function () {
 		}
 	}
 	//if we need to display groups, initialize the values
-	if (tournament_type == 3 ) {
+	if (tournament_type == 3) {
 		redo_leaderboard();
 	}
-
-
 
 
 })

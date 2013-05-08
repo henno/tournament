@@ -338,7 +338,8 @@ input::-webkit-inner-spin-button {
 		losers_db_array = eval('(<?=$losers?>)');
 		<?break; case 3:?>
 		$('[name=leaderboard]').show();
-		leaderb_input = eval('(<?=$leaderboard?>)');;
+		leaderb_input = eval('(<?=$leaderboard?>)');
+		;
 		<?break; case -1:?>
 		<?break;}?>
 
@@ -363,7 +364,7 @@ input::-webkit-inner-spin-button {
 	<li><a href="#tabs-2">Mängijate lisamine</a></li>
 	<li style="display: none" name="alagrupp"><a href="#tabs-3">Alagrupp</a></li>
 	<li style="display: none" name="playoff"><a href="#tabs-4">Playoff</a></li>
-	<li style="display: none" name="leaderboard"><a href="#tabs-5" >Paremusjärjestus</a></li>
+	<li style="display: none" name="leaderboard"><a href="#tabs-5">Paremusjärjestus</a></li>
 </ul>
 
 <div id="tabs-1">
@@ -407,7 +408,7 @@ input::-webkit-inner-spin-button {
 				<th>Turniiri lõpp:</th>
 				<td>
 					<input type="text" class="datetimepicker" id="tournament_end" name="tournament[tournament_end]"
-					       autocomplete="off" onfocus="$(this).removeClass('viga')"  onchange="change_type_warning();"
+					       autocomplete="off" onfocus="$(this).removeClass('viga')" onchange="change_type_warning();"
 					       placeholder="pp.kk.aaaa hh:mm"
 					       value="<?= $tournament['tournament_end'] ?>"></td>
 			</tr>
@@ -430,7 +431,8 @@ input::-webkit-inner-spin-button {
 				<th>Kaotajate ring:</th>
 				<td><input id="loser-bracket" name="tournament[tournament_loser_bracket]" onchange="change_type_warning();"
 				           type="checkbox" value="1"
-						<?= $tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="yes"' : 'value="no"'
+						<?=
+						$tournament['tournament_loser_bracket'] == 1 ? 'checked="checked" value="yes"' : 'value="no"'
 						?>></td>
 			</tr>
 			<tr>
@@ -574,7 +576,8 @@ input::-webkit-inner-spin-button {
 							</td>
 							<td>
 
-								<input type="checkbox" id="favorite" onclick="change_type_warning();" <?if ($participant['participant_favorite'] == 1) {
+								<input type="checkbox" id="favorite"
+								       onclick="change_type_warning();" <?if ($participant['participant_favorite'] == 1) {
 									echo "checked";
 								}?> >
 							</td>
