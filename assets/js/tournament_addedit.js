@@ -44,7 +44,7 @@ function get_player_names() {
 			var new_names = {};
 			var name = $(this).find('td:nth-child(2) input').val();
 			var id = $(this).attr('id').substring(20);
-			var time = '';
+			var time = '00:00:00.000';
 
 			//add item to array
 			new_names['id'] = id;
@@ -95,8 +95,15 @@ function sort_leaderb_players(names) {
 		var a = parseInt(names[i]['time'].substring(0, 2));
 		var b = parseInt(names[i]['time'].substring(3, 5));
 		var c = parseInt(names[i]['time'].substring(6, 8));
+		var d = parseInt(names[i]['time'].substring(9, 12));
 
-		var time = a * 3600 + b * 60 + c * 1;
+		//if d is NaN, set to 0 so we can calculate with it
+		if (isNaN(d)) {
+			d = 0;
+		}
+
+		//hrs, mins and secs converted to milliseconds
+		var time = a * 3600000 + b * 60000 + c * 1000 + d;
 
 		names[i]['converted_time'] = time;
 	}
@@ -113,6 +120,11 @@ function redo_leaderboard() {
 	table_body.find('tr').each(function () {
 
 		var time = $(this).find('td:nth-child(3) input').val();
+
+		//making sure that milliseconds are included when saving
+		if(time.length<10) {
+			time = time + '.000';
+		}
 		var id = $(this).find('td:nth-child(3) input').attr('data-id');
 		var name = $(this).find('td:nth-child(2)').html().trim();
 
@@ -124,9 +136,7 @@ function redo_leaderboard() {
 	});
 
 	names = sort_leaderb_players(names);
-
 	var json_names = JSON.stringify(names, null);
-	console.log(names);
 	$('#leaderb_input').val(json_names);
 
 	$('#leaderboard tbody').empty();
@@ -135,9 +145,9 @@ function redo_leaderboard() {
 
 		var nr = i + 1;
 		if (typeof names[i]['time'] != 'undefined') {
-			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" data-id="' + names[i]['id'] + '" value="' + names[i]['time'] + '" placeholder="--:--:--" style="width: 100px;"></td></tr>');
+			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="0.001" data-id="' + names[i]['id'] + '" value="' + names[i]['time'] + '" style="width: 140px;"></td></tr>');
 		} else {
-			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="1" id="" value="" placeholder="--:--:--" style="width: 100px;"></td></tr>');
+			$('#leaderboard tbody').append('<tr><td>' + nr + '</td><td>' + names[i]['name'] + '</td><td><input type="time" step="0.001" id="" style="width: 140px;"></td></tr>');
 		}
 	}
 }
