@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Loomise aeg: Mai 08, 2013 kell 11:18 AM
+-- Loomise aeg: Mai 08, 2013 kell 04:53 PM
 -- Serveri versioon: 5.5.27
 -- PHP versioon: 5.4.7
 
@@ -226,30 +226,9 @@ DROP TABLE IF EXISTS `leaderboard`;
 CREATE TABLE IF NOT EXISTS `leaderboard` (
   `tournament_id` int(11) NOT NULL,
   `participant_id` int(11) NOT NULL,
-  `time` time DEFAULT NULL,
+  `time` varchar(12) COLLATE utf8_estonian_ci DEFAULT '00:00:00.000',
   PRIMARY KEY (`participant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- Andmete tõmmistamine tabelile `leaderboard`
---
-
-INSERT INTO `leaderboard` (`tournament_id`, `participant_id`, `time`) VALUES
-(1, 1, '00:00:00'),
-(1, 2, '00:00:02'),
-(1, 3, '00:00:00'),
-(1, 4, '00:00:00'),
-(1, 5, '00:00:00'),
-(1, 6, '00:00:00'),
-(1, 7, '00:00:00'),
-(1, 8, '00:00:00'),
-(1, 9, '00:00:03'),
-(1, 10, '00:00:00'),
-(1, 11, '00:00:00'),
-(1, 12, '00:00:00'),
-(1, 13, '00:00:00'),
-(1, 14, '00:00:00'),
-(1, 15, '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -609,7 +588,7 @@ INSERT INTO `tournament` (`tournament_id`, `tournament_name`, `tournament_year`,
 (2, 'Jalgpall', 2013, 'Spordisaal', 2, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'Võistkond', 'Instituut'),
 (106, 'tere', 0, '', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 1, 0, '', ''),
 (111, 'sdgfsgfd', 0, '', 1, 1, '2013-04-02 00:00:00', '2013-04-19 00:00:00', 0, 1, 1, 1, 3, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
-(113, 'test 3', 0, '', 3, 0, '2013-04-01 10:00:00', '2013-04-19 13:00:00', 1, 1, 1, 1, 2, 1, 2, 4, 2, 1, 'Võistkond', 'Instituut'),
+(113, 'test 3', 0, '', 3, 0, '2013-04-01 10:00:00', '2013-04-19 13:00:00', 1, 1, 1, 1, 2, 1, 3, 4, 2, 1, 'Võistkond', 'Instituut'),
 (114, 'gsgsgd', 0, '', 3, 1, '2013-04-03 15:14:00', '2013-04-19 10:09:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (115, 'sg', 0, '', 3, 1, '2013-04-03 00:00:00', '2013-04-19 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
 (127, 'test', 0, '', 3, 1, '2013-04-03 00:00:00', '2013-04-22 00:00:00', 0, 1, 1, 1, 1, 1, 0, 3, 2, 1, 'Võistkond', 'Instituut'),
