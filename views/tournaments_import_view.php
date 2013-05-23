@@ -106,59 +106,28 @@
 			</div>
 		</div>
 	</form>
-	<span class="help-block">Vali vastavate väljadega arvutustabeli fail (nt Excel) või<br/>kopeeri-kleebi vastavad väljad
+	<form id="import_participants" name="import-participants" method="post">
+	<span class="help-block">Vali vastavate vï¿½ljadega arvutustabeli fail (nt Excel) vï¿½i<br/>kopeeri-kleebi vastavad vï¿½ljad
 		allolevasse kasti.
 	</span><br/>
 	<pre class="textarea_heading">Nimi	Instituut	Alagrupp	Favoriit</pre>
 
-		<textarea id="import-participants" style="width:100%; height:40%" rows="3">nimi1	instituut1	alagrupp1	0
+		<textarea id="import-participants" name="import-participants" style="width:100%; height:40%" rows="3">nimi1	instituut1
+			alagrupp1	0
 nimi2	instituut2	alagrupp2	favoriit2
 nimi3	instituut3	alagrupp3	1</textarea>
 		<div style="padding: 15px 0">
+			<input type="hidden" id="participants" name="participants" value="">
 			<button tabindex="1" class="btn btn-large btn-inverse" onclick="window.close(); return false;">Loobu</button>
-			<!--<input type="hidden" id="participants" name="participants">-->
-			<button tabindex="2" class="btn btn-large btn-primary" onclick="import_participants()">Impordi</button>
+			<button tabindex="2" class="btn btn-large btn-primary" onclick="import_participants();">Impordi</button>
+	</form>
 			<br/>
 		</div>
 </div>
 
 <!--<script>    var participants = JSON.parse('<?=json_encode($participants)?>');       </script>-->
 
-<!--
-		<div style="clear: both">
-			<table id="participants-table" class="table table-bordered table-striped" style="width: 472px !important;">
-				<tbody>
-				<? if (! empty($participants)) {
-					$i = 1;
-					foreach ($participants as $participant): ?>
-						<tr id="existing_participant<?= $participant['participant_id'] ?>">
-							<td>
-								<?=$i ++?>
-							</td>
-							<td>
-								<?=$participant['participant_name']?>
-							</td>
-							<td>
-								<?=$participant['institute_name']?>
-							</td>
-							<td>
-								<?=$participant['pool_name']?>
-							</td>
-							<td>
-								<input id="favorite" type="checkbox">
-							</td>
-							<td>
-								<a href="<?= BASE_URL ?>tournaments/remove_participant/<?= $participant['participant_id'] ?>"
-								   onclick="if (!confirm('Oled kindel?'))return false; remove_participant
-									   ('existing_participant<?= $participant['participant_id'] ?>'); return false"><i
-										class="icon-trash">
-							</td>
-						</tr>
-					<? endforeach;}?>
-				</tbody>
-			</table>
-		</div>
--->
+
 <?if (! empty($this->scripts)) : ?>
 	<? foreach ($this->scripts as $script) : ?>
 		<script src="<?= ASSETS_URL ?>js/<?= $script ?>"></script>

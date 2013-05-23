@@ -526,7 +526,10 @@ input::-webkit-inner-spin-button {
 							Lisa mängija
 						</button>
 						<button tabindex="4" type="button" class="btn btn-large" onclick="
-							newwindow = window.open(BASE_URL+'tournaments/import/','name','height=500, width=650','resizable=no'); if (window.focus) {newwindow.focus()}
+							newwindow = window.open(BASE_URL+'tournaments/import/'+<?= $tournament['tournament_id'] ?>,'name',
+							'height=500, ' +
+							 'width=650',
+							'resizable=no'); if (window.focus) {newwindow.focus()}
 							return false;"
 						        style="margin-left:5px; float: right ">
 							Impordi mängijad

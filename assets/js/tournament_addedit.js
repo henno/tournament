@@ -703,6 +703,12 @@ function add_playoff() {
 
 function add_group() {
 	$('#tabs-3').empty();
+	$('#tabs-3').append('<div><a class="btn btn-large btn-primary" onclick="' +
+	'newwindow = '+window.open+'('+BASE_URL+'tournaments/timetable/'+tournament_id+',name'+
+	'height=500' +
+	'width=650'+
+	'resizable=no); if (window.focus) {newwindow.focus()}'+
+	'return false;">Genereeri ajakava</a></div>');
 	var participants_row = new Array();
 	var participants_cell = new Array();
 
@@ -1115,11 +1121,11 @@ function import_participants() {
 	var rows = input.split("\n");
 
 	// Participant template
-	function participant(participant, unit, pool, favorite) {
-		this.participant = participant,
-			this.unit = unit,
-			this.pool = pool,
-			this.favorite = favorite;
+	function participant(participant_name, institute_name, pool_name, participant_favorite) {
+		this.participant_name = participant_name,
+			this.institute_name = institute_name,
+			this.pool_name = pool_name,
+			this.participant_favorite = participant_favorite;
 	}
 
 	// Save rows as (participant) objects & place those objects into one (participants) array
@@ -1142,15 +1148,29 @@ function import_participants() {
 			}
 		};
 		participant_array[r] = new participant(field_array[0], field_array[1], field_array[2], favorite());
-		console.log(participant_array[r]);
+		//console.log(participant_array[r]);
+		//alert('allo');
 	}
+
+
+	// JSONize participants array
+	var json_text = JSON.stringify(participant_array, null);
+	alert(json_text);
+	// Assign JSONized array to hidden input field
+	$('#participants').val(json_text);
+
+	// Submit form
+
+	//$('#upload-file').submit();
+	//window.close();
 	//console.log(participant_array[0].participant);
-	for (var p in participant_array) {
-		add_participant(participant, unit, pool, favorite);
-	}
+
+
 }
 
 function add_participant_wrapper() {
+
+
 	var participant = participant_name_field.val();
 	var unit = $('[name="institute_name"]').val();
 	var pool = get_pool_name();
@@ -1179,8 +1199,8 @@ function add_participant(participant, unit, pool, favorite) {
 	participants_table_body.append('' +
 		'<tr id="new_participant' + new_participant_id + '">' +
 		'<td>x</td>' +
-		'<td>' + participant.trim() + '</td>' +
-		'<td>' + institute_name_field.val().trim() + '</td>' +
+		'<td>' + participant + '</td>' +
+		'<td>' + unit + '</td>' +
 		'<td>' + pool + '</td>' +
 		'<td><input type="checkbox"></td>' +
 		'<td>' +
@@ -1356,6 +1376,11 @@ function submit1() {
 		$("#tabs").tabs("option", "active", 0);
 		return false;
 	}
+	// JSONize participants array
+	//var json_text = JSON.stringify(participants, null);
+
+	// Assign JSONized array to hidden input field
+	//$('#participants').val(json_text);
 
 	// Submit form
 	$('#tournament-add-form').submit();

@@ -61,8 +61,34 @@ class tournaments
 
 	function import()
 	{
-		$this->scripts[] = 'tournament.js';
 		global $_request;
+		if (isset($_POST['participants'])) {
+		//var_dump($_POST['participants']);
+		require 'modules/tournament.php';
+		$participants = json_decode($_POST['participants'], TRUE);
+			$tournament_id=$_request->params[0];
+			$tournament_model = new tournament;
+			$tournament_model->import_participants($participants,$tournament_id);
+
+
+		}
+
+		$this->scripts[] = 'tournament_addedit.js';
+		global $_request;
+		global $_user;
+		//$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place WHERE tournament.deleted=0");
+		require 'views/tournaments_import_view.php';
+	}
+
+	function timetable()
+	{
+		global $_request;
+			$tournament_id=$_request->params[0];
+			$tournament_model = new tournament;
+			$tournament_model->generate_timetable($tournament_id);
+
+
+		$this->scripts[] = 'tournament_addedit.js';
 		global $_user;
 		//$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place WHERE tournament.deleted=0");
 		require 'views/tournaments_import_view.php';
@@ -149,8 +175,7 @@ class tournaments
 			} else {
 				$tournament['tournament_loser_bracket'] = 1;
 			}
-			update('tournament', $tournament, "WHERE tournament_id= $id");
-			$_request->redirect('tournaments');
+			update('tournament', $tournament, "tournament_id= $id");
 		}
 		global $_request;
 		$this->scripts[] = 'tournament_addedit.js';
