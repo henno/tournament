@@ -436,6 +436,33 @@ input::-webkit-inner-spin-button {
 						?>></td>
 			</tr>
 			<tr>
+				<th>Mängu alguse kellaaeg:</th>
+				<td><input id="daily-start" type="time"
+				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
+				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();"
+				           placeholder="pp.kk.aaaa hh:mm"
+				           value="<?= $tournament['tournament_start'] ?>"></td>
+			</tr>
+			<tr>
+				<th>Mängu lõpu kellaaeg:</th>
+				<td><input id="daily-end" type="time"
+				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
+				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();"
+				           placeholder="pp.kk.aaaa hh:mm"
+				           value="<?= $tournament['tournament_end'] ?>"></td>
+			</tr>
+			<tr>
+				<th>Mängude toimumise nädalapäevad:</th>
+				<td><input id="day_e" type="checkbox" checked="checked" value="e">E
+					<input id="day_t" type="checkbox" checked="checked" value="t">T
+					<input id="day_k" type="checkbox" checked="checked" value="k">K
+					<input id="day_n" type="checkbox" checked="checked" value="n">N
+					<input id="day_r" type="checkbox" checked="checked" value="r">R
+					<input id="day_l" type="checkbox" checked="checked" value="l">L
+					<input id="day_p" type="checkbox" checked="checked" value="p">P
+				</td>
+			</tr>
+			<tr>
 				<th>Mängu kestvus:</th>
 				<td><input id="game-length" class="spinner" min="1" maxlength="2"
 				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
