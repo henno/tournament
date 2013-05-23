@@ -703,12 +703,8 @@ function add_playoff() {
 
 function add_group() {
 	$('#tabs-3').empty();
-	$('#tabs-3').append('<div><a class="btn btn-large btn-primary" onclick="' +
-	'newwindow = '+window.open+'('+BASE_URL+'tournaments/timetable/'+tournament_id+',name'+
-	'height=500' +
-	'width=650'+
-	'resizable=no); if (window.focus) {newwindow.focus()}'+
-	'return false;">Genereeri ajakava</a></div>');
+	$('#tabs-3').append('<div><a class="btn btn-large btn-primary" ' +
+		'onclick="newwindow = window.open(\'' + BASE_URL + 'tournaments/timetable/' + tournament_id + '\',\'name\', \'height=500, width=950, resizable=no\'); if (window.focus) {newwindow.focus()}return false;">Genereeri ajakava</a></div>');
 	var participants_row = new Array();
 	var participants_cell = new Array();
 
@@ -1118,6 +1114,11 @@ function update_participant_count() {
 function import_participants() {
 	//$input = document.getElementById('import-participants').innerHTML;
 	var input = $('textarea#import-participants').val();
+	if((/^\s*$/).test(input)) {
+		alert("Tekstiväli ei tohi olla tühi!");
+		die();
+	}
+
 	var rows = input.split("\n");
 
 	// Participant template
@@ -1131,6 +1132,13 @@ function import_participants() {
 	// Save rows as (participant) objects & place those objects into one (participants) array
 	for (var r = 0; r < rows.length; r++) {
 		var fields = rows[r].split("\t");                       //what if there are spaces or sth similar?
+		alert(fields);
+		/*
+		if (fields == ""){
+			alert("Tabel ei ole õiges formaadis!");
+			die();
+		}*/
+
 		var field_array = new Array();
 
 		for (var f = 0; f < fields.length; f++) {
@@ -1140,7 +1148,7 @@ function import_participants() {
 		// Any alphabetic or numeric char (except 0) makes 'favorite == true'
 		var favorite = function () {
 			var fav_value = field_array[3];
-			if (/[a-zA-Z1-9]/.test(fav_value)) {
+			if (/[1]/.test(fav_value)) {
 				return true;
 			}
 			else {
@@ -1148,14 +1156,15 @@ function import_participants() {
 			}
 		};
 		participant_array[r] = new participant(field_array[0], field_array[1], field_array[2], favorite());
-		//console.log(participant_array[r]);
+		//alert(JSON.stringify(participant_array[0],null));
+
 		//alert('allo');
 	}
 
 
 	// JSONize participants array
 	var json_text = JSON.stringify(participant_array, null);
-	alert(json_text);
+	//alert(json_text);
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 

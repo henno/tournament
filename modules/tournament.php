@@ -9,8 +9,8 @@
 class tournament
 {
 	function generate_timetable($tournament_id){
-		$tournament = get_one("SELECT * FROM tournaments WHERE deleted=0 AND tournament_id = '$tournament_id'");
-		$games = get_all("SELECT * FROM games WHERE deleted=0 AND tournament_id = '$tournament_id'");
+
+
 	}
 
 	function add()
@@ -155,9 +155,10 @@ class tournament
 
 		if (! empty ($participants)) {
 			foreach ($participants as $key => $participant) {
-
+				if(isset($participant['institute_name'])){
 				$participant['institute_id'] = $this->get_institute_id($participant['institute_name']);
 				unset($participant['institute_name']);
+				}
 				$participant['tournament_id'] = $tournament_id;
 				if (substr($key, 0, 20) == "existing_participant") {
 					update('participant', $participant, "participant_id=".substr($key, 20, strlen($key))."");
