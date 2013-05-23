@@ -83,23 +83,15 @@ class tournaments
 	function timetable()
 	{
 		global $_request;
+		$this->scripts[] = 'tournament_addedit.js';
 		global $_user;
 		require 'modules/tournament.php';
-		$this->scripts[] = 'tournament_addedit.js';
 			$tournament_id=$_request->params[0];
-		//$tournament_model = new tournament;
-		//$tournament_model->generate_timetable($tournament_id);
 		$tournament = get_all("SELECT * FROM tournament WHERE deleted=0 AND tournament_id = '$tournament_id'");
-		$games = get_all("SELECT * FROM game natural join participant WHERE deleted=0 AND tournament_id = '$tournament_id'");
+		$games = get_all("SELECT * FROM game WHERE deleted=0 AND tournament_id = '$tournament_id'");
 		$tournament = $tournament[0];
-		//$games = $games[0];
-
-		//var_dump($tournament);
 		var_dump($games);
-
 		require 'views/tournaments_timetable_view.php';
-
-
 	}
 
 	function remove()

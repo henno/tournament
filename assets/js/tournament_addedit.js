@@ -122,7 +122,7 @@ function redo_leaderboard() {
 		var time = $(this).find('td:nth-child(3) input').val();
 
 		//making sure that milliseconds are included when saving
-		if(time.length<10) {
+		if (time.length < 10) {
 			time = time + '.000';
 		}
 		var id = $(this).find('td:nth-child(3) input').attr('data-id');
@@ -722,7 +722,6 @@ function add_group() {
 				var participant_name = $(this).find('td:nth-child(2) input').val();
 				var participant_id = $(this).attr('id');
 				//increase player number
-				//TODO only one subgroup is currently used
 				if (i == 0) {
 					playernumber++;
 				}
@@ -1120,6 +1119,9 @@ function import_participants() {
 	}
 
 	var rows = input.split("\n");
+	if ([/^\s*$/].test(input)){
+		alert("Teksti väli ei tohi olla tühi!")
+	}
 
 	// Participant template
 	function participant(participant_name, institute_name, pool_name, participant_favorite) {
@@ -1333,6 +1335,7 @@ function submit1() {
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 
+	// 0 = Alagrupid + playoff, 1= Alagrupid, 2= Playoff, 3= Paremusjärjestus
 	if (tournament_type == 0 || tournament_type == 1) {
 		//create nice array of game results
 		prepare_game_array();
