@@ -1,7 +1,6 @@
 //TODO empty games and playoffs from database if subgroups are changed
 // Declare global variables
 var new_participant_id = 0;
-var participant_array = new Array();
 var tournament_id = 0;
 var groups = 'ABCDEFGHIJKLMNOPQRSTUVXYZ';
 var participant_name_field;
@@ -122,7 +121,7 @@ function redo_leaderboard() {
 		var time = $(this).find('td:nth-child(3) input').val();
 
 		//making sure that milliseconds are included when saving
-		if(time.length<10) {
+		if (time.length < 10) {
 			time = time + '.000';
 		}
 		var id = $(this).find('td:nth-child(3) input').attr('data-id');
@@ -722,7 +721,6 @@ function add_group() {
 				var participant_name = $(this).find('td:nth-child(2) input').val();
 				var participant_id = $(this).attr('id');
 				//increase player number
-				//TODO only one subgroup is currently used
 				if (i == 0) {
 					playernumber++;
 				}
@@ -1110,72 +1108,7 @@ function update_participant_count() {
 	$('#participant-count').html(Math.round(participants_table_body.find('tr').length / $('#max_groups').val()));
 }
 
-// Import participants from an Excel (or equivalent) file
-function import_participants() {
-	//$input = document.getElementById('import-participants').innerHTML;
-	var input = $('textarea#import-participants').val();
-	if((/^\s*$/).test(input)) {
-		alert("Tekstiväli ei tohi olla tühi!");
-		die();
-	}
 
-	var rows = input.split("\n");
-
-	// Participant template
-	function participant(participant_name, institute_name, pool_name, participant_favorite) {
-		this.participant_name = participant_name,
-			this.institute_name = institute_name,
-			this.pool_name = pool_name,
-			this.participant_favorite = participant_favorite;
-	}
-
-	// Save rows as (participant) objects & place those objects into one (participants) array
-	for (var r = 0; r < rows.length; r++) {
-		var fields = rows[r].split("\t");                       //what if there are spaces or sth similar?
-		alert(fields);
-		/*
-		if (fields == ""){
-			alert("Tabel ei ole õiges formaadis!");
-			die();
-		}*/
-
-		var field_array = new Array();
-
-		for (var f = 0; f < fields.length; f++) {
-			field_array[f] = fields[f];
-		}
-
-		// Any alphabetic or numeric char (except 0) makes 'favorite == true'
-		var favorite = function () {
-			var fav_value = field_array[3];
-			if (/[1]/.test(fav_value)) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		};
-		participant_array[r] = new participant(field_array[0], field_array[1], field_array[2], favorite());
-		//alert(JSON.stringify(participant_array[0],null));
-
-		//alert('allo');
-	}
-
-
-	// JSONize participants array
-	var json_text = JSON.stringify(participant_array, null);
-	//alert(json_text);
-	// Assign JSONized array to hidden input field
-	$('#participants').val(json_text);
-
-	// Submit form
-
-	//$('#upload-file').submit();
-	//window.close();
-	//console.log(participant_array[0].participant);
-
-
-}
 
 function add_participant_wrapper() {
 
@@ -1333,6 +1266,7 @@ function submit1() {
 	// Assign JSONized array to hidden input field
 	$('#participants').val(json_text);
 
+	// 0 = Alagrupid + playoff, 1= Alagrupid, 2= Playoff, 3= Paremusjärjestus
 	if (tournament_type == 0 || tournament_type == 1) {
 		//create nice array of game results
 		prepare_game_array();

@@ -436,18 +436,20 @@ input::-webkit-inner-spin-button {
 						?>></td>
 			</tr>
 			<tr>
-				<th>Mängude alguse kellaaeg:</th>
+				<th>Mängu alguse kellaaeg:</th>
 				<td><input id="daily-start" type="time"
-				           name="tournament[tournament_daily_start]" onkeypress="validate(event)"
-				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();" value="<?=
-					$tournament['tournament_daily_start'] ?>"></td>
+				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
+				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();"
+				           placeholder="pp.kk.aaaa hh:mm"
+				           value="<?= $tournament['tournament_start'] ?>"></td>
 			</tr>
 			<tr>
-				<th>Mängude lõpu kellaaeg:</th>
+				<th>Mängu lõpu kellaaeg:</th>
 				<td><input id="daily-end" type="time"
-				           name="tournament[tournament_daily_end]" onkeypress="validate(event)"
-				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();" value="<?=
-					$tournament['tournament_daily_end'] ?>"></td>
+				           name="tournament[tournament_game_time]" onkeypress="validate(event)"
+				           onfocus="$(this).removeClass('viga')" onchange="change_type_warning();"
+				           placeholder="pp.kk.aaaa hh:mm"
+				           value="<?= $tournament['tournament_end'] ?>"></td>
 			</tr>
 			<tr>
 				<th>Mängude toimumise nädalapäevad:</th>
