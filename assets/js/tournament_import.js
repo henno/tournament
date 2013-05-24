@@ -1,3 +1,5 @@
+var participant_array = new Array();
+
 // Import participants from an Excel (or equivalent) file
 function import_participants() {
 	//$input = document.getElementById('import-participants').innerHTML;
@@ -9,7 +11,6 @@ function import_participants() {
 
 	var rows = input.split("\n");
 
-
 	// Participant template
 	function participant(participant_name, institute_name, pool_name, participant_favorite) {
 		this.participant_name = participant_name,
@@ -17,24 +18,21 @@ function import_participants() {
 			this.pool_name = pool_name,
 			this.participant_favorite = participant_favorite;
 	}
-	alert(1);
 	// Save rows as (participant) objects & place those objects into one (participants) array
 	for (var r = 0; r < rows.length; r++) {
-	alert(2);
-		var fields = rows[r].split("\t");                       //what if there are spaces or sth similar?
-		alert(fields);
-		/*
-		 if (fields == ""){
-		 alert("Tabel ei ole õiges formaadis!");
-		 die();
-		 }*/
+		fields = rows[r].split(/\s/);                       //what if there are spaces or sth similar?
+		var fields_elements=fields.slice();
+		if(fields_elements[0] == ""||fields_elements[0]=='undefined'){
+			alert("Sisestatud andmed ei ole korrektses vormis!"); return false;
+		}
+		else {
+
 
 		var field_array = new Array();
 
 		for (var f = 0; f < fields.length; f++) {
 			field_array[f] = fields[f];
 		}
-	alert(3);
 
 		// Any alphabetic or numeric char (except 0) makes 'favorite == true'
 		var favorite = function () {
@@ -48,6 +46,7 @@ function import_participants() {
 		};
 		participant_array[r] = new participant(field_array[0], field_array[1], field_array[2], favorite());
 	}
+		}
 
 
 	// JSONize participants array

@@ -1,7 +1,6 @@
 //TODO empty games and playoffs from database if subgroups are changed
 // Declare global variables
 var new_participant_id = 0;
-var participant_array = new Array();
 var tournament_id = 0;
 var groups = 'ABCDEFGHIJKLMNOPQRSTUVXYZ';
 var participant_name_field;
