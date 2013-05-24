@@ -62,20 +62,19 @@ class tournaments
 	function import()
 	{
 		global $_request;
+		$this->scripts[] = 'tournament_import.js';
+		global $_user;
 		if (isset($_POST['participants'])) {
-		//var_dump($_POST['participants']);
-		require 'modules/tournament.php';
-		$participants = json_decode($_POST['participants'], TRUE);
-			$tournament_id=$_request->params[0];
+			var_dump($_POST);
+			require 'modules/tournament.php';
+			$participants = json_decode($_POST['participants'], TRUE);
+			$tournament_id = $_request->params[0];
 			$tournament_model = new tournament;
-			$tournament_model->import_participants($participants,$tournament_id);
+			$tournament_model->import_participants($participants, $tournament_id);
 
 
 		}
 
-		$this->scripts[] = 'tournament_addedit.js';
-		global $_request;
-		global $_user;
 		//$tournaments = get_all("SELECT * FROM tournament NATURAL JOIN place WHERE tournament.deleted=0");
 		require 'views/tournaments_import_view.php';
 	}
@@ -83,10 +82,10 @@ class tournaments
 	function timetable()
 	{
 		global $_request;
-		$this->scripts[] = 'tournament_addedit.js';
+		$this->scripts[] = 'tournament_timetable.js';
 		global $_user;
 		require 'modules/tournament.php';
-			$tournament_id=$_request->params[0];
+		$tournament_id = $_request->params[0];
 		$tournament = get_all("SELECT * FROM tournament WHERE deleted=0 AND tournament_id = '$tournament_id'");
 		$games = get_all("SELECT * FROM game WHERE deleted=0 AND tournament_id = '$tournament_id'");
 		$tournament = $tournament[0];
@@ -132,12 +131,11 @@ class tournaments
 	{
 		global $_request;
 
-		if(!isset($_request->params[0])||$_request->params[0]<=0){
+		if (! isset($_request->params[0]) || $_request->params[0] <= 0) {
 			echo "Turniiri id määramata!";
 			die();
-		}
-		else{
-			$tournament_id=$_request->params[0];
+		} else {
+			$tournament_id = $_request->params[0];
 		}
 
 		if (isset($_POST['tournament'])) {
@@ -148,8 +146,14 @@ class tournaments
 			$losers = $_POST['losers'];
 			$leaderboard = json_decode($_POST['leaderboard'], TRUE);
 			foreach ($leaderboard as $leader) {
-				save('leaderboard', array('time' => $leader['time'], 'participant_id' => $leader['id'],
-				                          'tournament_id'=>$tournament_id));
+				save(
+					'leaderboard',
+					array(
+						'time'           => $leader['time'],
+						'participant_id' => $leader['id'],
+						'tournament_id'  => $tournament_id
+					)
+				);
 			}
 			$playoffs = $_POST['playoffs'];
 			$losers = $_POST['losers'];
@@ -160,7 +164,7 @@ class tournaments
 				$tournament_model = new tournament;
 				//we edit the tournament here
 
-				$tournament_model->edit($tournament_id,$tournament,$participants,$games,$playoffs,$losers);
+				$tournament_model->edit($tournament_id, $tournament, $participants, $games, $playoffs, $losers);
 				$_request->redirect('tournaments/view/'.$tournament_id);
 			}
 
@@ -209,8 +213,6 @@ WHERE leaderboard.tournament_id='$tournament_id'"
 		$playoffs = json_encode($playoffs);
 		$losers = get_all("SELECT * FROM loser WHERE deleted=0 AND tournament_id='$tournament_id'");
 		$losers = json_encode($losers);
-
-
 
 
 		require 'views/master_view.php';
