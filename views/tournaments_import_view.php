@@ -1,3 +1,7 @@
+<html>
+<head>
+	<title>Impordi mängijaid</title>
+<meta charset="utf-8">
 <script src="http://code.jquery.com/jquery-1.9.1.js" xmlns="http://www.w3.org/1999/html"></script>
 <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 <script src="<?= ASSETS_URL?>js/jquery.combobox.js"></script>
@@ -85,7 +89,8 @@
 		margin-bottom: -1;
 	}
 </style>
-
+</head>
+<body>
 <div class="kast">
 	<div class="titlebar"><h3>Impordi osalejad</h3>
 	</div><br/>
@@ -107,7 +112,7 @@
 		</div>
 	</form>
 	<form id="import_participants" name="import-participants" method="post">
-	<span class="help-block">Vali vastavate v�ljadega arvutustabeli fail (nt Excel) v�i<br/>kopeeri-kleebi vastavad v�ljad
+	<span class="help-block">Vali vastavate väljadega arvutustabeli fail (nt Excel) või<br/>kopeeri-kleebi vastavad väljad
 		allolevasse kasti.
 	</span><br/>
 	<pre class="textarea_heading">Nimi	Instituut	Alagrupp	Favoriit</pre>
@@ -133,3 +138,5 @@ nimi3	instituut3	alagrupp3	1</textarea>
 		<script src="<?= ASSETS_URL ?>js/<?= $script ?>"></script>
 	<? endforeach ?>
 <? endif?>
+</body>
+</html>
