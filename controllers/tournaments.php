@@ -65,7 +65,6 @@ class tournaments
 		$this->scripts[] = 'tournament_import.js';
 		global $_user;
 		if (isset($_POST['participants'])) {
-			var_dump($_POST);
 			require 'modules/tournament.php';
 			$participants = json_decode($_POST['participants'], TRUE);
 			$tournament_id = $_request->params[0];

@@ -55,9 +55,7 @@ function import_participants() {
 	$('#participants').val(json_text);
 
 	// Submit form
-
 	$('#upload-file').submit();
-	//window.close();
 
 
 }

@@ -95,7 +95,7 @@
 	<div class="titlebar"><h3>Impordi osalejad</h3>
 	</div><br/>
 
-	<form id="upload-file" enctype="multipart/form-data" action="<?= BASE_URL?>doc/uploads/upload.php"
+	<form id="upload-file" onsubmit="window.close()" enctype="multipart/form-data" action="<?= BASE_URL?>doc/uploads/upload.php"
 	      method="post">
 		<div class="fileupload fileupload-new" data-provides="fileupload">
 			<div class="input-append">
@@ -117,10 +117,7 @@
 	</span><br/>
 	<pre class="textarea_heading">Nimi	Instituut	Alagrupp	Favoriit</pre>
 
-		<textarea id="import-participants" name="import-participants" style="width:100%; height:40%" rows="3">nimi1	instituut1
-			alagrupp1	0
-nimi2	instituut2	alagrupp2	favoriit2
-nimi3	instituut3	alagrupp3	1</textarea>
+		<textarea id="import-participants" name="import-participants" style="width:100%; height:40%" rows="3"></textarea>
 		<div style="padding: 15px 0">
 			<input type="hidden" id="participants" name="participants" value="">
 			<button tabindex="1" class="btn btn-large btn-inverse" onclick="window.close(); return false;">Loobu</button>
