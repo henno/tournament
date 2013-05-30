@@ -106,6 +106,8 @@ class tournaments
 		global $_request;
 		$id = $_request->params[0];
 		$result = q("UPDATE participant SET deleted=1 WHERE participant_id='$id'");
+		$result_game = q("UPDATE GAME SET deleted=1 WHERE participant_a_id='$id' OR participant_b_id='$id'");
+		$result_playoff = q("UPDATE playoff SET deleted=1 WHERE id LIKE '%_existing_participant$id'");
 		require 'views/master_view.php';
 
 	}
@@ -141,6 +143,9 @@ class tournaments
 			$tournament = $_POST['tournament'];
 			$participants = $_POST['participants'];
 			$games = $_POST['games'];
+			if(isset($games)){
+				$delete_old_games = q("DELETE FROM game WHERE tournament_id='$tournament_id'");
+			};
 			$playoffs = $_POST['playoffs'];
 			$losers = $_POST['losers'];
 			$leaderboard = json_decode($_POST['leaderboard'], TRUE);

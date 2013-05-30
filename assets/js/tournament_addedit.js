@@ -158,9 +158,9 @@ function get_group_member_count(pool_name) {
 		if (this_pool_name == pool_name) {
 			counter++;
 		}
-	})
+	});
 	return counter;
-};
+}
 function load_playoff() {
 
 	for (var match in playoffs_db_array) {
@@ -209,7 +209,6 @@ function savevalue() {
 function saveloser() {
 	var value = parseInt($(this).val());
 	loser_score_array[$(this).attr("id")] = value;
-	console.debug(loser_score_array);
 	add_playoff();
 }
 
@@ -236,7 +235,6 @@ function build_loser_bracket(winner, second) {
 
 		}
 		var loser = loser_array[i];
-		//console.debug(playoff_array);
 		var loser_input_id = tournament_id + "_loser_" + loser;
 		var loser_input_value = loser_score_array[loser_input_id];
 
@@ -271,7 +269,6 @@ function build_loser_bracket(winner, second) {
 
 	for (var i = 0; i < loser_array.length; i++) {
 		var loser = loser_array[i];
-		//console.debug(playoff_array);
 		var loser_input_id = tournament_id + "_loser_" + loser;
 		var loser_input_value = loser_score_array[loser_input_id];
 
@@ -521,7 +518,6 @@ function add_playoff() {
 							if (playoff_score_array[matched_element][0] > playoff_score_array[prev_id][0]) {
 								bottomwins = true;
 								if (store_losers) {
-									//console.debug(prev_id);
 								}
 							}
 						}
@@ -729,8 +725,8 @@ function add_group() {
 				if (typeof participants_cell[this_group_name] == 'undefined') {
 					participants_cell[this_group_name] = new Array();
 					row_scores[this_group_name] = [];
-
 				}
+
 				if (this_group_name == groups[i]) {
 					group_table_header += '<th width="120px" height="25px">' + participant_name + '</th>';
 					participants_cell[this_group_name].push(participant_id);
@@ -765,13 +761,13 @@ function add_group() {
 		group_table = '';
 		//members in group
 		var members = get_group_member_count(group_name);
+
 		for (cell = 0; cell < members; cell++) {
 
 			//fetch participant id's
 			//We assume participants have been saved once (existing_participant+id)
 			var id_a = participant_id.substring(20, participant_id.length);
 			var id_b = (participants_cell[group_name][cell]).substring(20, (participants_cell[group_name][cell]).length);
-
 
 			//this mess creates unique composite id's with a reversed one to look up the other side of the input pair
 			var composite_id_a = id_a + "_" + tournament_id + "_" + id_a + "_" + id_b;
@@ -785,11 +781,11 @@ function add_group() {
 			var composite_id_score_difference_points = tournament_id + "_" + id_a + "_score_difference_points";
 			var composite_id_points_total = tournament_id + "_" + id_a + "_score_total";
 			var composite_id_score_place = tournament_id + "_" + id_a + "_score_place";
-
 			row_scores[group_name][participant_id].push(composite_id_score);
 			row_scores[group_name][participant_id][composite_id_score] = new Array();
 			row_scores[group_name][participant_id][composite_id_score].push(composite_id_a);
 			row_scores[group_name][participant_id][composite_id_score].push(composite_id_b);
+
 			//if input changes, change its reciprocal input too
 			//package all needed data to the inputs - its unique id, its mirror's id, its neighbour's id and the score id
 			var input_a = '<input style="border-radius: 0;" id="' + composite_id_a + '" name="a" reverseid="' + reverse_id_a + '" neighbourid="' + composite_id_b + '" membercount="' + members + '" scoreid="' + composite_id_score + '" groupid="' + group_name + '" rowid="' + participant_id + '" type="number" value="0" class="score-input" onchange="changescore.call(this)">';
@@ -872,8 +868,15 @@ function prepare_game_array() {
 						final_scores[cell_id[0]]['participant_b_id'] = getid(cell_id[0], 3);
 						final_scores[cell_id[0]]['participant_a_score'] = getscore(cell_id, 0);
 						final_scores[cell_id[0]]['participant_b_score'] = getscore(cell_id, 1);
-					}
+						//getpoolname('existing_participant'+final_scores[cell_id[0]]['participant_a_id']);
+						//getpoolname('existing_participant'+final_scores[cell_id[0]]['participant_b_id']);
+						participant_a_pool = getpoolname('existing_participant'+final_scores[cell_id[0]]['participant_a_id']);
+						participant_b_pool = getpoolname('existing_participant'+final_scores[cell_id[0]]['participant_b_id']);
+						if(participant_a_pool == participant_b_pool){
+						final_scores[cell_id[0]]['pool_name'] = getpoolname('existing_participant'+row_scores[grp][a_participant][0].substring(2,5))
+						}
 
+					}
 
 				}
 			}
@@ -912,8 +915,11 @@ function prepare_game_array() {
 		return $('#' + id[place] + '').val();
 	}
 
-}
+	function getpoolname(id){
+		return $('#participants-table>tbody>tr#' + id).find('td:nth-child(4)').html();
+	}
 
+}
 
 function sumcells(index, group, member_count) {
 
@@ -1270,6 +1276,7 @@ function submit1() {
 	if (tournament_type == 0 || tournament_type == 1) {
 		//create nice array of game results
 		prepare_game_array();
+
 		// JSONize game array
 		json_text = JSON.stringify(final_scores, null);
 

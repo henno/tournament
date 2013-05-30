@@ -20,7 +20,7 @@ function import_participants() {
 	}
 	// Save rows as (participant) objects & place those objects into one (participants) array
 	for (var r = 0; r < rows.length; r++) {
-		fields = rows[r].split(/\s/);                       //what if there are spaces or sth similar?
+		fields = rows[r].split(/\t/);                       //what if there are spaces or sth similar?
 		var fields_elements=fields.slice();
 		if(fields_elements[0] == ""||fields_elements[0]=='undefined'){
 			alert("Sisestatud andmed ei ole korrektses vormis!"); return false;

@@ -95,7 +95,9 @@
 	<div class="titlebar"><h3>Impordi osalejad</h3>
 	</div><br/>
 
-	<form id="upload-file" onsubmit="window.close()" enctype="multipart/form-data" action="<?= BASE_URL?>doc/uploads/upload.php"
+	<form id="upload-file" onsubmit="window.close()" enctype="multipart/form-data"
+	      action="<?=
+	BASE_URL?>doc/uploads/upload.php"
 	      method="post">
 		<div class="fileupload fileupload-new" data-provides="fileupload">
 			<div class="input-append">
